@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
   <script
@@ -16,7 +15,7 @@
 
 <body>
 
-    <form onsubmit="InputStringWorker('https://www.youtube.com/watch?v=cDenG6wvC6Y')">
+    <form onsubmit="CreateYoutubeArguments(CheckService('https://www.youtube.com/watch?v=cDenG6wvC6Y'))">
         Первый: Enter в текстовом поле <input type="text" value="Текст"><br>
         Второй: Нажать на "Отправить": <input type="submit" value="Отправить">
       </form>
