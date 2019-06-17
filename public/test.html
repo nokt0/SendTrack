@@ -10,16 +10,15 @@
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
   crossorigin="anonymous"></script>
   <script src="../src/SendTrack_lib.js"></script>
-  <title>React App</title>
+
 </head>
 
 <body>
-
-    <form onsubmit="CreateYoutubeArguments(CheckService('https://www.youtube.com/watch?v=cDenG6wvC6Y'))">
-        Первый: Enter в текстовом поле <input type="text" value="Текст"><br>
-        Второй: Нажать на "Отправить": <input type="submit" value="Отправить">
+    <form id="urlForm">
+        Первый: Enter в текстовом поле <input type="text" id="inputUrlForm"><br>
+        Второй: Нажать на "Отправить": <input type="submit" value="Отправить" id="submitBtn">
       </form>
-
+      <div id="result"></div>
   <div id="root"></div>
   <!--
       This HTML file is a template.
@@ -32,5 +31,6 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
 </body>
+<script>processInputUrl();</script>
 
 </html>
