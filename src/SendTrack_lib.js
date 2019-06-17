@@ -19,15 +19,39 @@ var ServicesUrl = {
 
 }*/
 
-function CreateYoutubeMusicArguments(){
+function requestYoutubeObject(argumentsObj) {
+
+    var xhr = new XMLHttpRequest();
+    var PREFIX = "";
+    for(var argument in argumentsObj){
+        PREFIX += argument + '='
+    }
+
+
+    xhr.open('GET', 'phones.json', false);
+
+    // 3. Отсылаем запрос
+    xhr.send();
+
+    // 4. Если код ответа сервера не 200, то это ошибка
+    if (xhr.status != 200) {
+        // обработать ошибку
+        alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+    } else {
+        // вывести результат
+        alert(xhr.responseText); // responseText -- текст ответа.
+    }
+}
+
+function CreateYoutubeMusicArguments() {
 
 }
 
-function CreateYoutubeArguments(serviceObj){
+function CreateYoutubeArguments(serviceObj) {
 
     var urlSubstring = serviceObj.cutUrl;
 
-    function eraseYoutubeWatchArg(urlSubstring){
+    function eraseYoutubeWatchArg(urlSubstring) {
         var index = urlSubstring.indexOf('watch?');
         return urlSubstring.substring(index + 'watch?'.length);
     }
@@ -35,20 +59,20 @@ function CreateYoutubeArguments(serviceObj){
     var result = {};
 
     var arrayArguments = eraseYoutubeWatchArg(urlSubstring).split('&');
-    for(var i = 0; i < arrayArguments.length; i++){
+    for (var i = 0; i < arrayArguments.length; i++) {
         var index = arrayArguments[i].indexOf("=");
         var argument = arrayArguments[i].substring(0, index > 1 ? index - 1 : index);
         var value = arrayArguments[i].substring(index + 1, arrayArguments[i].length);
         result[argument] = value;
     }
-    
+
     return result;
 
 }
 
-function eraseDomain(urlString){
+function eraseDomain(urlString) {
     var index = urlString.indexOf('/');
-    return urlString.substring(index+1);
+    return urlString.substring(index + 1);
 }
 
 function CheckService(inputUrl) {
