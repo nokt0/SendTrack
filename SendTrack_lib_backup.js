@@ -13,46 +13,6 @@ function createObjectToCompare(artist, track, url) {
     }
 }
 
-export function urlWorker(url) {
-
-    var serviceObj = checkService(url);
-    var objectToCompare;
-
-    switch (serviceObj.service) {
-        case "youtube.music":
-            ;
-        case "youtube":
-            var requestObj = requestYoutubeObject(
-                createYoutubeArguments(serviceObj));
-            const artist = requestObj.items[0].snippet.channelTitle;
-            const track = requestObj.items[0].snippet.title;
-
-            var resUrl;
-            if (serviceObj.service === 'youtube')
-                resUrl = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
-            else
-                if (serviceObj.service === 'music.youtube')
-                    resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
-
-            objectToCompare = createObjectToCompare(artist, track, resUrl);
-            console.log(objectToCompare);
-            var index = objectToCompare.artist.indexOf(" - Topic");
-            if (index !== -1)
-                objectToCompare.artist = objectToCompare.artist.substring(0, index);
-            break;
-        default:
-            return {
-                artist: '',
-                track: 'Not found:(',
-                url: ''
-            };
-    }
-
-    return objectToCompare;
-
-};
-
-
 export function processInputUrl() {
     var form = document.getElementById("urlForm");
     var urlForm = document.getElementById("inputUrlForm");
@@ -61,7 +21,7 @@ export function processInputUrl() {
         event.preventDefault();
         console.log('link was sent');
 
-        var requestObj = requestYoutubeObject(
+        var resObj = requestYoutubeObject(
             createYoutubeArguments(
                 checkService(urlForm.value)
             )
@@ -69,24 +29,24 @@ export function processInputUrl() {
 
         var result = document.getElementById("result");
         if (result.firstChild === null)
-            result.appendChild(document.createTextNode(JSON.stringify(requestObj)));
+            result.appendChild(document.createTextNode(JSON.stringify(resObj)));
         else
-            result.firstChild.nodeValue = JSON.stringify(requestObj);
+            result.firstChild.nodeValue = JSON.stringify(resObj);
 
-        var artist = requestObj.items[0].channelTitle;
-        var track = requestObj.items[0].snippet.title;
-        var url = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
+        var artist = resObj.items[0].channelTitle;
+        var track = resObj.items[0].snippet.title;
+        var url = "https://www.youtube.com/watch?v=" + resObj.items[0].id;
 
         var objectToCompare = createObjectToCompare(artist, track, url);
         var index = objectToCompare.artist.indexOf(" - Topic");
-        if (index !== -1)
+        if(index !== -1)
             objectToCompare.artist = objectToCompare.artist.substring(0, index - 1);
 
     });
 
 }
 
-export function urlValidator(url) {
+export function urlValidator(url){
     return true;
 }
 
@@ -176,9 +136,9 @@ function checkService(inputUrl) {
     var serviceName = "";
 
     for (var Service in ServicesUrl) {
-        var found = checkServiceUrl(inputUrl, ServicesUrl[Service]);
-        if (found !== -1) {
-            index = found;
+        var finded = checkServiceUrl(inputUrl, ServicesUrl[Service]);
+        if (finded !== -1) {
+            index = finded;
             serviceName = ServicesUrl[Service];
         }
     }

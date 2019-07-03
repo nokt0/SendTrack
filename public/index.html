@@ -3,22 +3,13 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="shortcut icon" href="./favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <script
+  <!-- <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous"></script>
-
-  <script>
-    jQuery.getJSON("https://api.music.apple.com/v1/catalog/us/search?term=james+brown&limit=2&types=artists,albums", function (json) {
-      $('#test').html('');
-      for (tag in json) {
-        $('#test').append(tag + ' ' + json[tag] + '<br/>');
-      }
-    })
-  </script>
+  crossorigin="anonymous"></script> -->
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -38,7 +29,6 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="test">JSON: </br></div>
   <div id="root"></div>
   <!--
       This HTML file is a template.
@@ -53,3 +43,4 @@
 </body>
 
 </html>
+

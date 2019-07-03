@@ -10,7 +10,7 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:9222",
             "webRoot": "${workspaceFolder}/public",
-            "file": "${workspaceFolder}/public/test.html"
+            "file": "${workspaceFolder}/public/index.html"
         }
     ]
 }

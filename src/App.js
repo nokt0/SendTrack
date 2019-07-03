@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './Styles/App.css';
+import InputForm from './Components/InputForm';
+import { urlWorker } from '../src/SendTrack_lib.js';
+import LinksBlock from './Components/LinksBlock';
+
+
+class App extends Component {
+
+  static propTypes = {
+    url: PropTypes.string,
+
+  };
+
+  constructor(props) {
+    super(props);
+    this.initialState = {
+      artist: '',
+      track: '',
+      url: '',
+    }
+    this.state = this.initialState
+
+    this.getLink = this.getLink.bind(this);
+  }
+
+
+  getLink(url) {
+    const objToCompare = urlWorker(url);
+    if (objToCompare)
+      this.setState(() => ({
+        artist: objToCompare.artist,
+        track: objToCompare.track,
+        url: objToCompare.url
+      }));
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <InputForm onSubmit={this.getLink} />
+        <LinksBlock artist={this.state.artist} track={this.state.track} url={this.state.url} />
+        <div id="result"></div>
+      </div>
+    );
+  }
 }
+
 
 export default App;
