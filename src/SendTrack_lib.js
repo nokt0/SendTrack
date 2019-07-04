@@ -1,7 +1,8 @@
 
 const ServicesUrl = {
-    YoutubeMusic: "youtube.music",
-    Youtube: "youtube",
+    youtubeMusic: "youtube.music",
+    youtube: "youtube",
+    spotify: "spotify"
 
 }
 
@@ -40,6 +41,14 @@ export function urlWorker(url) {
             if (index !== -1)
                 objectToCompare.artist = objectToCompare.artist.substring(0, index);
             break;
+
+        case "spotify":
+            var requestObj = requestSpotifyObject(
+                createSpotifyArguments(serviceObj));
+            console.log(requestObj);
+            break;
+
+
         default:
             return {
                 artist: '',
@@ -53,7 +62,7 @@ export function urlWorker(url) {
 };
 
 
-export function processInputUrl() {
+function processInputUrl() {
     var form = document.getElementById("urlForm");
     var urlForm = document.getElementById("inputUrlForm");
 
@@ -91,26 +100,11 @@ export function urlValidator(url) {
 }
 
 
-/*function CreateRequest(serviceObj){
-
-    
-    switch (serviceObj.service){
-        case ServicesUrl.Youtube :
-        var argarr = createYoutubeArguments(serviceObj.cutUrl);
-
-
-            break;
-    }
-    
-
-
-}*/
-
 function requestYoutubeObject(argumentsObj) {
 
     var xhr = new XMLHttpRequest();
-    var YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/videos?part=snippet";
-    var API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
+    const YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/videos?part=snippet";
+    const API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
     var resultRequest = YOUTUBE_API_SERVER;
 
     for (var argument in argumentsObj) {
@@ -141,6 +135,53 @@ function requestYoutubeObject(argumentsObj) {
         alert(xhr.responseText); // responseText -- текст ответа.
     }
     return videoInfoObj;
+}
+
+function requestSpotifyObject(argumentsObj) {
+    const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
+    const API_KEY = "BQBYUBCmIjakdPnX6XLr3G08b9l73kjHh7iJ56vvCClSi_q68WDdyHvAlsPjsiHQs8OJYJ1Nm_Ne4GQULE1VyFYr9XAPTEXJMgyRugIQ8fl24UwY_U1eulpzB68d3PiytNm5t-l71xvQW4-VAjD-A0fa2AHGhfNLPIkhJ33-E15AV-NkOKzfNB5FCV2K2NM39OgyMR6ls21EbyDSU8Q3oNFMzvG_2QgY6GpMtW0-V1I09aWhIKnAk6HYiy0HFbxyU5rKTbKvhD_YQrnE6vVC033yrftfVm1lfXc";
+
+    var url = SPOTIFY_API_SERVER;
+    for (var arg in argumentsObj) {
+        url += arg + '/' + argumentsObj[arg];
+    }
+    var xhr = new XMLHttpRequest();
+    
+    console.log(url);
+    xhr.open('GET', url, false);
+    
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
+
+    xhr.send();
+
+    if (xhr.status !== 200) {
+        // обработать ошибку
+        alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+    } else {
+        // вывести результат
+        alert(xhr.responseText); // responseText -- текст ответа.
+    }
+
+    var requestObj = JSON.parse(xhr.responseText);
+    console.log(xhr.responseText);
+
+    return requestObj;
+
+}
+
+function createSpotifyArguments(serviceObj) {
+
+    var urlSubstring = serviceObj.cutUrl;
+    var argumentsObj = {};
+
+    var arrayArguments = urlSubstring.split('/');
+    argumentsObj[arrayArguments[0]] = arrayArguments[1];
+
+    console.log(argumentsObj);
+
+    return argumentsObj;
 }
 
 function createYoutubeArguments(serviceObj) {
@@ -185,6 +226,7 @@ function checkService(inputUrl) {
 
     var cutUrl = inputUrl.substring(index);
     cutUrl = eraseDomain(cutUrl);
+
 
     return {
         service: serviceName,
