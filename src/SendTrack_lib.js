@@ -13,10 +13,8 @@ export function urlWorker(url) {
     let objectToCompare;
 
     switch (serviceObj.service) {
-        case "youtubeMusic":
-            ;
-        case "youtube":
-            var requestObj = requestYoutubeObject(
+        case "youtube" || "youtubeMusic": {
+            let requestObj = requestYoutubeObject(
                 createYoutubeArguments(serviceObj), 'track');
 
             if ('isAlbum' in requestObj)
@@ -53,9 +51,10 @@ export function urlWorker(url) {
             if (index !== -1)
                 objectToCompare.artist = objectToCompare.artist.substring(0, index);
             break;
+        }
 
-        case "spotify":
-            var requestObj = requestSpotifyObject(
+        case "spotify": {
+            let requestObj = requestSpotifyObject(
                 createSpotifyArguments(serviceObj), 'track');
             console.log(requestObj);
 
@@ -70,7 +69,7 @@ export function urlWorker(url) {
             if ('notValid' in requestObj)
                 return {
                     artist: '',
-                    track: 'now we cant work with artist',
+                    track: 'error:' + requestObj.notValid,
                     url: ''
                 }
 
@@ -80,7 +79,7 @@ export function urlWorker(url) {
             objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
 
             return objectToCompare;
-
+        }
         default:
             return {
                 artist: '',
@@ -208,14 +207,15 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQChvxyuiBtNo6RZWp_RX0uV_ouevhNiL20oRr8-lJVleyyBOlX-6Zo-LIxOoPYyFPJWZfhB_WslZITDkr4YYWqhs8nLS1S__OzgfdbQHeq90NWBHT1OKEehduTA0TiJIu2zVJNPf1NoPUz-fX0LP1849omOoAbzQXKaeaAsa9cTdTKdohTkZyeciKGnIZMABV92iKGyATBRIIu4zHHRi_JQyYgjkV2fnhdV9EXPYY_RZnsA0n48TFovb-BICgD_nkoL-o0uVkTGAz7QbMWjiUn13GyZ3a0tZHo";
+    const API_KEY = "BQBDmLBMfg80Cw7UnwpZPLV_sGVomavD2ifCIzXNQM5yVxOiiIzB4MEO7iKWRl2tu74o75pTlIH9l6PtCopieaA3iXVRA945Rnvc-XXvgpLXo6yPiX16oqUEBLzcylAZ1Ba9tnoBJxNH4d0qmNn8Dx20Co6UqI4XVKQ0U3Jsm8SBNrvNvapVuZbOqmyQCIOed0MDomnogzVhU6huX_2yp_dZKpBR-fgsYISIrUxXJ0yeKNS-g7LozT9Nn1xUiZgedM-Jur2jnl6sNbVeV3T2cwuwvcDkpHMxrL8";
     const notValidObj = { notValid: '' };
+    let requestObj = notValidObj;
     const maxResults = 10;
     var url = SPOTIFY_API_SERVER;
 
 
-    if ('artist' in argumentsObj)
-        return notValidObj;
+    if ('artists' in argumentsObj)
+        return requestObj.notValid = 'artist';
 
     switch (requestType) {
         case 'track':
@@ -225,7 +225,7 @@ function requestSpotifyObject(argumentsObj, requestType) {
             url += 'search?q=' + argumentsObj.q + '&type=track&limit=' + maxResults;
             break;
         default:
-            return { type: 'album' }
+            return notValidObj;
     }
 
     console.log(url);
@@ -238,10 +238,11 @@ function requestSpotifyObject(argumentsObj, requestType) {
     xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
 
     xhr.send();
-    let requestObj = notValidObj;
+
     if (xhr.status !== 200) {
         // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+        requestObj[notValidObj] = xhr.statusText;
     } else {
         // вывести результат
         alert(xhr.responseText); // responseText -- текст ответа.
@@ -306,17 +307,41 @@ export function createArrayOfUrls(objectToCompare) {
         youtubeMusic: 'Not Found'
     }
 
-    let spotifyRequest = {
-        q: objectToCompare.track
-    } 
-    console.log(objectToCompare);
+    function writeProps(artist, track, url, albumArt, service) {
+        arrayOfUrls[service] = {
+            artist: artist,
+            track: track,
+            url: url,
+            albumArt: albumArt
+        }
+    }
+    if (objectToCompare.initialService !== 'spotify') {
 
-    let requestedObj = requestSpotifyObject(spotifyRequest, 'search');
-    console.log(requestedObj);
+        let spotifyRequest = {
+            q: objectToCompare.artist + ' ' + objectToCompare.track
+        }
+        console.log(objectToCompare);
 
-    if(!requestedObj.hasOwnProperty('type') && requestedObj.type !=='album' && !requestedObj.hasOwnProperty('notValid'))
-        arrayOfUrls.spotify = searchInSpotifyObject(requestedObj,objectToCompare).url;
-     
+        let requestedObj = requestSpotifyObject(spotifyRequest, 'search');
+        console.log(requestedObj);
+
+        if (!requestedObj.hasOwnProperty('type') && requestedObj.type !== 'album'
+            && !requestedObj.hasOwnProperty('notValid')) {
+
+            let returnedItem = searchInSpotifyObject(requestedObj, objectToCompare);
+            let artists = '';
+            for (var i = 0; i < returnedItem.artists.length; i++) {
+                if (i !== returnedItem.artists.length - 1)
+                    artists += returnedItem.artists[i].name + ', ';
+                else
+                    artists += returnedItem.artists[i].name;
+            }
+
+            writeProps(artists, returnedItem.name, returnedItem.external_urls.spotify,
+                returnedItem.album.images[1].url, 'spotify');
+        }
+    }
+
     console.log(arrayOfUrls);
 
 
@@ -331,7 +356,7 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
     const artistName = objectToCompare.artist;
     const trackName = objectToCompare.track;
     const notFound = { url: 'Not Found2' };
-     
+
     var similarObject = notFound;
     for (var item of spotifyReturnedObject.tracks.items) {
 
@@ -339,22 +364,20 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
 
         if (item.type === 'track') {
 
-        console.log(item.name);
+            console.log(item.name);
 
-            if (!matchStringsWithoutSpecs(trackName, item.name) && !matchStringsWithoutSpecs(item.name,trackName))
+            if (!matchStringsWithoutSpecs(trackName, item.name) && !matchStringsWithoutSpecs(item.name, trackName))
                 continue;
 
             for (var artist of item.artists) {
-                if (matchStringsWithoutSpecs(artistName, artist.name) && matchStringsWithoutSpecs(artist.name,artistName)) {
+                if (matchStringsWithoutSpecs(artistName, artist.name) && matchStringsWithoutSpecs(artist.name, artistName)) {
                     validator = true;
                     break;
                 }
                 else
                     validator = false
             }
-            similarObject = {
-                url: item.external_urls.spotify
-            };
+            similarObject = item;
 
             if (validator)
                 return similarObject;
@@ -377,7 +400,7 @@ function matchStringsWithoutSpecs(firstString, secondString) {
         var indicator = false;
         for (var substringSecond of splitedSecondString) {
             let reg = new RegExp(substringSecond, "i");
-            
+
             if (substringFirst.search(reg) !== -1) {
                 indicator = true;
                 console.log('Found');
@@ -386,10 +409,10 @@ function matchStringsWithoutSpecs(firstString, secondString) {
             else
                 indicator = false;
         }
-        if (!indicator){
+        if (!indicator) {
             console.log('not equal');
             return false;
-    }
+        }
 
     }
     console.log('equal');
@@ -424,7 +447,7 @@ function createObjectToCompare(artist, track, url, service) {
         artist: artist,
         track: track,
         url: url,
-        service: service
+        initialService: service
     }
 }
 
