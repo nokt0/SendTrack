@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './Styles/App.css';
 import InputForm from './Components/InputForm';
 import { urlWorker } from '../src/SendTrack_lib.js';
+import {createArrayOfUrls} from '../src/SendTrack_lib.js';
 import LinksBlock from './Components/LinksBlock';
 
 
@@ -35,6 +36,8 @@ class App extends Component {
         track: objToCompare.track,
         url: objToCompare.url
       }));
+
+    var arrayOfUrls = createArrayOfUrls(objToCompare);
   }
 
   render() {

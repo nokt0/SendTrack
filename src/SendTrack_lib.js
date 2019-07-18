@@ -1,32 +1,44 @@
 
 const ServicesUrl = {
-    youtubeMusic: "youtube.music",
+    youtubeMusic: "youtubeMusic",
     youtube: "youtube",
     spotify: "spotify"
 
 }
 
-function createObjectToCompare(artist, track, url) {
-    return {
-        artist: artist,
-        track: track,
-        url: url,
-    }
-}
 
 export function urlWorker(url) {
 
-    var serviceObj = checkService(url);
-    var objectToCompare;
+    let serviceObj = checkService(url);
+    let objectToCompare;
 
     switch (serviceObj.service) {
-        case "youtube.music":
+        case "youtubeMusic":
             ;
         case "youtube":
             var requestObj = requestYoutubeObject(
-                createYoutubeArguments(serviceObj));
-            const artist = requestObj.items[0].snippet.channelTitle;
-            const track = requestObj.items[0].snippet.title;
+                createYoutubeArguments(serviceObj), 'track');
+
+            if ('isAlbum' in requestObj)
+                return {
+                    artist: '',
+                    track: 'this is playlist. Now we cant work with them',
+                    url: '',
+                    service: serviceObj.service
+                }
+
+            if ('notValid' in requestObj)
+                return {
+                    artist: '',
+                    track: 'Not found:(',
+                    url: '',
+                    service: serviceObj.service
+                };
+
+            console.log(requestObj);
+
+            var artist = requestObj.items[0].snippet.channelTitle;
+            var track = requestObj.items[0].snippet.title;
 
             var resUrl;
             if (serviceObj.service === 'youtube')
@@ -35,7 +47,7 @@ export function urlWorker(url) {
                 if (serviceObj.service === 'music.youtube')
                     resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
 
-            objectToCompare = createObjectToCompare(artist, track, resUrl);
+            objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
             console.log(objectToCompare);
             var index = objectToCompare.artist.indexOf(" - Topic");
             if (index !== -1)
@@ -44,10 +56,30 @@ export function urlWorker(url) {
 
         case "spotify":
             var requestObj = requestSpotifyObject(
-                createSpotifyArguments(serviceObj));
+                createSpotifyArguments(serviceObj), 'track');
             console.log(requestObj);
-            break;
 
+            if (requestObj.type === 'album') {
+                return {
+                    artist: '',
+                    track: 'this is album',
+                    url: ''
+                }
+            }
+
+            if ('notValid' in requestObj)
+                return {
+                    artist: '',
+                    track: 'now we cant work with artist',
+                    url: ''
+                }
+
+            track = requestObj.track;
+            url = requestObj.href;
+            artist = requestObj.artists[0].name;
+            objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
+
+            return objectToCompare;
 
         default:
             return {
@@ -62,7 +94,7 @@ export function urlWorker(url) {
 };
 
 
-function processInputUrl() {
+/* function processInputUrl() {
     var form = document.getElementById("urlForm");
     var urlForm = document.getElementById("inputUrlForm");
 
@@ -93,38 +125,70 @@ function processInputUrl() {
 
     });
 
-}
+} */
 
 export function urlValidator(url) {
     return true;
 }
 
 
-function requestYoutubeObject(argumentsObj) {
+function requestYoutubeObject(argumentsObj, requestType) {
+
+    var objType = argumentsObj.type;
+    delete argumentsObj.type;
 
     var xhr = new XMLHttpRequest();
-    const YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/videos?part=snippet";
+    const YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/";
     const API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
     var resultRequest = YOUTUBE_API_SERVER;
 
-    for (var argument in argumentsObj) {
-        switch (argument) {
-            case "v":
-                resultRequest += "&id=" + argumentsObj[argument];
-                break;
-            default:
-                break;
+    const maxResults = 10;
+    const notValidObj = { notValid: '' }
+
+    if (objType === 'album') {
+        resultRequest += 'playlistItems?';
+        return {
+            isAlbum: ''
         }
     }
 
+    switch (requestType) {
+        case 'track':
+            resultRequest += 'videos?';
+            break;
+        case 'search':
+            resultRequest += 'search?';
+            break;
+        default:
+            return notValidObj;
+
+    }
+    resultRequest += 'part=snippet';
+
+    for (var argument in argumentsObj) {
+        switch (argument) {
+            case 'v':
+                resultRequest += "&id=" + argumentsObj[argument];
+                break;
+            case 'q':
+                resultRequest += "&q=" + argumentsObj[argument] +
+                    "&maxResults=" + maxResults;
+                break;
+
+            default:
+                return notValidObj
+        }
+    }
     resultRequest += "&key=" + API_KEY;
 
-    xhr.open('GET', resultRequest, false);
 
+    xhr.open('GET', resultRequest, false);
     // 3. Отсылаем запрос
     xhr.send();
 
-    var videoInfoObj = JSON.parse(xhr.responseText);
+    let videoInfoObj = {
+        notValid: ''
+    }
 
     // 4. Если код ответа сервера не 200, то это ошибка
     if (xhr.status !== 200) {
@@ -133,38 +197,58 @@ function requestYoutubeObject(argumentsObj) {
     } else {
         // вывести результат
         alert(xhr.responseText); // responseText -- текст ответа.
+        videoInfoObj = JSON.parse(xhr.responseText);
     }
+
+    console.log(videoInfoObj);
+
     return videoInfoObj;
 }
 
-function requestSpotifyObject(argumentsObj) {
-    const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQBYUBCmIjakdPnX6XLr3G08b9l73kjHh7iJ56vvCClSi_q68WDdyHvAlsPjsiHQs8OJYJ1Nm_Ne4GQULE1VyFYr9XAPTEXJMgyRugIQ8fl24UwY_U1eulpzB68d3PiytNm5t-l71xvQW4-VAjD-A0fa2AHGhfNLPIkhJ33-E15AV-NkOKzfNB5FCV2K2NM39OgyMR6ls21EbyDSU8Q3oNFMzvG_2QgY6GpMtW0-V1I09aWhIKnAk6HYiy0HFbxyU5rKTbKvhD_YQrnE6vVC033yrftfVm1lfXc";
+function requestSpotifyObject(argumentsObj, requestType) {
 
+    const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
+    const API_KEY = "BQChvxyuiBtNo6RZWp_RX0uV_ouevhNiL20oRr8-lJVleyyBOlX-6Zo-LIxOoPYyFPJWZfhB_WslZITDkr4YYWqhs8nLS1S__OzgfdbQHeq90NWBHT1OKEehduTA0TiJIu2zVJNPf1NoPUz-fX0LP1849omOoAbzQXKaeaAsa9cTdTKdohTkZyeciKGnIZMABV92iKGyATBRIIu4zHHRi_JQyYgjkV2fnhdV9EXPYY_RZnsA0n48TFovb-BICgD_nkoL-o0uVkTGAz7QbMWjiUn13GyZ3a0tZHo";
+    const notValidObj = { notValid: '' };
+    const maxResults = 10;
     var url = SPOTIFY_API_SERVER;
-    for (var arg in argumentsObj) {
-        url += arg + '/' + argumentsObj[arg];
+
+
+    if ('artist' in argumentsObj)
+        return notValidObj;
+
+    switch (requestType) {
+        case 'track':
+            url += 'tracks/' + argumentsObj.track;
+            break;
+        case 'search':
+            url += 'search?q=' + argumentsObj.q + '&type=track&limit=' + maxResults;
+            break;
+        default:
+            return { type: 'album' }
     }
-    var xhr = new XMLHttpRequest();
-    
+
     console.log(url);
+
+    var xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
-    
+
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
 
     xhr.send();
-
+    let requestObj = notValidObj;
     if (xhr.status !== 200) {
         // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
     } else {
         // вывести результат
         alert(xhr.responseText); // responseText -- текст ответа.
+        requestObj = JSON.parse(xhr.responseText);
     }
 
-    var requestObj = JSON.parse(xhr.responseText);
+
     console.log(xhr.responseText);
 
     return requestObj;
@@ -184,16 +268,24 @@ function createSpotifyArguments(serviceObj) {
     return argumentsObj;
 }
 
+function eraseYoutubeWatchArg(urlSubstring) {
+    var index = urlSubstring.indexOf('watch?');
+    return urlSubstring.substring(index + 'watch?'.length);
+}
+
 function createYoutubeArguments(serviceObj) {
 
     var urlSubstring = serviceObj.cutUrl;
-
-    function eraseYoutubeWatchArg(urlSubstring) {
-        var index = urlSubstring.indexOf('watch?');
-        return urlSubstring.substring(index + 'watch?'.length);
-    }
-
     var result = {};
+
+    if (urlSubstring.indexOf('watch?') !== -1) {
+        result.type = 'track';
+        eraseYoutubeWatchArg(urlSubstring)
+    }
+    else {
+        result.type = 'album';
+        return result;
+    }
 
     var arrayArguments = eraseYoutubeWatchArg(urlSubstring).split('&');
     for (var i = 0; i < arrayArguments.length; i++) {
@@ -207,9 +299,101 @@ function createYoutubeArguments(serviceObj) {
 
 }
 
-function eraseDomain(urlString) {
-    var index = urlString.indexOf('/');
-    return urlString.substring(index + 1);
+export function createArrayOfUrls(objectToCompare) {
+    let arrayOfUrls = {
+        spotify: 'Not Found',
+        youtube: 'Not Found',
+        youtubeMusic: 'Not Found'
+    }
+
+    let spotifyRequest = {
+        q: objectToCompare.track
+    } 
+    console.log(objectToCompare);
+
+    let requestedObj = requestSpotifyObject(spotifyRequest, 'search');
+    console.log(requestedObj);
+
+    if(!requestedObj.hasOwnProperty('type') && requestedObj.type !=='album' && !requestedObj.hasOwnProperty('notValid'))
+        arrayOfUrls.spotify = searchInSpotifyObject(requestedObj,objectToCompare).url;
+     
+    console.log(arrayOfUrls);
+
+
+    return arrayOfUrls;
+}
+
+function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
+
+}
+
+function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
+    const artistName = objectToCompare.artist;
+    const trackName = objectToCompare.track;
+    const notFound = { url: 'Not Found2' };
+     
+    var similarObject = notFound;
+    for (var item of spotifyReturnedObject.tracks.items) {
+
+        let validator = false;
+
+        if (item.type === 'track') {
+
+        console.log(item.name);
+
+            if (!matchStringsWithoutSpecs(trackName, item.name) && !matchStringsWithoutSpecs(item.name,trackName))
+                continue;
+
+            for (var artist of item.artists) {
+                if (matchStringsWithoutSpecs(artistName, artist.name) && matchStringsWithoutSpecs(artist.name,artistName)) {
+                    validator = true;
+                    break;
+                }
+                else
+                    validator = false
+            }
+            similarObject = {
+                url: item.external_urls.spotify
+            };
+
+            if (validator)
+                return similarObject;
+
+        }
+    }
+
+
+    return similarObject;
+}
+
+function matchStringsWithoutSpecs(firstString, secondString) {
+    var reg = new RegExp("[\\s-\\/\\.&]", "i");
+    const splitedFirstString = firstString.split(reg);
+    const splitedSecondString = secondString.split(reg);
+    console.log(splitedFirstString);
+    console.log(splitedSecondString);
+
+    for (var substringFirst of splitedFirstString) {
+        var indicator = false;
+        for (var substringSecond of splitedSecondString) {
+            let reg = new RegExp(substringSecond, "i");
+            
+            if (substringFirst.search(reg) !== -1) {
+                indicator = true;
+                console.log('Found');
+                break;
+            }
+            else
+                indicator = false;
+        }
+        if (!indicator){
+            console.log('not equal');
+            return false;
+    }
+
+    }
+    console.log('equal');
+    return true;
 }
 
 function checkService(inputUrl) {
@@ -233,6 +417,20 @@ function checkService(inputUrl) {
         cutUrl: cutUrl,
     }
 
+}
+
+function createObjectToCompare(artist, track, url, service) {
+    return {
+        artist: artist,
+        track: track,
+        url: url,
+        service: service
+    }
+}
+
+function eraseDomain(urlString) {
+    var index = urlString.indexOf('/');
+    return urlString.substring(index + 1);
 }
 
 function checkServiceUrl(urlString, serviceString) {
