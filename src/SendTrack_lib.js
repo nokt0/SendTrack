@@ -1,4 +1,3 @@
-
 const ServicesUrl = {
     youtubeMusic: "youtubeMusic",
     youtube: "youtube",
@@ -6,8 +5,32 @@ const ServicesUrl = {
 
 }
 
+var SPOTIFY_API_KEY = ''
+
 
 export function urlWorker(url) {
+
+    /* var base64key = 'Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=';
+    var xhr = new XMLHttpRequest();
+    var body = 'grant_type=' + encodeURIComponent('client_credentials');
+    const spotifyAuthServer = 'https://accounts.spotify.com/api/token';
+    xhr.open("POST", spotifyAuthServer + '?' + body, false);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
+    var result;
+
+    xhr.send();
+    if (xhr.status !== 200) {
+        // обработать ошибку
+        alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+    } else {
+        // вывести результат
+        // responseText -- текст ответа.
+        result = JSON.parse(xhr.responseText);
+    }
+    SPOTIFY_API_KEY = result.access_token;
+ */
+
 
     let serviceObj = checkService(url);
     let objectToCompare;
@@ -35,8 +58,21 @@ export function urlWorker(url) {
 
             console.log(requestObj);
 
-            var artist = requestObj.items[0].snippet.channelTitle;
-            var track = requestObj.items[0].snippet.title;
+            var artist;
+            var track;
+            let index = requestObj.items[0].snippet.title.indexOf('-');
+
+            if (requestObj.items[0].snippet.title.indexOf('-') !== -1) {
+                artist = requestObj.items[0].snippet.title.substring(0, index);
+                track = requestObj.items[0].snippet.title.substring(index, requestObj.items[0].snippet.title.length);
+            }
+            else {
+                artist = requestObj.items[0].snippet.channelTitle;
+                track = requestObj.items[0].snippet.title;
+            }
+            //ERASE BRACKETS
+            track = eraseBrackets(track);
+            artist = eraseBrackets(artist);
 
             var resUrl;
             if (serviceObj.service === 'youtube')
@@ -47,7 +83,7 @@ export function urlWorker(url) {
 
             objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
             console.log(objectToCompare);
-            var index = objectToCompare.artist.indexOf(" - Topic");
+            index = objectToCompare.artist.indexOf(" - Topic");
             if (index !== -1)
                 objectToCompare.artist = objectToCompare.artist.substring(0, index);
             break;
@@ -73,9 +109,14 @@ export function urlWorker(url) {
                     url: ''
                 }
 
-            track = requestObj.track;
-            url = requestObj.href;
+            track = requestObj.name;
+            url = requestObj.external_urls.spotify;
             artist = requestObj.artists[0].name;
+
+            //ERASE BRACKETS
+            track = eraseBrackets(track);
+            artist = eraseBrackets(artist);
+
             objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
 
             return objectToCompare;
@@ -130,6 +171,17 @@ export function urlValidator(url) {
     return true;
 }
 
+function eraseBrackets(str) {
+    let result = str;
+    let index;
+    if (str.indexOf('(') !== -1 && str.indexOf(')') !== -1) {
+        index = str.indexOf('(');
+        result = str.substring(0, index) + str.substring(str.indexOf(')') + 1, str.length);
+    }
+
+    return result;
+}
+
 
 function requestYoutubeObject(argumentsObj, requestType) {
 
@@ -159,6 +211,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
             resultRequest += 'search?';
             break;
         default:
+            console.log("not valid request type");
             return notValidObj;
 
     }
@@ -173,9 +226,14 @@ function requestYoutubeObject(argumentsObj, requestType) {
                 resultRequest += "&q=" + argumentsObj[argument] +
                     "&maxResults=" + maxResults;
                 break;
+            case 'list':
+                break;
+            case 'feature':
+                break;
 
             default:
-                return notValidObj
+                console.log("bad argument = Not Found")
+                return notValidObj;
         }
     }
     resultRequest += "&key=" + API_KEY;
@@ -195,7 +253,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
     } else {
         // вывести результат
-        alert(xhr.responseText); // responseText -- текст ответа.
+        // responseText -- текст ответа.
         videoInfoObj = JSON.parse(xhr.responseText);
     }
 
@@ -207,7 +265,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQBDmLBMfg80Cw7UnwpZPLV_sGVomavD2ifCIzXNQM5yVxOiiIzB4MEO7iKWRl2tu74o75pTlIH9l6PtCopieaA3iXVRA945Rnvc-XXvgpLXo6yPiX16oqUEBLzcylAZ1Ba9tnoBJxNH4d0qmNn8Dx20Co6UqI4XVKQ0U3Jsm8SBNrvNvapVuZbOqmyQCIOed0MDomnogzVhU6huX_2yp_dZKpBR-fgsYISIrUxXJ0yeKNS-g7LozT9Nn1xUiZgedM-Jur2jnl6sNbVeV3T2cwuwvcDkpHMxrL8";
+    const API_KEY = "BQDzGPQcia0QaLAO9tHW50Br4NrW40oq9GXO_S353hS5y586_-meZDTWWWzsep-e1YdRIvYSII92ONbGjcQ";
     const notValidObj = { notValid: '' };
     let requestObj = notValidObj;
     const maxResults = 10;
@@ -245,8 +303,9 @@ function requestSpotifyObject(argumentsObj, requestType) {
         requestObj[notValidObj] = xhr.statusText;
     } else {
         // вывести результат
-        alert(xhr.responseText); // responseText -- текст ответа.
-        requestObj = JSON.parse(xhr.responseText);
+        // responseText -- текст ответа.
+        if(JSON.parse(xhr.responseText).total !== 0)
+            requestObj = JSON.parse(xhr.responseText);
     }
 
 
@@ -291,11 +350,11 @@ function createYoutubeArguments(serviceObj) {
     var arrayArguments = eraseYoutubeWatchArg(urlSubstring).split('&');
     for (var i = 0; i < arrayArguments.length; i++) {
         var index = arrayArguments[i].indexOf("=");
-        var argument = arrayArguments[i].substring(0, index > 1 ? index - 1 : index);
+        var argument = arrayArguments[i].substring(0, index);
         var value = arrayArguments[i].substring(index + 1, arrayArguments[i].length);
         result[argument] = value;
     }
-
+    console.log(result);
     return result;
 
 }
@@ -307,8 +366,8 @@ export function createArrayOfUrls(objectToCompare) {
         youtubeMusic: 'Not Found'
     }
 
-    function writeProps(artist, track, url, albumArt, service) {
-        arrayOfUrls[service] = {
+    function writeProps(artist, track, url, albumArt) {
+        return {
             artist: artist,
             track: track,
             url: url,
@@ -329,26 +388,81 @@ export function createArrayOfUrls(objectToCompare) {
             && !requestedObj.hasOwnProperty('notValid')) {
 
             let returnedItem = searchInSpotifyObject(requestedObj, objectToCompare);
-            let artists = '';
-            for (var i = 0; i < returnedItem.artists.length; i++) {
-                if (i !== returnedItem.artists.length - 1)
-                    artists += returnedItem.artists[i].name + ', ';
-                else
-                    artists += returnedItem.artists[i].name;
-            }
+            if (!returnedItem.hasOwnProperty('notValid')) {
+                let artists = '';
+                for (var i = 0; i < returnedItem.artists.length; i++) {
+                    if (i !== returnedItem.artists.length - 1)
+                        artists += returnedItem.artists[i].name + ', ';
+                    else
+                        artists += returnedItem.artists[i].name;
+                }
 
-            writeProps(artists, returnedItem.name, returnedItem.external_urls.spotify,
-                returnedItem.album.images[1].url, 'spotify');
+                arrayOfUrls.spotify = writeProps(artists, returnedItem.name, returnedItem.external_urls.spotify,
+                    returnedItem.album.images[1].url);
+            }
         }
     }
 
+    if (objectToCompare.initialService !== 'youtubeMusic' || objectToCompare.initialService !== 'youtube') {
+        let youtubeMusicRequest = {
+            q: objectToCompare.artist + ' ' + objectToCompare.track
+        }
+
+        let requestedObj = requestYoutubeObject(youtubeMusicRequest, 'search');
+        if (!requestedObj.hasOwnProperty('notValid')) {
+            let returnedItem = searchInYoutubeObject(requestedObj, objectToCompare);
+            if (!returnedItem.hasOwnProperty('notValid')) {
+                if (returnedItem.snippet.channelTitle.indexOf('- Topic') === -1) {
+                    if (objectToCompare.initialService !== 'youtubeMusic')
+                        arrayOfUrls.youtubeMusic = writeProps('', returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
+                    if (objectToCompare.initialService !== 'youtube')
+                        arrayOfUrls.youtube = writeProps('', returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
+                }
+                else {
+                    if (objectToCompare.initialService !== 'youtubeMusic')
+                        arrayOfUrls.youtubeMusic = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
+                            returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId,
+                            returnedItem.snippet.thumbnails.medium.url);
+                    if (objectToCompare.initialService !== 'youtube')
+                        arrayOfUrls.youtube = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
+                            returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId,
+                            returnedItem.snippet.thumbnails.medium.url);
+                }
+            }
+        }
+    }
     console.log(arrayOfUrls);
-
-
     return arrayOfUrls;
 }
 
 function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
+    const artistName = objectToCompare.artist;
+    const trackName = objectToCompare.track;
+    const notFound = { notValid: 'Not Found2' };
+    var similarObject = notFound;
+    let foundFlag = false;
+
+    for (var item of youtubeReturnedObject.items) {
+        if (item.snippet.channelTitle.indexOf('- Topic') !== -1) {
+            if (!matchStringsWithoutSpecs(trackName, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, trackName))
+                continue;
+            if (!matchStringsWithoutSpecs(artistName, item.snippet.channelTitle) && !matchStringsWithoutSpecs(item.snippet.channelTitle, artistName))
+                continue;
+            similarObject = item;
+            foundFlag = true;
+            break;
+        }
+    }
+    if (!foundFlag) {
+        for (var item of youtubeReturnedObject.items) {
+            if (!matchStringsWithoutSpecs(artistName + ' ' + trackName, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, artistName + ' ' + trackName))
+                continue;
+            similarObject = item;
+            break;
+        }
+    }
+
+    return similarObject;
 
 }
 
@@ -390,7 +504,7 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
 }
 
 function matchStringsWithoutSpecs(firstString, secondString) {
-    var reg = new RegExp("[\\s-\\/\\.&]", "i");
+    var reg = new RegExp("[\\s-\\]\\[\\)\\(\\/\\.&]", "i");
     const splitedFirstString = firstString.split(reg);
     const splitedSecondString = secondString.split(reg);
     console.log(splitedFirstString);

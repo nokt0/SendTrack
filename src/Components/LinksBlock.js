@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Link from './Link';
+import '../Styles/LinksBlock.css'
+
 
 export default class LinksBlock extends Component {
     constructor(props) {

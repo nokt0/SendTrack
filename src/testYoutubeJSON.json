@@ -1,85 +1,836 @@
 {
-    "kind": "youtube#videoListResponse",
-    "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/fheRQAeLVSRDAHXPSAY9LTagWaI\"",
+    "kind": "youtube#searchListResponse",
+    "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/SR054z9Cs5nnNPGo4feehv7TYcY\"",
+    "nextPageToken": "CBkQAA",
+    "regionCode": "RU",
     "pageInfo": {
-     "totalResults": 1,
-     "resultsPerPage": 1
+     "totalResults": 2449,
+     "resultsPerPage": 25
     },
     "items": [
      {
-      "kind": "youtube#video",
-      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/6hfrS7GkfvwT5GoHRWZqSXLPwrk\"",
-      "id": "Ks-_Mh1QhMc",
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/9w0GPvs0gW3L-msp33R6umzp3CM\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "ezkeOHjIFys"
+      },
       "snippet": {
-       "publishedAt": "2012-10-01T15:27:35.000Z",
-       "channelId": "UCAuUUnT6oDeKwE6v1NGQxug",
-       "title": "Your body language may shape who you are | Amy Cuddy",
-       "description": "Body language affects how others see us, but it may also change how we see ourselves. Social psychologist Amy Cuddy argues that \"power posing\" -- standing in a posture of confidence, even when we don't feel confident -- can boost feelings of confidence, and might have an impact on our chances for success. (Note: Some of the findings presented in this talk have been referenced in an ongoing debate among social scientists about robustness and reproducibility. Read Amy Cuddy's response here: http://ideas.ted.com/inside-the-debate-about-power-posing-a-q-a-with-amy-cuddy/)\n\nGet TED Talks recommended just for you! Learn more at https://www.ted.com/signup.\n\nThe TED Talks channel features the best talks and performances from the TED Conference, where the world's leading thinkers and doers give the talk of their lives in 18 minutes (or less). Look for talks on Technology, Entertainment and Design -- plus science, business, global issues, the arts and more.\n\nFollow TED on Twitter: http://www.twitter.com/TEDTalks\nLike TED on Facebook: https://www.facebook.com/TED\n\nSubscribe to our channel: https://www.youtube.com/TED",
+       "publishedAt": "2019-02-06T21:57:46.000Z",
+       "channelId": "UC_UON6pNuqzNo5ThlUORjOg",
+       "title": "Feduk &amp; Платина - Ламбо (Премьера 2019)",
+       "description": "Feduk & Платина - Ламбо (Премьера 2019) NO OFFICIAL VIDEO Приятного просмотра -------------------------------------------------------- Feduk - https://www.you...",
        "thumbnails": {
         "default": {
-         "url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/default.jpg",
+         "url": "https://i.ytimg.com/vi/ezkeOHjIFys/default.jpg",
          "width": 120,
          "height": 90
         },
         "medium": {
-         "url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/mqdefault.jpg",
+         "url": "https://i.ytimg.com/vi/ezkeOHjIFys/mqdefault.jpg",
          "width": 320,
          "height": 180
         },
         "high": {
-         "url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/hqdefault.jpg",
+         "url": "https://i.ytimg.com/vi/ezkeOHjIFys/hqdefault.jpg",
          "width": 480,
          "height": 360
-        },
-        "standard": {
-         "url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/sddefault.jpg",
-         "width": 640,
-         "height": 480
-        },
-        "maxres": {
-         "url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/maxresdefault.jpg",
-         "width": 1280,
-         "height": 720
         }
        },
-       "channelTitle": "TED",
-       "tags": [
-        "Amy Cuddy",
-        "TED",
-        "TEDTalk",
-        "TEDTalks",
-        "TED Talk",
-        "TED Talks",
-        "TEDGlobal",
-        "brain",
-        "business",
-        "psychology",
-        "self",
-        "success"
-       ],
-       "categoryId": "22",
-       "liveBroadcastContent": "none",
-       "defaultLanguage": "en",
-       "localized": {
-        "title": "Your body language may shape who you are | Amy Cuddy",
-        "description": "Body language affects how others see us, but it may also change how we see ourselves. Social psychologist Amy Cuddy argues that \"power posing\" -- standing in a posture of confidence, even when we don't feel confident -- can boost feelings of confidence, and might have an impact on our chances for success. (Note: Some of the findings presented in this talk have been referenced in an ongoing debate among social scientists about robustness and reproducibility. Read Amy Cuddy's response here: http://ideas.ted.com/inside-the-debate-about-power-posing-a-q-a-with-amy-cuddy/)\n\nGet TED Talks recommended just for you! Learn more at https://www.ted.com/signup.\n\nThe TED Talks channel features the best talks and performances from the TED Conference, where the world's leading thinkers and doers give the talk of their lives in 18 minutes (or less). Look for talks on Technology, Entertainment and Design -- plus science, business, global issues, the arts and more.\n\nFollow TED on Twitter: http://www.twitter.com/TEDTalks\nLike TED on Facebook: https://www.facebook.com/TED\n\nSubscribe to our channel: https://www.youtube.com/TED"
+       "channelTitle": "HalfHeartFromMusic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/mBi9WRmCXlZDOw6MFChwWh2lC9A\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "xvVBYL5iK5g"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-10T12:22:38.000Z",
+       "channelId": "UCmKXJ_GDAyitVCIu8z_wKhg",
+       "title": "РЕАКЦИЯ МАМЫ НА [Платина &amp; Feduk - Ламбо]",
+       "description": "Группа в ВК https://vk.com/vidvidd.",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/xvVBYL5iK5g/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/xvVBYL5iK5g/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/xvVBYL5iK5g/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
        },
-       "defaultAudioLanguage": "en"
+       "channelTitle": "ВИД ВИДНЫЙ",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/tvH-Fx30UmQYUHDy3mvASjoG-cI\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "lVQYupq8lp0"
       },
-      "contentDetails": {
-       "duration": "PT21M3S",
-       "dimension": "2d",
-       "definition": "hd",
-       "caption": "true",
-       "licensedContent": true,
-       "projection": "rectangular"
+      "snippet": {
+       "publishedAt": "2019-02-03T21:32:45.000Z",
+       "channelId": "UCf7nxrXKN-2VT1Vwvma0cuA",
+       "title": "Ламбо",
+       "description": "Provided to YouTube by National Digital Aggregator LLC Ламбо · Платина, Feduk Ламбо ℗ 2019 Первое музыкальное Издательство Released on:...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/lVQYupq8lp0/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/lVQYupq8lp0/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/lVQYupq8lp0/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Платина - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/-1Q5ZNPbr9xGoZbN3H3iHqKF5yg\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "7IuWecrTioY"
       },
-      "statistics": {
-       "viewCount": "16411340",
-       "likeCount": "222999",
-       "dislikeCount": "4448",
-       "favoriteCount": "0",
-       "commentCount": "7530"
+      "snippet": {
+       "publishedAt": "2018-08-24T14:04:05.000Z",
+       "channelId": "UCZ9gx_5Qhjgk6KVZM67I_og",
+       "title": "FFM Freestyle: Платина | Фристайл под биты Yung Bans, PHARAOH, Boulevard Depo, White Punk",
+       "description": "Биты: 1. Yung Bans — «Out» 2. PHARAOH & Boulevard Depo — «Плакшери» 3. White Punk — Unreleased Fast Food Music: https://vk.com/fastfoodmusic ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/7IuWecrTioY/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/7IuWecrTioY/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/7IuWecrTioY/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Fast Food Music",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/Z0znDNLSRfDgBoKAzOrle4v_8UI\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "ouw5eT-Iudk"
+      },
+      "snippet": {
+       "publishedAt": "2019-03-29T08:02:42.000Z",
+       "channelId": "UCtrYWEi5NOmMh1_wsZMZ-yA",
+       "title": "Платина &amp; Feduk - Ламбо",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/ouw5eT-Iudk/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/ouw5eT-Iudk/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/ouw5eT-Iudk/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Анастасия Гельман",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/txLOD_P_Jm35SwwAVVeZee6nXKI\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "duW1yfvHDko"
+      },
+      "snippet": {
+       "publishedAt": "2019-04-29T06:08:40.000Z",
+       "channelId": "UCbAvcSaUxmyZA5GNmf8meHQ",
+       "title": "FEDUX x Платина -Ламбо (live) 27.04 Moscow Station Hall",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/duW1yfvHDko/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/duW1yfvHDko/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/duW1yfvHDko/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Никита Сикорский",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/q2KVI5I01crllOX-6xV81LA-Rq0\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "W6XUmgatpRY"
+      },
+      "snippet": {
+       "publishedAt": "2019-07-19T19:28:33.000Z",
+       "channelId": "UCp5u5wk-jYk2_JBkrMV-cbw",
+       "title": "Платина и Feduk о новом альбоме, Lil Krystalll, Vk Fest Ламбо",
+       "description": "Все новинки рэпа https://t.me/rapperiscope ----------------------------------------------------------------------------------------------- http://rapperiscope.vmayke.org/ - Магаз...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/W6XUmgatpRY/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/W6XUmgatpRY/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/W6XUmgatpRY/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Rap Periscope",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/KLnKrmIqE4UZoAGC9Q1Pfd54N2A\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "Wiy7F8bLG2U"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-04T11:21:40.000Z",
+       "channelId": "UClf1Xu1ktbIQqX1NA_4nXEg",
+       "title": "Платина &amp; Feduk — Ламбо",
+       "description": "Платина & Feduk — Ламбо released february 4, 2019 cover by Октябрь rec by Жуковка 300 & Riga Sound Works prod. by Xtravulous.",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/Wiy7F8bLG2U/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/Wiy7F8bLG2U/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/Wiy7F8bLG2U/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "СНИППЕТЫ НА КАЖДЫЙ ДЕНЬ",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/XMf9jWWaXmCyed2Ex-Oxvh5URjg\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "AOeHtsDMcRk"
+      },
+      "snippet": {
+       "publishedAt": "2019-07-19T19:07:09.000Z",
+       "channelId": "UCXl1Km0sQ-RI78U6R-vqF7Q",
+       "title": "Платина и Feduk о новом альбоме, Lil Krystalll, Vk Fest Ламбо",
+       "description": "Platina #Feduk #эфирвнорме https://clck.ru/E2mnF Магазин одежды ( оплата при получении в любую страну) _ удалить ваш эфир...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/AOeHtsDMcRk/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/AOeHtsDMcRk/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/AOeHtsDMcRk/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "EFIR V NORME",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/90dFAiiqjYKimB3YSAayGuhbAyI\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "zSkJhDjsvhA"
+      },
+      "snippet": {
+       "publishedAt": "2019-03-24T03:14:05.000Z",
+       "channelId": "UCtXqCOwm-OeSHGXUjwc_HHA",
+       "title": "Реакция Американца на Платина &amp; OG Buda - Это не любовь",
+       "description": "GADDAMN! ALL DA A** IN THIS VIDEO CAN MAKE A BLIND MAN SEE NO CAP LOL. | Add me on Snapchat for more lit crazy clips! @Demmydee BUY THE ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/zSkJhDjsvhA/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/zSkJhDjsvhA/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/zSkJhDjsvhA/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "KING DEMI",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/ZVk6JEEqucyOxygPkvrJq-VTBQ0\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "29wRllGaQks"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-20T14:00:01.000Z",
+       "channelId": "UCccGlxKLiL4PyZzrYF0uJyg",
+       "title": "РЕАКЦИЯ на Платина &amp; OBLADAET — Бэнтли, Бенз и Бумер",
+       "description": "Инстаграм: https://www.instagram.com/easyforjuleezy Я ВКонтакте: https://vk.com/easyforjuleezy Группа ВКонтакте: https://vk.com/easy_for_juleezy...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/29wRllGaQks/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/29wRllGaQks/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/29wRllGaQks/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Джулизи",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/SVZEFsdRojYrgwZjktXPxQ9vueE\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "5oMQj-TI8n4"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-04T10:30:31.000Z",
+       "channelId": "UC5n3KUWFYgzc2D6zlImxWUQ",
+       "title": "Реакция на Платина &amp; FEDUK - Ламбо",
+       "description": "Все сказанное - это мое личное мнение Если хочешь продолжение реакции на альбом поставь лайк♥ Сегодня вы...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/5oMQj-TI8n4/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/5oMQj-TI8n4/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/5oMQj-TI8n4/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "SWAG BOY",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/vE2GUsnSpe1k2lZWn58ep266cUQ\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "OdHA1cA7Tu0"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-30T08:49:59.000Z",
+       "channelId": "UCnMIFfwPZ1MBZzAo4e-aqCA",
+       "title": "АМЕРИКАНЕЦ СРАВНИВАЕТ (ANDY PANDA-DRAKE,B.O.B.-25/17,OBLADAET,PLATINA-PLAYBOY CARTI)  МУЗЫКУ",
+       "description": "Всем привет!У нас новый формат,сравниваем русские и американские клипы)Пишите свое мнение в комментарии...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/OdHA1cA7Tu0/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/OdHA1cA7Tu0/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/OdHA1cA7Tu0/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "A.M.DAILY",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/NKZvscUy0GakCVYhkftOmuCKJ70\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "-PlbzQlAmTQ"
+      },
+      "snippet": {
+       "publishedAt": "2019-06-28T17:51:37.000Z",
+       "channelId": "UC6nM6YnlkSmLAA5cgRcbPpQ",
+       "title": "КТО ТАКИЕ РНБ КЛУБ / ЛУЧШИЙ ТРЭП НА РУССКОМ / ПЛАТИНА, OG BUDA, FEDUK",
+       "description": "e-katalog Россия - https://www.e-katalog.ru/u/xaoYP e-katalog Украина - https://ek.ua/u/PSw1Fp CLIQUEGANG ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/-PlbzQlAmTQ/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/-PlbzQlAmTQ/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/-PlbzQlAmTQ/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "ВТРЕНДЕ",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/h8SfV0Cp2PNjJZZM5oPdpAKXHsE\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "qM1MPudePrk"
+      },
+      "snippet": {
+       "publishedAt": "2019-01-16T11:26:55.000Z",
+       "channelId": "UCzwM6d9_9Q54DQFHsZs3v6g",
+       "title": "РЕАКЦИЯ МАМЫ НА Платина &amp; OG Buda - Это не любовь (ОНА В ШОКЕ!)",
+       "description": "ПОНРАВИЛОСЬ? ПОДПИШИСЬ БРО! Весёлые реакции и переводы с объяснением всех сленговых выражений и подво...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/qM1MPudePrk/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/qM1MPudePrk/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/qM1MPudePrk/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "John However",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/sUbhI4KlUw-PbQ6OY2vEhBOpV-k\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "Kvb1RfO0WI4"
+      },
+      "snippet": {
+       "publishedAt": "2019-04-27T23:09:58.000Z",
+       "channelId": "UC1iltYgeoP0U6ZQrPqFc5QA",
+       "title": "Платина &amp; Feduk - ламбо. Москва 27 апреля",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/Kvb1RfO0WI4/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/Kvb1RfO0WI4/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/Kvb1RfO0WI4/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Владислав Мясников",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/Fag5VMCFInHqQVzHLKhBv6_W6xg\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "Z-ZojwZkBF0"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-25T00:43:20.000Z",
+       "channelId": "UC202XKxYpFDt7j9tpOQVCcQ",
+       "title": "ПЛАТИНА - ПРИГЛАШАЕТ ПОДПИСЧИКОВ, УПОРОТ, ТУПИТ, НАСВАЙ И OG BUDA",
+       "description": "Упоротый Платина орно тупит на трансляции и играет в игру с подписчиками.",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/Z-ZojwZkBF0/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/Z-ZojwZkBF0/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/Z-ZojwZkBF0/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Flex Duck",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/n7I09beEt7VJlrK493-WAPgcWIo\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "-7dvvYyIW28"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-06T00:30:18.000Z",
+       "channelId": "UCGi8etkS8DHnHrYoAYj_3IA",
+       "title": "5.12 | Платина &amp; OG Buda | МОСКВА @ 16 Тонн",
+       "description": "Платина и OG Buda совсем недавно появились на радарах, но уже достаточно громко о себе заявили: совместные...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/-7dvvYyIW28/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/-7dvvYyIW28/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/-7dvvYyIW28/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "LIL DOP production",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/Gjwvm4jG2fT4qbt52cq4tGPpPDE\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "zAEUIxLelDY"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-06T09:30:01.000Z",
+       "channelId": "UC__OCajq0rYa1KDFp9yFNKw",
+       "title": "Платина &amp; Feduk - Ламбо (ПРЕМЬЕРА КЛИПА 2019Г)",
+       "description": "Привет,недавно вышла новая песня Платина & Feduk - Ламбо ,и я решил запилить вам видос под этот трек,этот бит...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/zAEUIxLelDY/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/zAEUIxLelDY/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/zAEUIxLelDY/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "НОВЫЙ ХАЙП II хайпы / тренды / топы / музыка ютуба",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/56zcQEQQQSDuYOuLY5GX-O74ViQ\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "aiYWx9GbKA0"
+      },
+      "snippet": {
+       "publishedAt": "2019-07-16T21:35:53.000Z",
+       "channelId": "UCp5u5wk-jYk2_JBkrMV-cbw",
+       "title": "Feduk о Kizaru, OG Buda, Платина, Face, Егор Крид, поет новый трек, Lambo, 27, Биг Бой",
+       "description": "Все новинки рэпа https://t.me/rapperiscope 1:15 о новом треке Пальма Rap Periscope 4:10 о Lambo Rap Periscope 5:10 OG Buda Rap Periscope 6:20 Face ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/aiYWx9GbKA0/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/aiYWx9GbKA0/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/aiYWx9GbKA0/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Rap Periscope",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/QcBJQ--jW14d-OapZPdGFtR3mTo\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "TxzFpPLeNNQ"
+      },
+      "snippet": {
+       "publishedAt": "2019-03-07T09:05:38.000Z",
+       "channelId": "UCwcNrBL4m5FGCGgy6KkLMwQ",
+       "title": "Платина- Бандана REACTION",
+       "description": "SUBSCRIBE FOR MORE REACTION !!! FOLLOW ON INSTAGRAM ▻ https://www.instagram.com/dwyane_gambino/ TWITTER!",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/TxzFpPLeNNQ/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/TxzFpPLeNNQ/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/TxzFpPLeNNQ/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Dwyane Gambino",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/_MHDfhhQwd-iBzvFN9QHNMEf2c0\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "G7ZvDH1bRiI"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-04T16:44:28.000Z",
+       "channelId": "UCNO8bjv-BSrhVkgFY-k7taA",
+       "title": "Платина &amp; Федук - Ламбо",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/G7ZvDH1bRiI/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/G7ZvDH1bRiI/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/G7ZvDH1bRiI/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Сова Бэт",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/7LgFKvw-yMWOMswGIvhUE0O_kp8\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "0K4r3ngtYP8"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-04T19:08:37.000Z",
+       "channelId": "UCYE7W2CUmFyMYGI3Z3aGtTQ",
+       "title": "РЕАКЦИЯ НА Платина &amp; Feduk - Ламбо",
+       "description": "ПОДПИШИСЬ НА МОЙ КАНАЛ ПРО ИГРЫ ) https://www.youtube.com/channel/UCrUY... Пишите в коментарии на какие песни вы хотели бы...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/0K4r3ngtYP8/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/0K4r3ngtYP8/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/0K4r3ngtYP8/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "РЕАКЦИИ НА ПЕСНИ",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/zBIdxo8QcB5l_faB0c4FMWMMDtU\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "7Au3Y7oSayM"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-02T00:22:31.000Z",
+       "channelId": "UCVh8Y0fHce7ARqcr0XVvnGg",
+       "title": "OBLADAET feat. Платина – Бэнтли, Бенз и Бумер // A2 // 01.02.2019.",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/7Au3Y7oSayM/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/7Au3Y7oSayM/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/7Au3Y7oSayM/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Denis Cayenne",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/pNVIis2rAGE4nF3sPLAOSZmEvRk\"",
+      "id": {
+       "kind": "youtube#video",
+       "videoId": "xq4Y5ZPjluM"
+      },
+      "snippet": {
+       "publishedAt": "2019-02-04T19:40:51.000Z",
+       "channelId": "UCbrCibRXaYC3XjxvKQ3K1nw",
+       "title": "Feduk, Платина - Ламбо / Премьера (2019)",
+       "description": "Feduk, Платина - Ламбо Feduk https://vk.com/feduk Платина https://vk.com/platinarnbklub Welcome! Nice music for you. #FattakhovBeats Follow Fattakhov ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://i.ytimg.com/vi/xq4Y5ZPjluM/default.jpg",
+         "width": 120,
+         "height": 90
+        },
+        "medium": {
+         "url": "https://i.ytimg.com/vi/xq4Y5ZPjluM/mqdefault.jpg",
+         "width": 320,
+         "height": 180
+        },
+        "high": {
+         "url": "https://i.ytimg.com/vi/xq4Y5ZPjluM/hqdefault.jpg",
+         "width": 480,
+         "height": 360
+        }
+       },
+       "channelTitle": "Fattakhov Beats",
+       "liveBroadcastContent": "none"
       }
      }
     ]

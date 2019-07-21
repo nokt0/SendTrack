@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import '../Styles/InputForm.css';
 import * as STlib from '../SendTrack_lib.js';
 
 export default class InputForm extends Component {
@@ -50,6 +51,7 @@ export default class InputForm extends Component {
 
     render() {
         return (
+            
             <form id="urlForm">
                 <input id="inputUrlForm" value={this.state.content}
                     placeholder={this.state.placeholder}
