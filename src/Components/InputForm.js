@@ -17,7 +17,8 @@ export default class InputForm extends Component {
         this.state = {
             placeholder: "Enter Url",
             content: '',
-            valid: false
+            notUrlInput: '',
+            valid: false,
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,6 +30,7 @@ export default class InputForm extends Component {
             return {
                 content,
                 valid: STlib.urlValidator(content),
+                notUrlInput: ''
             };
         })
         console.log("changed");
@@ -37,13 +39,20 @@ export default class InputForm extends Component {
     handleSubmit(e) {
         e.preventDefault();
         if (!this.state.valid) {
+            this.setState(() => ({
+                content: '',
+                valid: false,
+                notUrlInput: 'input-form__not-url',
+                placeholder: 'this is not a url'
+            }))
             return;
         }
         const url = this.state.content;
         this.props.onSubmit(url);
         this.setState(() => ({
             content: '',
-            valid: false
+            valid: false,
+            placeholder: 'Enter Url'
         }))
         console.log("submit");
 
@@ -53,7 +62,8 @@ export default class InputForm extends Component {
         return (
             
             <form id="urlForm">
-                <input id="inputUrlForm" value={this.state.content}
+                <input id="inputUrlForm" className={this.state.notUrlInput} 
+                    value={this.state.content}
                     placeholder={this.state.placeholder}
                     onChange={this.handleInputChange}
                     onSubmit={this.handleSubmit} /><br />

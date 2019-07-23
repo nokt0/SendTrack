@@ -1,7 +1,8 @@
 const ServicesUrl = {
-    youtubeMusic: "youtubeMusic",
+    youtubeMusic: "music.youtube",
     youtube: "youtube",
-    spotify: "spotify"
+    spotify: "spotify",
+    appleMusic: "music.apple"
 
 }
 
@@ -32,16 +33,16 @@ export function urlWorker(url) {
  */
 
 
-    let serviceObj = checkService(url);
-    let objectToCompare;
+    var serviceObj = checkService(url);
+    var objectToCompare;
 
-    switch (serviceObj.service) {
-        case "youtube" || "youtubeMusic": {
+        if(serviceObj.service === ServicesUrl.youtube || serviceObj.service === ServicesUrl.youtubeMusic) {
             let requestObj = requestYoutubeObject(
                 createYoutubeArguments(serviceObj), 'track');
 
             if ('isAlbum' in requestObj)
                 return {
+                    notValid: 'this is playlist. Now we cant work with them',
                     artist: '',
                     track: 'this is playlist. Now we cant work with them',
                     url: '',
@@ -50,6 +51,7 @@ export function urlWorker(url) {
 
             if ('notValid' in requestObj)
                 return {
+                    notValid: 'Not found:(',
                     artist: '',
                     track: 'Not found:(',
                     url: '',
@@ -78,7 +80,7 @@ export function urlWorker(url) {
             if (serviceObj.service === 'youtube')
                 resUrl = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
             else
-                if (serviceObj.service === 'music.youtube')
+                if (serviceObj.service === 'youtubeMusic')
                     resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
 
             objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
@@ -86,10 +88,10 @@ export function urlWorker(url) {
             index = objectToCompare.artist.indexOf(" - Topic");
             if (index !== -1)
                 objectToCompare.artist = objectToCompare.artist.substring(0, index);
-            break;
+           return objectToCompare;
         }
 
-        case "spotify": {
+       if(serviceObj.service === ServicesUrl.spotify) {
             let requestObj = requestSpotifyObject(
                 createSpotifyArguments(serviceObj), 'track');
             console.log(requestObj);
@@ -121,17 +123,14 @@ export function urlWorker(url) {
 
             return objectToCompare;
         }
-        default:
             return {
-                artist: '',
-                track: 'Not found:(',
+                notValid: 'Not Found:(',
+                artist: 'Not Found:(',
+                track: '',
                 url: ''
             };
     }
 
-    return objectToCompare;
-
-};
 
 
 /* function processInputUrl() {
@@ -168,7 +167,12 @@ export function urlWorker(url) {
 } */
 
 export function urlValidator(url) {
-    return true;
+    let index = url.indexOf('.');
+    index = url.indexOf('/', index);
+    if(index !== -1)
+        return true;
+    else
+        return false;
 }
 
 function eraseBrackets(str) {
@@ -254,7 +258,10 @@ function requestYoutubeObject(argumentsObj, requestType) {
     } else {
         // вывести результат
         // responseText -- текст ответа.
-        videoInfoObj = JSON.parse(xhr.responseText);
+        if(JSON.parse(xhr.responseText).pageInfo.totalResults !== 0)
+            videoInfoObj = JSON.parse(xhr.responseText);
+        else
+            videoInfoObj.notValid = 'Not Found';
     }
 
     console.log(videoInfoObj);
@@ -265,16 +272,18 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQDzGPQcia0QaLAO9tHW50Br4NrW40oq9GXO_S353hS5y586_-meZDTWWWzsep-e1YdRIvYSII92ONbGjcQ";
+    const API_KEY = "BQCDFfEk2MG9WV9hrKRfQkEyyoL44ELMfwwmAfvGOhgFxSsoXz7ZSaN_m_q_lBru_fy3h9VUFnNoOR4tRmY";
     const notValidObj = { notValid: '' };
     let requestObj = notValidObj;
     const maxResults = 10;
     var url = SPOTIFY_API_SERVER;
 
 
-    if ('artists' in argumentsObj)
-        return requestObj.notValid = 'artist';
-
+    if ('artists' in argumentsObj){
+        requestObj.notValid = 'artist';
+        return requestObj;
+    }
+    
     switch (requestType) {
         case 'track':
             url += 'tracks/' + argumentsObj.track;
@@ -366,6 +375,9 @@ export function createArrayOfUrls(objectToCompare) {
         youtubeMusic: 'Not Found'
     }
 
+    if(objectToCompare.hasOwnProperty('notValid'))
+        return arrayOfUrls;
+
     function writeProps(artist, track, url, albumArt) {
         return {
             artist: artist,
@@ -374,7 +386,7 @@ export function createArrayOfUrls(objectToCompare) {
             albumArt: albumArt
         }
     }
-    if (objectToCompare.initialService !== 'spotify') {
+    if (objectToCompare.initialService !== ServicesUrl.spotify) {
 
         let spotifyRequest = {
             q: objectToCompare.artist + ' ' + objectToCompare.track
@@ -403,27 +415,29 @@ export function createArrayOfUrls(objectToCompare) {
         }
     }
 
-    if (objectToCompare.initialService !== 'youtubeMusic' || objectToCompare.initialService !== 'youtube') {
-        let youtubeMusicRequest = {
+    if (objectToCompare.initialService !== ServicesUrl.youtubeMusic || objectToCompare.initialService !== 'youtube') {
+        let youtubeRequest = {
             q: objectToCompare.artist + ' ' + objectToCompare.track
         }
 
-        let requestedObj = requestYoutubeObject(youtubeMusicRequest, 'search');
+        console.log('Initial Service: ' + objectToCompare.initialService);  
+
+        let requestedObj = requestYoutubeObject(youtubeRequest, 'search');
         if (!requestedObj.hasOwnProperty('notValid')) {
             let returnedItem = searchInYoutubeObject(requestedObj, objectToCompare);
             if (!returnedItem.hasOwnProperty('notValid')) {
                 if (returnedItem.snippet.channelTitle.indexOf('- Topic') === -1) {
-                    if (objectToCompare.initialService !== 'youtubeMusic')
+                    if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
                         arrayOfUrls.youtubeMusic = writeProps('', returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
-                    if (objectToCompare.initialService !== 'youtube')
+                    if (objectToCompare.initialService !== ServicesUrl.youtube)
                         arrayOfUrls.youtube = writeProps('', returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
                 }
                 else {
-                    if (objectToCompare.initialService !== 'youtubeMusic')
+                    if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
                         arrayOfUrls.youtubeMusic = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
                             returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId,
                             returnedItem.snippet.thumbnails.medium.url);
-                    if (objectToCompare.initialService !== 'youtube')
+                    if (objectToCompare.initialService !== ServicesUrl.youtube)
                         arrayOfUrls.youtube = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
                             returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId,
                             returnedItem.snippet.thumbnails.medium.url);
@@ -538,16 +552,18 @@ function checkService(inputUrl) {
     var serviceName = "";
 
     for (var Service in ServicesUrl) {
+        
         var found = checkServiceUrl(inputUrl, ServicesUrl[Service]);
         if (found !== -1) {
             index = found;
             serviceName = ServicesUrl[Service];
+            break;
         }
     }
 
     var cutUrl = inputUrl.substring(index);
     cutUrl = eraseDomain(cutUrl);
-
+    console.log('Service Name: ' + serviceName);
 
     return {
         service: serviceName,
