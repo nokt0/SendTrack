@@ -6,33 +6,31 @@ const ServicesUrl = {
 
 }
 
-var SPOTIFY_API_KEY = ''
-
-
-export function urlWorker(url) {
-
-    /* var base64key = 'Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=';
+function getSpotifyToken(){
+    var base64key = 'Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=';
     var xhr = new XMLHttpRequest();
-    var body = 'grant_type=' + encodeURIComponent('client_credentials');
+    var body = encodeURIComponent('grant_type') + encodeURIComponent('=') + encodeURIComponent('client_credentials');
+    console.log(body);
     const spotifyAuthServer = 'https://accounts.spotify.com/api/token';
-    xhr.open("POST", spotifyAuthServer + '?' + body, false);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.open("POST", spotifyAuthServer, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
     var result;
 
-    xhr.send();
+    xhr.send(body);
     if (xhr.status !== 200) {
-        // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
     } else {
-        // вывести результат
-        // responseText -- текст ответа.
         result = JSON.parse(xhr.responseText);
-    }
-    SPOTIFY_API_KEY = result.access_token;
- */
+    } 
 
+    console.log(result);
+    return result.access_token;
 
+    
+}
+
+export function urlWorker(url) {
     var serviceObj = checkService(url);
     var objectToCompare;
 
@@ -272,7 +270,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQCDFfEk2MG9WV9hrKRfQkEyyoL44ELMfwwmAfvGOhgFxSsoXz7ZSaN_m_q_lBru_fy3h9VUFnNoOR4tRmY";
+    const API_KEY = "BQDXlTBnHUsjKTCJBgk84LAASZ7F9ETaYZREy_DnRSKOqpPWBj1BZK3KbAOTJ6uadxO-LzOnmAL6r8MU9Qg";
     const notValidObj = { notValid: '' };
     let requestObj = notValidObj;
     const maxResults = 10;
@@ -593,3 +591,32 @@ function checkServiceUrl(urlString, serviceString) {
 
     return index;
 }
+
+function setCookie(name, value, options) {
+    options = options || {};
+  
+    var expires = options.expires;
+  
+    if (typeof expires == "number" && expires) {
+      var d = new Date();
+      d.setTime(d.getTime() + expires * 1000);
+      expires = options.expires = d;
+    }
+    if (expires && expires.toUTCString) {
+      options.expires = expires.toUTCString();
+    }
+  
+    value = encodeURIComponent(value);
+  
+    var updatedCookie = name + "=" + value;
+  
+    for (var propName in options) {
+      updatedCookie += "; " + propName;
+      var propValue = options[propName];
+      if (propValue !== true) {
+        updatedCookie += "=" + propValue;
+      }
+    }
+  
+    document.cookie = updatedCookie;
+  }
