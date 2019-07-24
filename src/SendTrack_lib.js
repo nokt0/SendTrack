@@ -7,12 +7,11 @@ const ServicesUrl = {
 }
 
 function getSpotifyToken(){
-    var base64key = 'Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=';
-    var xhr = new XMLHttpRequest();
+    /* var xhr = new XMLHttpRequest();
     var body = encodeURIComponent('grant_type') + encodeURIComponent('=') + encodeURIComponent('client_credentials');
     console.log(body);
-    const spotifyAuthServer = 'https://accounts.spotify.com/api/token';
-    xhr.open("POST", spotifyAuthServer, false);
+    const url = 'http://sendtrack-backend.ddns.net:44152/';
+    xhr.open("POST", url, false);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
     var result;
@@ -22,12 +21,23 @@ function getSpotifyToken(){
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
     } else {
         result = JSON.parse(xhr.responseText);
-    } 
+    }  */
 
+
+   var result;
+   fetch('http://sendtrack-backend.ddns.net:44152/token',{
+    method: 'GET',
+})
+  .then(function(response) {
+    console.log(response);
+    return response.json();
+  })
+  .then(function(myJson) {
+    result = myJson.key;
     console.log(result);
-    return result.access_token;
+  });
 
-    
+    return result;
 }
 
 export function urlWorker(url) {
@@ -270,7 +280,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    const API_KEY = "BQDXlTBnHUsjKTCJBgk84LAASZ7F9ETaYZREy_DnRSKOqpPWBj1BZK3KbAOTJ6uadxO-LzOnmAL6r8MU9Qg";
+    var API_KEY = getSpotifyToken();
     const notValidObj = { notValid: '' };
     let requestObj = notValidObj;
     const maxResults = 10;
@@ -454,7 +464,7 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
     var similarObject = notFound;
     let foundFlag = false;
 
-    for (var item of youtubeReturnedObject.items) {
+    for (let item of youtubeReturnedObject.items) {
         if (item.snippet.channelTitle.indexOf('- Topic') !== -1) {
             if (!matchStringsWithoutSpecs(trackName, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, trackName))
                 continue;
@@ -466,7 +476,7 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
         }
     }
     if (!foundFlag) {
-        for (var item of youtubeReturnedObject.items) {
+        for (let item of youtubeReturnedObject.items) {
             if (!matchStringsWithoutSpecs(artistName + ' ' + trackName, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, artistName + ' ' + trackName))
                 continue;
             similarObject = item;
