@@ -7,11 +7,13 @@ const ServicesUrl = {
 }
 
 function getSpotifyToken(){
-    /* var xhr = new XMLHttpRequest();
+    /*const base64key = "Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=";
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    var xhr = new XMLHttpRequest();
     var body = encodeURIComponent('grant_type') + encodeURIComponent('=') + encodeURIComponent('client_credentials');
     console.log(body);
-    const url = 'http://sendtrack-backend.ddns.net:44152/';
-    xhr.open("POST", url, false);
+    const url = 'https://accounts.spotify.com/api/token';
+    xhr.open("POST", proxyurl + url, false);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
     var result;
@@ -25,18 +27,25 @@ function getSpotifyToken(){
 
 
    var result;
-   fetch('http://sendtrack-backend.ddns.net:44152/token',{
-    method: 'GET',
-})
-  .then(function(response) {
-    console.log(response);
-    return response.json();
-  })
-  .then(function(myJson) {
-    result = myJson.key;
-    console.log(result);
-  });
+   var xhr = new XMLHttpRequest();
+   xhr.open("GET", 'http://sendtrack-backend.ddns.net:9741/token', false);
+   xhr.send();
+   if (xhr.status !== 200) {
+    alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+} else {
+    result = JSON.parse(xhr.responseText).token;
+} 
 
+/*    fetch('http://sendtrack-backend.ddns.net:9741/token',{ method: 'GET'})
+.then(function(response) {
+    return response.json();
+})
+.then(function(myJson) {
+    alert(result);
+    return myJson.token;
+  }); */
+
+    console.log(result);
     return result;
 }
 

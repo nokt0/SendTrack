@@ -1,6 +1,9 @@
 const express = require("express");
 var req = require("request");
 var fs = require("fs");
+var cors = require('cors')
+
+
 
 const app = express();
 const base64key =
@@ -21,9 +24,14 @@ var options = {
         'content-type': 'application/x-www-form-urlencoded'
     }
 };
+
+app.use(cors());
+
 app.get("/token", function (request, response, next) {
     var content = fs.readFileSync("./private/token.json", "utf8");
     var token = JSON.parse(content);
+    console.log(token.date);
+    console.log(Date.now() + 3600000);
 
     if (token.key === "" || Date.now() > token.date.valueOf() + token.expires - 120000 || token.date === 0) {
 
@@ -32,7 +40,7 @@ app.get("/token", function (request, response, next) {
                 
                 var info = JSON.parse(body);
                 token.key = info.access_token;
-                token.date = new Date();
+                token.date = Date.now();
                 token.expires = info.expires_in * 1000;
                 console.log(token.date.toString());
                 fs.writeFileSync("./private/token.json", JSON.stringify(token));
