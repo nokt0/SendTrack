@@ -1,3 +1,5 @@
+import { get } from "https";
+
 const ServicesUrl = {
     youtubeMusic: "music.youtube",
     youtube: "youtube",
@@ -6,147 +8,116 @@ const ServicesUrl = {
 
 }
 
-function getSpotifyToken(){
-    /*const base64key = "Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=";
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    var xhr = new XMLHttpRequest();
-    var body = encodeURIComponent('grant_type') + encodeURIComponent('=') + encodeURIComponent('client_credentials');
-    console.log(body);
-    const url = 'https://accounts.spotify.com/api/token';
-    xhr.open("POST", proxyurl + url, false);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
-    var result;
-
-    xhr.send(body);
-    if (xhr.status !== 200) {
-        alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
-    } else {
-        result = JSON.parse(xhr.responseText);
-    }  */
-
-
-   var result;
-   var xhr = new XMLHttpRequest();
-   xhr.open("GET", 'http://sendtrack-backend.ddns.net:9741/token', false);
-   xhr.send();
-   if (xhr.status !== 200) {
-    alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
-} else {
-    result = JSON.parse(xhr.responseText).token;
-} 
-
-/*    fetch('http://sendtrack-backend.ddns.net:9741/token',{ method: 'GET'})
-.then(function(response) {
-    return response.json();
-})
-.then(function(myJson) {
-    alert(result);
-    return myJson.token;
-  }); */
-
-    console.log(result);
-    return result;
+function checkTokenInCookie() {
+    var buffer = getCookie('spotifyKey');
+    if (buffer) {
+        return buffer;
+    }
+    else {
+        return getSpotifyToken();
+    }
 }
 
 export function urlWorker(url) {
     var serviceObj = checkService(url);
     var objectToCompare;
 
-        if(serviceObj.service === ServicesUrl.youtube || serviceObj.service === ServicesUrl.youtubeMusic) {
-            let requestObj = requestYoutubeObject(
-                createYoutubeArguments(serviceObj), 'track');
+    if (serviceObj.service === ServicesUrl.youtube || serviceObj.service === ServicesUrl.youtubeMusic) {
+        let requestObj = requestYoutubeObject(
+            createYoutubeArguments(serviceObj), 'track');
 
-            if ('isAlbum' in requestObj)
-                return {
-                    notValid: 'this is playlist. Now we cant work with them',
-                    artist: '',
-                    track: 'this is playlist. Now we cant work with them',
-                    url: '',
-                    service: serviceObj.service
-                }
-
-            if ('notValid' in requestObj)
-                return {
-                    notValid: 'Not found:(',
-                    artist: '',
-                    track: 'Not found:(',
-                    url: '',
-                    service: serviceObj.service
-                };
-
-            console.log(requestObj);
-
-            var artist;
-            var track;
-            let index = requestObj.items[0].snippet.title.indexOf('-');
-
-            if (requestObj.items[0].snippet.title.indexOf('-') !== -1) {
-                artist = requestObj.items[0].snippet.title.substring(0, index);
-                track = requestObj.items[0].snippet.title.substring(index, requestObj.items[0].snippet.title.length);
-            }
-            else {
-                artist = requestObj.items[0].snippet.channelTitle;
-                track = requestObj.items[0].snippet.title;
-            }
-            //ERASE BRACKETS
-            track = eraseBrackets(track);
-            artist = eraseBrackets(artist);
-
-            var resUrl;
-            if (serviceObj.service === 'youtube')
-                resUrl = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
-            else
-                if (serviceObj.service === 'youtubeMusic')
-                    resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
-
-            objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
-            console.log(objectToCompare);
-            index = objectToCompare.artist.indexOf(" - Topic");
-            if (index !== -1)
-                objectToCompare.artist = objectToCompare.artist.substring(0, index);
-           return objectToCompare;
-        }
-
-       if(serviceObj.service === ServicesUrl.spotify) {
-            let requestObj = requestSpotifyObject(
-                createSpotifyArguments(serviceObj), 'track');
-            console.log(requestObj);
-
-            if (requestObj.type === 'album') {
-                return {
-                    artist: '',
-                    track: 'this is album',
-                    url: ''
-                }
-            }
-
-            if ('notValid' in requestObj)
-                return {
-                    artist: '',
-                    track: 'error:' + requestObj.notValid,
-                    url: ''
-                }
-
-            track = requestObj.name;
-            url = requestObj.external_urls.spotify;
-            artist = requestObj.artists[0].name;
-
-            //ERASE BRACKETS
-            track = eraseBrackets(track);
-            artist = eraseBrackets(artist);
-
-            objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
-
-            return objectToCompare;
-        }
+        if ('isAlbum' in requestObj)
             return {
-                notValid: 'Not Found:(',
-                artist: 'Not Found:(',
-                track: '',
-                url: ''
+                notValid: 'this is playlist. Now we cant work with them',
+                artist: '',
+                track: 'this is playlist. Now we cant work with them',
+                url: '',
+                service: serviceObj.service
+            }
+
+        if ('notValid' in requestObj)
+            return {
+                notValid: 'Not found:(',
+                artist: '',
+                track: 'Not found:(',
+                url: '',
+                service: serviceObj.service
             };
+
+        console.log(requestObj);
+
+        var artist;
+        var track;
+        let index = requestObj.items[0].snippet.title.indexOf('-');
+
+        if (requestObj.items[0].snippet.title.indexOf('-') !== -1) {
+            artist = requestObj.items[0].snippet.title.substring(0, index);
+            track = requestObj.items[0].snippet.title.substring(index, requestObj.items[0].snippet.title.length);
+        }
+        else {
+            artist = requestObj.items[0].snippet.channelTitle;
+            track = requestObj.items[0].snippet.title;
+        }
+        //ERASE BRACKETS
+        track = eraseBrackets(track);
+        artist = eraseBrackets(artist);
+        track = eraseFeat(track);
+
+        var resUrl;
+        if (serviceObj.service === 'youtube')
+            resUrl = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
+        else
+            if (serviceObj.service === 'youtubeMusic')
+                resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
+
+        objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
+        console.log(objectToCompare);
+        index = objectToCompare.artist.indexOf(" - Topic");
+        if (index !== -1)
+            objectToCompare.artist = objectToCompare.artist.substring(0, index);
+        return objectToCompare;
     }
+
+    if (serviceObj.service === ServicesUrl.spotify) {
+        let requestObj = requestSpotifyObject(
+            createSpotifyArguments(serviceObj), 'track');
+        console.log(requestObj);
+
+        if (requestObj.type === 'album') {
+            return {
+                artist: '',
+                track: 'this is album',
+                url: ''
+            }
+        }
+
+        if ('notValid' in requestObj)
+            return {
+                artist: '',
+                track: 'error:' + requestObj.notValid,
+                url: ''
+            }
+
+        track = requestObj.name;
+        url = requestObj.external_urls.spotify;
+        artist = requestObj.artists[0].name;
+
+        //ERASE BRACKETS
+        track = eraseBrackets(track);
+        artist = eraseBrackets(artist);
+        track = eraseFeat(track);
+
+        objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
+
+        return objectToCompare;
+    }
+    return {
+        notValid: 'Not Found:(',
+        artist: 'Not Found:(',
+        track: '',
+        url: ''
+    };
+}
 
 
 
@@ -186,7 +157,7 @@ export function urlWorker(url) {
 export function urlValidator(url) {
     let index = url.indexOf('.');
     index = url.indexOf('/', index);
-    if(index !== -1)
+    if (index !== -1)
         return true;
     else
         return false;
@@ -198,6 +169,22 @@ function eraseBrackets(str) {
     if (str.indexOf('(') !== -1 && str.indexOf(')') !== -1) {
         index = str.indexOf('(');
         result = str.substring(0, index) + str.substring(str.indexOf(')') + 1, str.length);
+    }
+
+    if (str.indexOf('[') !== -1 && str.indexOf(']') !== -1) {
+        index = str.indexOf('[');
+        result = str.substring(0, index) + str.substring(str.indexOf(']') + 1, str.length);
+    }
+
+    return result;
+}
+
+function eraseFeat(str) {
+    let result = str;
+    let index;
+    if (str.indexOf(/feat/i) !== -1) {
+        index = str.indexOf(/feat/i);
+        result = str.substring(0, index);
     }
 
     return result;
@@ -275,7 +262,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
     } else {
         // вывести результат
         // responseText -- текст ответа.
-        if(JSON.parse(xhr.responseText).pageInfo.totalResults !== 0)
+        if (JSON.parse(xhr.responseText).pageInfo.totalResults !== 0)
             videoInfoObj = JSON.parse(xhr.responseText);
         else
             videoInfoObj.notValid = 'Not Found';
@@ -289,18 +276,18 @@ function requestYoutubeObject(argumentsObj, requestType) {
 function requestSpotifyObject(argumentsObj, requestType) {
 
     const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    var API_KEY = getSpotifyToken();
+    var API_KEY = checkTokenInCookie();
     const notValidObj = { notValid: '' };
     let requestObj = notValidObj;
     const maxResults = 10;
     var url = SPOTIFY_API_SERVER;
 
 
-    if ('artists' in argumentsObj){
+    if ('artists' in argumentsObj) {
         requestObj.notValid = 'artist';
         return requestObj;
     }
-    
+
     switch (requestType) {
         case 'track':
             url += 'tracks/' + argumentsObj.track;
@@ -330,7 +317,7 @@ function requestSpotifyObject(argumentsObj, requestType) {
     } else {
         // вывести результат
         // responseText -- текст ответа.
-        if(JSON.parse(xhr.responseText).total !== 0)
+        if (JSON.parse(xhr.responseText).total !== 0)
             requestObj = JSON.parse(xhr.responseText);
     }
 
@@ -339,6 +326,53 @@ function requestSpotifyObject(argumentsObj, requestType) {
 
     return requestObj;
 
+}
+
+function getSpotifyToken() {
+    /*const base64key = "Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=";
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    var xhr = new XMLHttpRequest();
+    var body = encodeURIComponent('grant_type') + encodeURIComponent('=') + encodeURIComponent('client_credentials');
+    console.log(body);
+    const url = 'https://accounts.spotify.com/api/token';
+    xhr.open("POST", proxyurl + url, false);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Authorization', 'Basic ' + base64key);
+    var result;
+
+    xhr.send(body);
+    if (xhr.status !== 200) {
+        alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+    } else {
+        result = JSON.parse(xhr.responseText);
+    }  */
+
+
+    var result;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", '/token', false);
+    xhr.send();
+    if (xhr.status !== 200) {
+        alert(xhr.status + ': ' + xhr.statusText + "Can't get spotify token from sendtrack server"); // пример вывода: 404: Not Found
+    } else {
+        var obj = JSON.parse(xhr.responseText);
+        result = obj.token;
+        setCookie('spotifyKey', obj.token, { expires: 3600 - (obj.date - Date.now()) / 1000, });
+        setCookie('spotifyExpires', obj.expires, { expires: 3600 - (obj.date - Date.now()) / 1000, });
+
+    }
+
+    /*    fetch('http://sendtrack-backend.ddns.net:9741/token',{ method: 'GET'})
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(myJson) {
+        alert(result);
+        return myJson.token;
+      }); */
+
+    console.log(result);
+    return result;
 }
 
 function createSpotifyArguments(serviceObj) {
@@ -392,7 +426,7 @@ export function createArrayOfUrls(objectToCompare) {
         youtubeMusic: 'Not Found'
     }
 
-    if(objectToCompare.hasOwnProperty('notValid'))
+    if (objectToCompare.hasOwnProperty('notValid'))
         return arrayOfUrls;
 
     function writeProps(artist, track, url, albumArt) {
@@ -436,8 +470,9 @@ export function createArrayOfUrls(objectToCompare) {
         let youtubeRequest = {
             q: objectToCompare.artist + ' ' + objectToCompare.track
         }
+        console.log(youtubeRequest.q);
 
-        console.log('Initial Service: ' + objectToCompare.initialService);  
+        console.log('Initial Service: ' + objectToCompare.initialService);
 
         let requestedObj = requestYoutubeObject(youtubeRequest, 'search');
         if (!requestedObj.hasOwnProperty('notValid')) {
@@ -475,9 +510,11 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
 
     for (let item of youtubeReturnedObject.items) {
         if (item.snippet.channelTitle.indexOf('- Topic') !== -1) {
+            var validTitle = item.snippet.channelTitle.substring(
+                0, item.snippet.channelTitle.indexOf(' - Topic'));
             if (!matchStringsWithoutSpecs(trackName, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, trackName))
                 continue;
-            if (!matchStringsWithoutSpecs(artistName, item.snippet.channelTitle) && !matchStringsWithoutSpecs(item.snippet.channelTitle, artistName))
+            if (!matchStringsWithoutSpecs(artistName, validTitle) && !matchStringsWithoutSpecs(validTitle, artistName))
                 continue;
             similarObject = item;
             foundFlag = true;
@@ -536,8 +573,14 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
 
 function matchStringsWithoutSpecs(firstString, secondString) {
     var reg = new RegExp("[\\s-\\]\\[\\)\\(\\/\\.&]", "i");
-    const splitedFirstString = firstString.split(reg);
-    const splitedSecondString = secondString.split(reg);
+    var splitedFirstString = firstString.split(reg);
+    var splitedSecondString = secondString.split(reg);
+    splitedFirstString = splitedFirstString.filter(function (el) {
+        return el != "";
+    });
+    splitedSecondString = splitedSecondString.filter(function (el) {
+        return el != "";
+    });
     console.log(splitedFirstString);
     console.log(splitedSecondString);
 
@@ -569,7 +612,7 @@ function checkService(inputUrl) {
     var serviceName = "";
 
     for (var Service in ServicesUrl) {
-        
+
         var found = checkServiceUrl(inputUrl, ServicesUrl[Service]);
         if (found !== -1) {
             index = found;
@@ -613,29 +656,42 @@ function checkServiceUrl(urlString, serviceString) {
 
 function setCookie(name, value, options) {
     options = options || {};
-  
+
     var expires = options.expires;
-  
+
     if (typeof expires == "number" && expires) {
-      var d = new Date();
-      d.setTime(d.getTime() + expires * 1000);
-      expires = options.expires = d;
+        var d = new Date();
+        d.setTime(d.getTime() + expires * 1000);
+        expires = options.expires = d;
     }
     if (expires && expires.toUTCString) {
-      options.expires = expires.toUTCString();
+        options.expires = expires.toUTCString();
     }
-  
+
     value = encodeURIComponent(value);
-  
+
     var updatedCookie = name + "=" + value;
-  
+
     for (var propName in options) {
-      updatedCookie += "; " + propName;
-      var propValue = options[propName];
-      if (propValue !== true) {
-        updatedCookie += "=" + propValue;
-      }
+        updatedCookie += "; " + propName;
+        var propValue = options[propName];
+        if (propValue !== true) {
+            updatedCookie += "=" + propValue;
+        }
     }
-  
+
     document.cookie = updatedCookie;
-  }
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function deleteCookie(name) {
+    setCookie(name, "", {
+        expires: -1
+    })
+}

@@ -1,11 +1,26 @@
-const express = require("express");
-var req = require("request");
+// Copyright 2018, Google LLC.
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+'use strict';
+
+const express = require('express');
 var fs = require("fs");
-var cors = require('cors')
-
-
-
 const app = express();
+var req = require("request");
+var cors = require('cors');
+
+app.use(cors());
+
 const base64key =
     "Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=";
 
@@ -25,8 +40,6 @@ var options = {
     }
 };
 
-app.use(cors());
-
 app.get("/token", function (request, response, next) {
     var content = fs.readFileSync("./private/token.json", "utf8");
     var token = JSON.parse(content);
@@ -44,7 +57,11 @@ app.get("/token", function (request, response, next) {
                 token.expires = info.expires_in * 1000;
                 console.log(token.date.toString());
                 fs.writeFileSync("./private/token.json", JSON.stringify(token));
-                response.send({token: token.key});
+                response.send(
+                  {
+                    token: token.key,
+                    date: token.date
+                  });
             }
             else
                 console.log(resp.statusCode);
@@ -55,11 +72,28 @@ app.get("/token", function (request, response, next) {
         req(options, callback);
     }
     else
-        response.send({token: token.key});
+        response.send({token: token.key,expires:token.date});
 });
 
-app.get("/", function (request, response) {
-    console.log("Route /");
-    response.send("Hello");
+app.use('/SendTrack', express.static(__dirname + '/build'));
+app.use('/SendTrack/static', express.static(__dirname + '/build/static'));
+
+
+// [START hello_world]
+// Say hello!
+app.get('/', (req, res) => {
+  res.status(200).sendFile(__dirname + "/build/index.html");
 });
-app.listen(9741);
+// [END hello_world]
+
+if (module === require.main) {
+  // [START server]
+  // Start the server
+  const server = app.listen(process.env.PORT || 8080, () => {
+    const port = server.address().port;
+    console.log(`App listening on port ${port}`);
+  });
+  // [END server]
+}
+
+module.exports = app;
