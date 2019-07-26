@@ -5,6 +5,7 @@ import './Styles/App.css';
 import InputForm from './Components/InputForm';
 import { urlWorker } from '../src/SendTrack_lib.js';
 import { createArrayOfUrls } from '../src/SendTrack_lib.js';
+import { searchByWord } from '../src/SendTrack_lib.js';
 import LinksBlock from './Components/LinksBlock';
 
 
@@ -22,9 +23,9 @@ class App extends Component {
       track: '',
       url: '',
       arrayOfUrls: {
-        spotify: {},
-        youtube: {},
-        youtubeMusic: {}
+        spotify: 'Not Found',
+        youtube: 'Not Found',
+        youtubeMusic: 'Not Found'
       }
     }
     this.state = this.initialState
@@ -32,8 +33,13 @@ class App extends Component {
   }
 
 
-  getLink(url) {
-    const objToCompare = urlWorker(url);
+  getLink(input, isUrl) {
+    var objToCompare;
+    if(isUrl)
+      objToCompare = urlWorker(input);
+    else
+      objToCompare = searchByWord(input);
+
     this.setState(() => ({
       artist: objToCompare.artist,
       track: objToCompare.track,

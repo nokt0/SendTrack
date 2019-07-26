@@ -2,23 +2,22 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import '../Styles/InputForm.css';
-import * as STlib from '../SendTrack_lib.js';
+import {urlValidator} from '../SendTrack_lib.js';
 
 export default class InputForm extends Component {
 
     static propTypes = {
         content: PropTypes.string,
-        valid:  PropTypes.bool
+        isUrl:  PropTypes.bool
         
     };
 
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: "Enter Url",
+            placeholder: "Enter: Url / artist - name",
             content: '',
-            notUrlInput: '',
-            valid: false,
+            isUrl: false,
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,8 +28,7 @@ export default class InputForm extends Component {
         this.setState(() => {
             return {
                 content,
-                valid: STlib.urlValidator(content),
-                notUrlInput: ''
+                isUrl: urlValidator(content),
             };
         })
         console.log("changed");
@@ -38,21 +36,18 @@ export default class InputForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        if (!this.state.valid) {
+        const input = this.state.content;
+        if (!this.state.isUrl) {
             this.setState(() => ({
                 content: '',
-                valid: false,
-                notUrlInput: 'input-form__not-url',
-                placeholder: 'this is not a url'
-            }))
-            return;
+                isUrl: false,
+            }));
         }
-        const url = this.state.content;
-        this.props.onSubmit(url);
+        
+        this.props.onSubmit(input, this.state.isUrl);
         this.setState(() => ({
             content: '',
-            valid: false,
-            placeholder: 'Enter Url'
+            isUrl: false,
         }))
         console.log("submit");
 

@@ -1,4 +1,3 @@
-import { get } from "https";
 
 const ServicesUrl = {
     youtubeMusic: "music.youtube",
@@ -8,14 +7,16 @@ const ServicesUrl = {
 
 }
 
-function checkTokenInCookie() {
-    var buffer = getCookie('spotifyKey');
-    if (buffer) {
-        return buffer;
-    }
-    else {
-        return getSpotifyToken();
-    }
+export function searchByWord(str){
+    var splitedString = str.split('-');
+    console.log(splitedString);
+
+    splitedString = splitedString.filter(word => word !== '');
+    var objectToCompare = {notValid: 'not valid input'};
+    if(splitedString.length > 1)
+        objectToCompare = createObjectToCompare(splitedString[0].trim(), splitedString[1].trim());
+
+    return objectToCompare;
 }
 
 export function urlWorker(url) {
@@ -119,48 +120,23 @@ export function urlWorker(url) {
     };
 }
 
-
-
-/* function processInputUrl() {
-    var form = document.getElementById("urlForm");
-    var urlForm = document.getElementById("inputUrlForm");
-
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        console.log('link was sent');
-
-        var requestObj = requestYoutubeObject(
-            createYoutubeArguments(
-                checkService(urlForm.value)
-            )
-        );
-
-        var result = document.getElementById("result");
-        if (result.firstChild === null)
-            result.appendChild(document.createTextNode(JSON.stringify(requestObj)));
-        else
-            result.firstChild.nodeValue = JSON.stringify(requestObj);
-
-        var artist = requestObj.items[0].channelTitle;
-        var track = requestObj.items[0].snippet.title;
-        var url = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
-
-        var objectToCompare = createObjectToCompare(artist, track, url);
-        var index = objectToCompare.artist.indexOf(" - Topic");
-        if (index !== -1)
-            objectToCompare.artist = objectToCompare.artist.substring(0, index - 1);
-
-    });
-
-} */
-
 export function urlValidator(url) {
-    let index = url.indexOf('.');
+    let index;
+    if(url.indexOf('.') != -1)
+        index = url.indexOf('.');
+    else
+        return false;
+
     index = url.indexOf('/', index);
     if (index !== -1)
         return true;
     else
         return false;
+}
+
+function eraseDomain(urlString) {
+    var index = urlString.indexOf('/');
+    return urlString.substring(index + 1);
 }
 
 function eraseBrackets(str) {
@@ -357,8 +333,7 @@ function getSpotifyToken() {
     } else {
         var obj = JSON.parse(xhr.responseText);
         result = obj.token;
-        setCookie('spotifyKey', obj.token, { expires: 3600 - (obj.date - Date.now()) / 1000, });
-        setCookie('spotifyExpires', obj.expires, { expires: 3600 - (obj.date - Date.now()) / 1000, });
+        setCookie('spotifyKey', obj.token, { expires: (obj.expires - Date.now()) / 1000 });
 
     }
 
@@ -537,7 +512,7 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
 function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
     const artistName = objectToCompare.artist;
     const trackName = objectToCompare.track;
-    const notFound = { url: 'Not Found2' };
+    const notFound = { notValid: 'Not Found2' };
 
     var similarObject = notFound;
     for (var item of spotifyReturnedObject.tracks.items) {
@@ -576,10 +551,10 @@ function matchStringsWithoutSpecs(firstString, secondString) {
     var splitedFirstString = firstString.split(reg);
     var splitedSecondString = secondString.split(reg);
     splitedFirstString = splitedFirstString.filter(function (el) {
-        return el != "";
+        return el !== "";
     });
     splitedSecondString = splitedSecondString.filter(function (el) {
-        return el != "";
+        return el !== "";
     });
     console.log(splitedFirstString);
     console.log(splitedSecondString);
@@ -632,18 +607,13 @@ function checkService(inputUrl) {
 
 }
 
-function createObjectToCompare(artist, track, url, service) {
+function createObjectToCompare(artist = '', track = '', url = '', service = '') {
     return {
         artist: artist,
         track: track,
         url: url,
         initialService: service
     }
-}
-
-function eraseDomain(urlString) {
-    var index = urlString.indexOf('/');
-    return urlString.substring(index + 1);
 }
 
 function checkServiceUrl(urlString, serviceString) {
@@ -694,4 +664,12 @@ function deleteCookie(name) {
     setCookie(name, "", {
         expires: -1
     })
+}
+
+function checkTokenInCookie() {
+    var buffer = getCookie('spotifyKey');
+    if (buffer) 
+        return buffer;
+    else 
+        return getSpotifyToken();
 }

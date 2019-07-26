@@ -43,10 +43,10 @@ var options = {
 app.get("/token", function (request, response, next) {
     var content = fs.readFileSync("./private/token.json", "utf8");
     var token = JSON.parse(content);
-    console.log(token.date);
-    console.log(Date.now() + 3600000);
+    console.log(new Date(token.date).toString());
+    console.log(new Date(Date.now() + 3600000).toString());
 
-    if (token.key === "" || Date.now() > token.date.valueOf() + token.expires - 120000 || token.date === 0) {
+    if (token.key === "" || Date.now() > token.date.valueOf() + token.expires || token.date === 0) {
 
         function callback(error, resp, body) {
             if (!error && resp.statusCode == 200) {
@@ -54,13 +54,13 @@ app.get("/token", function (request, response, next) {
                 var info = JSON.parse(body);
                 token.key = info.access_token;
                 token.date = Date.now();
-                token.expires = info.expires_in * 1000;
+                token.expires = Date.now() + 3600000;
                 console.log(token.date.toString());
                 fs.writeFileSync("./private/token.json", JSON.stringify(token));
                 response.send(
                   {
                     token: token.key,
-                    date: token.date
+                    expires: token.expires
                   });
             }
             else
@@ -72,7 +72,7 @@ app.get("/token", function (request, response, next) {
         req(options, callback);
     }
     else
-        response.send({token: token.key,expires:token.date});
+        response.send({token: token.key,expires: token.expires});
 });
 
 app.use('/SendTrack', express.static(__dirname + '/build'));
