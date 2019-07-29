@@ -15,7 +15,7 @@ export default class LinksBlock extends Component {
 
     render(){
         return(
-        <div className="link-to-track"><a href={this.props.url} >
+        <div className="link-to-track"><a href={this.props.url} target="_blank">
         <div className="service-name">{this.props.service}</div>
         <img src={this.props.albumArt}/>
         <div className="artist-name">{this.props.artist}</div>
