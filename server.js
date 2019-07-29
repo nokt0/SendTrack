@@ -46,7 +46,7 @@ app.get("/token", function (request, response, next) {
     console.log(new Date(token.date).toString());
     console.log(new Date(Date.now() + 3600000).toString());
 
-    if (token.key === "" || Date.now() > token.date.valueOf() + token.expires || token.date === 0) {
+    if (token.key === "" || Date.now() > token.expires || token.date === 0) {
 
         function callback(error, resp, body) {
             if (!error && resp.statusCode == 200) {

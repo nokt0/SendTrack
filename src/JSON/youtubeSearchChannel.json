@@ -1,0 +1,688 @@
+{
+    "kind": "youtube#searchListResponse",
+    "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/7GNylbgOGm1ed-SDUApcZV5aEoQ\"",
+    "nextPageToken": "CBkQAA",
+    "regionCode": "RU",
+    "pageInfo": {
+     "totalResults": 136,
+     "resultsPerPage": 25
+    },
+    "items": [
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/OUEPC_b0kIL60bWwt6ZKVuM0uzY\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCf7nxrXKN-2VT1Vwvma0cuA"
+      },
+      "snippet": {
+       "publishedAt": "2018-06-30T13:17:22.000Z",
+       "channelId": "UCf7nxrXKN-2VT1Vwvma0cuA",
+       "title": "Платина - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-jcDpkQkAGTo/AAAAAAAAAAI/AAAAAAAAAAA/ABixSRB51Go/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-jcDpkQkAGTo/AAAAAAAAAAI/AAAAAAAAAAA/ABixSRB51Go/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-jcDpkQkAGTo/AAAAAAAAAAI/AAAAAAAAAAA/ABixSRB51Go/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Платина - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/p_MqZm9Fx8nOV7VZQR1LMJ3TpFY\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCNkXFSeMUul-rP29QZh31EA"
+      },
+      "snippet": {
+       "publishedAt": "2013-12-21T02:30:05.000Z",
+       "channelId": "UCNkXFSeMUul-rP29QZh31EA",
+       "title": "The Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/--tVpEEDh__Y/AAAAAAAAAAI/AAAAAAAAAAA/D1t950Zo498/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/--tVpEEDh__Y/AAAAAAAAAAI/AAAAAAAAAAA/D1t950Zo498/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/--tVpEEDh__Y/AAAAAAAAAAI/AAAAAAAAAAA/D1t950Zo498/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "The Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/o0ucPW0wDmYvshbeRaIKc10V9NE\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCqCqx2E7E-AWTooS8sPor2w"
+      },
+      "snippet": {
+       "publishedAt": "2017-12-05T13:55:06.000Z",
+       "channelId": "UCqCqx2E7E-AWTooS8sPor2w",
+       "title": "OBLADAET - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-DSzgMjVrXjQ/AAAAAAAAAAI/AAAAAAAAAAA/IcRtXm8Wz9c/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-DSzgMjVrXjQ/AAAAAAAAAAI/AAAAAAAAAAA/IcRtXm8Wz9c/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-DSzgMjVrXjQ/AAAAAAAAAAI/AAAAAAAAAAA/IcRtXm8Wz9c/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "OBLADAET - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/IFnlsv4-EIFWJkLf01hCvhmFvXc\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCnJc42YfR1aMn50KgX1GeYg"
+      },
+      "snippet": {
+       "publishedAt": "2013-07-20T08:05:55.000Z",
+       "channelId": "UCnJc42YfR1aMn50KgX1GeYg",
+       "title": "Pitty - Topic",
+       "description": "Pitty nasceu em 07 de outubro de 1977, em Salvador (BA). Aos 11 anos ela ganhou seu primeiro violão e aos 16 montou sua primeira banda, “Shes”, na qual ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-hx237_7rxtc/AAAAAAAAAAI/AAAAAAAAAAA/XFWUtY4byYQ/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-hx237_7rxtc/AAAAAAAAAAI/AAAAAAAAAAA/XFWUtY4byYQ/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-hx237_7rxtc/AAAAAAAAAAI/AAAAAAAAAAA/XFWUtY4byYQ/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Pitty - Topic",
+       "liveBroadcastContent": "upcoming"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/PWFo4RhQKmb90rm91ASfZH8U13c\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCnJ3cAyCGN885WQ3rmimc5w"
+      },
+      "snippet": {
+       "publishedAt": "2013-07-01T04:08:23.000Z",
+       "channelId": "UCnJ3cAyCGN885WQ3rmimc5w",
+       "title": "De Kreuners - Topic",
+       "description": "De Kreuners are a Flemish rock band established in 1978. They first received interest when they won the first Humo's Rock Rally in 1978, but didn't get a record ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-j-4enfYD6L4/AAAAAAAAAAI/AAAAAAAAAAA/uFvRq7l87B4/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-j-4enfYD6L4/AAAAAAAAAAI/AAAAAAAAAAA/uFvRq7l87B4/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-j-4enfYD6L4/AAAAAAAAAAI/AAAAAAAAAAA/uFvRq7l87B4/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "De Kreuners - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/puc7KGdel6Xf5ojlKkJIMzZ-RK0\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCUXSN_JoXDrjzOhRPYJWViA"
+      },
+      "snippet": {
+       "publishedAt": "2018-05-17T11:27:08.000Z",
+       "channelId": "UCUXSN_JoXDrjzOhRPYJWViA",
+       "title": "OG BUDA - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-WO02HCOqhb4/AAAAAAAAAAI/AAAAAAAAAAA/hlT472Y_VA8/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-WO02HCOqhb4/AAAAAAAAAAI/AAAAAAAAAAA/hlT472Y_VA8/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-WO02HCOqhb4/AAAAAAAAAAI/AAAAAAAAAAA/hlT472Y_VA8/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "OG BUDA - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/7oJBDc0IkfC4OmRf8Jty3I88DqQ\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCJy66chTNghjjhv-MUeV2JQ"
+      },
+      "snippet": {
+       "publishedAt": "2018-08-04T11:47:12.000Z",
+       "channelId": "UCJy66chTNghjjhv-MUeV2JQ",
+       "title": "PAN4 - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-TT9apa3vP-8/AAAAAAAAAAI/AAAAAAAAAAA/fsd1f_hka14/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-TT9apa3vP-8/AAAAAAAAAAI/AAAAAAAAAAA/fsd1f_hka14/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-TT9apa3vP-8/AAAAAAAAAAI/AAAAAAAAAAA/fsd1f_hka14/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "PAN4 - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/xww4smonVQk0WASl0WA8ZGvVwa4\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC-IR8CrnRXicPTU68e0gm7Q"
+      },
+      "snippet": {
+       "publishedAt": "2013-06-14T22:09:41.000Z",
+       "channelId": "UC-IR8CrnRXicPTU68e0gm7Q",
+       "title": "Vanessa da Mata - Topic",
+       "description": "Nascida em Alto Garças, cidade mato-grossense de pouco mais de 10 mil habitantes, há quase 400 quilômetros de Cuiabá, Vanessa da Mata foi jogadora de ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-Ibg2iqyGc1U/AAAAAAAAAAI/AAAAAAAAAAA/A_YffG_Xrmg/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-Ibg2iqyGc1U/AAAAAAAAAAI/AAAAAAAAAAA/A_YffG_Xrmg/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-Ibg2iqyGc1U/AAAAAAAAAAI/AAAAAAAAAAA/A_YffG_Xrmg/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Vanessa da Mata - Topic",
+       "liveBroadcastContent": "upcoming"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/GzEQlnsTbR11oOy-TOCdb35tKv4\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCmWtru_BnzXJZXfaj5h_pAw"
+      },
+      "snippet": {
+       "publishedAt": "2019-04-05T10:20:37.000Z",
+       "channelId": "UCmWtru_BnzXJZXfaj5h_pAw",
+       "title": "Bajaj Platina - Topic",
+       "description": "Bajaj Platina is a motorcycle manufactured by Bajaj Auto. This channel was generated automatically by YouTube's video discovery system.",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-90ujRlg0aEs/AAAAAAAAAAI/AAAAAAAAAAA/NQdLKxLRR-Y/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-90ujRlg0aEs/AAAAAAAAAAI/AAAAAAAAAAA/NQdLKxLRR-Y/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-90ujRlg0aEs/AAAAAAAAAAI/AAAAAAAAAAA/NQdLKxLRR-Y/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Bajaj Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/StTed1aCvsTHvc4VJClLTzmgPNo\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCxZZ-hEXRg0tbOEvxXrev3Q"
+      },
+      "snippet": {
+       "publishedAt": "2018-03-08T11:13:39.000Z",
+       "channelId": "UCxZZ-hEXRg0tbOEvxXrev3Q",
+       "title": "TELLY GRAVE feat. OG BUDA - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-cqu55Xp5Cjk/AAAAAAAAAAI/AAAAAAAAAAA/fyD4Oa5ZCBI/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-cqu55Xp5Cjk/AAAAAAAAAAI/AAAAAAAAAAA/fyD4Oa5ZCBI/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-cqu55Xp5Cjk/AAAAAAAAAAI/AAAAAAAAAAA/fyD4Oa5ZCBI/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "TELLY GRAVE feat. OG BUDA - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/KOKaeKFW_5BKdRZIKLf5Q3hfs7w\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC9dbzpDAXml5NsHbzDqgk9A"
+      },
+      "snippet": {
+       "publishedAt": "2017-11-07T13:29:20.000Z",
+       "channelId": "UC9dbzpDAXml5NsHbzDqgk9A",
+       "title": "Mona Tomoyama - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-HspmPZRtP0E/AAAAAAAAAAI/AAAAAAAAAAA/ttElyTVVfX4/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-HspmPZRtP0E/AAAAAAAAAAI/AAAAAAAAAAA/ttElyTVVfX4/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-HspmPZRtP0E/AAAAAAAAAAI/AAAAAAAAAAA/ttElyTVVfX4/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Mona Tomoyama - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/s5Xc3kBx2GT_POB2C34SqvC4UbI\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC9CUXHhZDzYa11TvXIXLwaA"
+      },
+      "snippet": {
+       "publishedAt": "2013-08-22T12:09:37.000Z",
+       "channelId": "UC9CUXHhZDzYa11TvXIXLwaA",
+       "title": "PG - Topic",
+       "description": "Depois de ser convertido em 1993 e fazer parte de bandas da sua Igreja, no final de 1997, foi convidado para participar da Oficina G3. Com a banda o ministro ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-aFPFhk9pjYU/AAAAAAAAAAI/AAAAAAAAAAA/0f4V-zZS8RI/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-aFPFhk9pjYU/AAAAAAAAAAI/AAAAAAAAAAA/0f4V-zZS8RI/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-aFPFhk9pjYU/AAAAAAAAAAI/AAAAAAAAAAA/0f4V-zZS8RI/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "PG - Topic",
+       "liveBroadcastContent": "upcoming"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/OM5zelyjyUjzwRPJomB-sG3T9Ag\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC_TLLle2-IcT22Ku7EeA2Kg"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-11T09:46:45.000Z",
+       "channelId": "UC_TLLle2-IcT22Ku7EeA2Kg",
+       "title": "Betty Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-1ltG9bwg2Z4/AAAAAAAAAAI/AAAAAAAAAAA/U7j7ErlfONk/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-1ltG9bwg2Z4/AAAAAAAAAAI/AAAAAAAAAAA/U7j7ErlfONk/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-1ltG9bwg2Z4/AAAAAAAAAAI/AAAAAAAAAAA/U7j7ErlfONk/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Betty Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/hBUOjgrzpCUh1JhGzsDEOqX8VP0\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCpDaXTedAbWqfQsB9yn9TDg"
+      },
+      "snippet": {
+       "publishedAt": "2013-07-15T04:09:11.000Z",
+       "channelId": "UCpDaXTedAbWqfQsB9yn9TDg",
+       "title": "Bonde do Tigrão - Topic",
+       "description": "Bonde do Tigrão é um grupo brasileiro de funk carioca. Seu álbum de estúdio, Bonde do Tigrão, vendeu mais de 250 mil cópias no Brasil, sendo certificado em ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-Qoq1Fu-fwug/AAAAAAAAAAI/AAAAAAAAAAA/-ylytVoqMP4/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-Qoq1Fu-fwug/AAAAAAAAAAI/AAAAAAAAAAA/-ylytVoqMP4/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-Qoq1Fu-fwug/AAAAAAAAAAI/AAAAAAAAAAA/-ylytVoqMP4/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Bonde do Tigrão - Topic",
+       "liveBroadcastContent": "upcoming"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/YVhzCg3S9rdJKg8CSg_4X7kNcpo\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC_qb1NIrCZlTAzAOEx_AESw"
+      },
+      "snippet": {
+       "publishedAt": "2016-04-05T11:27:32.000Z",
+       "channelId": "UC_qb1NIrCZlTAzAOEx_AESw",
+       "title": "Platina - Topic",
+       "description": "Platina is a municipality in the state of São Paulo in Brazil. The population is 3434 in an area of 326.73 km². The elevation is 466 m. This channel was generated ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-Y-F5yE8V6o4/AAAAAAAAAAI/AAAAAAAAAAA/I8_ha05JdZI/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-Y-F5yE8V6o4/AAAAAAAAAAI/AAAAAAAAAAA/I8_ha05JdZI/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-Y-F5yE8V6o4/AAAAAAAAAAI/AAAAAAAAAAA/I8_ha05JdZI/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/S88rkInFeiqkwajJwkJHWIjNUqU\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCobt0yRl5Cgr1GFPHK2SMEA"
+      },
+      "snippet": {
+       "publishedAt": "2018-12-22T10:35:53.000Z",
+       "channelId": "UCobt0yRl5Cgr1GFPHK2SMEA",
+       "title": "Yano Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-Y_0VwJ-EbQM/AAAAAAAAAAI/AAAAAAAAAAA/Dr5iKiJ1p8k/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-Y_0VwJ-EbQM/AAAAAAAAAAI/AAAAAAAAAAA/Dr5iKiJ1p8k/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-Y_0VwJ-EbQM/AAAAAAAAAAI/AAAAAAAAAAA/Dr5iKiJ1p8k/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Yano Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/OQO2FKhntyF9RXMQjOB-zE5yObg\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC_igqiPPbkzUhkkWhluHX4w"
+      },
+      "snippet": {
+       "publishedAt": "2019-01-30T16:41:25.000Z",
+       "channelId": "UC_igqiPPbkzUhkkWhluHX4w",
+       "title": "SALUKI - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/--kvHQny1XRs/AAAAAAAAAAI/AAAAAAAAAAA/Zk01zAKKnag/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/--kvHQny1XRs/AAAAAAAAAAI/AAAAAAAAAAA/Zk01zAKKnag/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/--kvHQny1XRs/AAAAAAAAAAI/AAAAAAAAAAA/Zk01zAKKnag/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "SALUKI - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/LqbCQ_aio0EiPSHKGpc0B8AaSsw\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCPUqsl_ETnrw1Lbirsh2zIQ"
+      },
+      "snippet": {
+       "publishedAt": "2013-12-23T18:28:54.000Z",
+       "channelId": "UCPUqsl_ETnrw1Lbirsh2zIQ",
+       "title": "Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-UDJa1vscVME/AAAAAAAAAAI/AAAAAAAAAAA/PbnrEkDmpEA/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-UDJa1vscVME/AAAAAAAAAAI/AAAAAAAAAAA/PbnrEkDmpEA/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-UDJa1vscVME/AAAAAAAAAAI/AAAAAAAAAAA/PbnrEkDmpEA/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/dt9_znelMA3AVJ0LNWXXRxjHjjU\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCQGIG4uvAa83WkwTgRZ__LQ"
+      },
+      "snippet": {
+       "publishedAt": "2015-03-06T08:17:43.000Z",
+       "channelId": "UCQGIG4uvAa83WkwTgRZ__LQ",
+       "title": "Platina Jazz - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-YMWh5MuCY-c/AAAAAAAAAAI/AAAAAAAAAAA/xv0Y69GAp3Q/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-YMWh5MuCY-c/AAAAAAAAAAI/AAAAAAAAAAA/xv0Y69GAp3Q/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-YMWh5MuCY-c/AAAAAAAAAAI/AAAAAAAAAAA/xv0Y69GAp3Q/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Platina Jazz - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/f99x_x76t3FilBpQiTzU9rB6CHc\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCOW-lnOfy2k4JMjEilMbrnw"
+      },
+      "snippet": {
+       "publishedAt": "2016-10-02T16:45:52.000Z",
+       "channelId": "UCOW-lnOfy2k4JMjEilMbrnw",
+       "title": "Santo Antônio da Platina - Topic",
+       "description": "Santo Antônio da Platina is a municipality in the state of Paraná in the Southern Region of Brazil. This channel was generated automatically by YouTube's video ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-e-hXxSTCdCY/AAAAAAAAAAI/AAAAAAAAAAA/8ECNdOHXgeA/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-e-hXxSTCdCY/AAAAAAAAAAI/AAAAAAAAAAA/8ECNdOHXgeA/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-e-hXxSTCdCY/AAAAAAAAAAI/AAAAAAAAAAA/8ECNdOHXgeA/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Santo Antônio da Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/9RBx2X9WrKeI5Ug7kiCnS5cH8F0\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCveGSoXhoVkoFBfaS0V1Uow"
+      },
+      "snippet": {
+       "publishedAt": "2019-03-20T02:29:33.000Z",
+       "channelId": "UCveGSoXhoVkoFBfaS0V1Uow",
+       "title": "Fast YoungKing & Jasonn Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-PuqhORUy2xk/AAAAAAAAAAI/AAAAAAAAAAA/aITnWK3nzcU/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-PuqhORUy2xk/AAAAAAAAAAI/AAAAAAAAAAA/aITnWK3nzcU/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-PuqhORUy2xk/AAAAAAAAAAI/AAAAAAAAAAA/aITnWK3nzcU/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Fast YoungKing & Jasonn Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/G27Cw_LNI9nTp4px7H5ng45pvC4\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC3g8-lkdGqp6Ept6n3paLpA"
+      },
+      "snippet": {
+       "publishedAt": "2013-12-23T12:59:18.000Z",
+       "channelId": "UC3g8-lkdGqp6Ept6n3paLpA",
+       "title": "Platina Trio - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-sWZWn3NTUmM/AAAAAAAAAAI/AAAAAAAAAAA/0AtKdtXpBSw/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-sWZWn3NTUmM/AAAAAAAAAAI/AAAAAAAAAAA/0AtKdtXpBSw/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-sWZWn3NTUmM/AAAAAAAAAAI/AAAAAAAAAAA/0AtKdtXpBSw/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Platina Trio - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/L3Zh7aPJxy-oLLi1A4KJMkMa3D0\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCIOlyBypXMBOxdhkAuCXlIA"
+      },
+      "snippet": {
+       "publishedAt": "2018-05-15T13:44:19.000Z",
+       "channelId": "UCIOlyBypXMBOxdhkAuCXlIA",
+       "title": "Saucin Feat. Platina Mob - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-L-bkzBjrv0A/AAAAAAAAAAI/AAAAAAAAAAA/NdduVSFwyHo/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-L-bkzBjrv0A/AAAAAAAAAAI/AAAAAAAAAAA/NdduVSFwyHo/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-L-bkzBjrv0A/AAAAAAAAAAI/AAAAAAAAAAA/NdduVSFwyHo/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Saucin Feat. Platina Mob - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/oj8QjE4g3QwcZbMVlhj8dmAOFsE\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UCyQweNJo2hEXT3FwAdumHIg"
+      },
+      "snippet": {
+       "publishedAt": "2018-03-14T11:29:26.000Z",
+       "channelId": "UCyQweNJo2hEXT3FwAdumHIg",
+       "title": "Platina - Topic",
+       "description": "",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-tLDwJeEhzg0/AAAAAAAAAAI/AAAAAAAAAAA/_hvZcO4DNDY/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-tLDwJeEhzg0/AAAAAAAAAAI/AAAAAAAAAAA/_hvZcO4DNDY/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-tLDwJeEhzg0/AAAAAAAAAAI/AAAAAAAAAAA/_hvZcO4DNDY/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Platina - Topic",
+       "liveBroadcastContent": "none"
+      }
+     },
+     {
+      "kind": "youtube#searchResult",
+      "etag": "\"Bdx4f4ps3xCOOo1WZ91nTLkRZ_c/QRiU2kwVXEf1iX8UaY8RAc6jcXw\"",
+      "id": {
+       "kind": "youtube#channel",
+       "channelId": "UC_CjdIX_QLa4nyAMMwKbWXw"
+      },
+      "snippet": {
+       "publishedAt": "2013-12-21T03:07:29.000Z",
+       "channelId": "UC_CjdIX_QLa4nyAMMwKbWXw",
+       "title": "Vespa PX - Topic",
+       "description": "The Vespa P/PX Series is a range of scooters manufactured by Piaggio under the Vespa brand. This channel was generated automatically by YouTube's video ...",
+       "thumbnails": {
+        "default": {
+         "url": "https://yt3.ggpht.com/-GnV9uwAHPeE/AAAAAAAAAAI/AAAAAAAAAAA/AvyC3zH6d10/s88-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "medium": {
+         "url": "https://yt3.ggpht.com/-GnV9uwAHPeE/AAAAAAAAAAI/AAAAAAAAAAA/AvyC3zH6d10/s240-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        },
+        "high": {
+         "url": "https://yt3.ggpht.com/-GnV9uwAHPeE/AAAAAAAAAAI/AAAAAAAAAAA/AvyC3zH6d10/s800-c-k-no-mo-rj-c0xffffff/photo.jpg"
+        }
+       },
+       "channelTitle": "Vespa PX - Topic",
+       "liveBroadcastContent": "none"
+      }
+     }
+    ]
+   }
+   

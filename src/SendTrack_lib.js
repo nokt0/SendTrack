@@ -8,7 +8,11 @@ const ServicesUrl = {
 }
 
 export function searchByWord(str){
-    var splitedString = str.split('-');
+    var splitedString;
+    if(str.indexOf('-') !== -1)
+        splitedString = str.split('-');
+    if(str.indexOf('–') !== -1)
+        splitedString = str.split('–');
     console.log(splitedString);
 
     splitedString = splitedString.filter(word => word !== '');
@@ -63,6 +67,7 @@ export function urlWorker(url) {
         track = eraseBrackets(track);
         artist = eraseBrackets(artist);
         track = eraseFeat(track);
+        artist = eraseFeat(artist);
 
         var resUrl;
         if (serviceObj.service === 'youtube')
@@ -107,6 +112,7 @@ export function urlWorker(url) {
         track = eraseBrackets(track);
         artist = eraseBrackets(artist);
         track = eraseFeat(track);
+        artist = eraseFeat(artist);
 
         objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
 
@@ -122,7 +128,7 @@ export function urlWorker(url) {
 
 export function urlValidator(url) {
     let index;
-    if(url.indexOf('.') != -1)
+    if(url.indexOf('.') !== -1)
         index = url.indexOf('.');
     else
         return false;
@@ -177,7 +183,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
     const API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
     var resultRequest = YOUTUBE_API_SERVER;
 
-    const maxResults = 10;
+    const maxResults = 25;
     const notValidObj = { notValid: '' }
 
     if (objType === 'album') {
@@ -208,7 +214,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
                 break;
             case 'q':
                 resultRequest += "&q=" + argumentsObj[argument] +
-                    "&maxResults=" + maxResults;
+                    "&maxResults=" + maxResults + "&type=video&videoCategoryId=10";
                 break;
             case 'list':
                 break;
@@ -401,8 +407,9 @@ export function createArrayOfUrls(objectToCompare) {
         youtubeMusic: 'Not Found'
     }
 
-    if (objectToCompare.hasOwnProperty('notValid'))
-        return arrayOfUrls;
+    if (objectToCompare.hasOwnProperty('notValid')){
+        console.log(objectToCompare.notValid);
+        return arrayOfUrls;}
 
     function writeProps(artist, track, url, albumArt) {
         return {
