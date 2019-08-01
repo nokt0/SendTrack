@@ -3,11 +3,14 @@ const ServicesUrl = {
     youtubeMusic: "music.youtube",
     youtube: "youtube",
     spotify: "spotify",
-    appleMusic: "music.apple"
+    appleMusic: "music.apple",
+    deezer: "deezer"
 
 }
 
 export function searchByWord(str){
+    if(str === '')
+        return{notValid: 'empty string'}
     var splitedString;
     if(str.indexOf('-') !== -1)
         splitedString = str.split('-');
@@ -443,7 +446,7 @@ export function createArrayOfUrls(objectToCompare) {
                 }
 
                 arrayOfUrls.spotify = writeProps(artists, returnedItem.name, returnedItem.external_urls.spotify,
-                    returnedItem.album.images[1].url);
+                    returnedItem.album.images[0].url);
             }
         }
     }
@@ -462,19 +465,19 @@ export function createArrayOfUrls(objectToCompare) {
             if (!returnedItem.hasOwnProperty('notValid')) {
                 if (returnedItem.snippet.channelTitle.indexOf('- Topic') === -1) {
                     if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
-                        arrayOfUrls.youtubeMusic = writeProps('', returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
+                        arrayOfUrls.youtubeMusic = writeProps('', returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
                     if (objectToCompare.initialService !== ServicesUrl.youtube)
-                        arrayOfUrls.youtube = writeProps('', returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.medium.url);
+                        arrayOfUrls.youtube = writeProps('', returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
                 }
                 else {
                     if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
                         arrayOfUrls.youtubeMusic = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
                             returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId,
-                            returnedItem.snippet.thumbnails.medium.url);
+                            returnedItem.snippet.thumbnails.high.url);
                     if (objectToCompare.initialService !== ServicesUrl.youtube)
                         arrayOfUrls.youtube = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
                             returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId,
-                            returnedItem.snippet.thumbnails.medium.url);
+                            returnedItem.snippet.thumbnails.high.url);
                 }
             }
         }

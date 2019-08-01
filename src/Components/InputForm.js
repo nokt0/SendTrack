@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import '../Styles/InputForm.css';
+import '../scss/InputForm.scss';
+import searchLogo from '../SVG/search-solid.svg';
 import {urlValidator} from '../SendTrack_lib.js';
 
 export default class InputForm extends Component {
@@ -55,15 +56,15 @@ export default class InputForm extends Component {
 
     render() {
         return (
-            
-            <form id="urlForm">
-                <input id="inputUrlForm" className={this.state.notUrlInput} 
-                    value={this.state.content}
+            <div className='input-form container'>
+            <form className='input-form__text-form'>
+                <input value={this.state.content}
                     placeholder={this.state.placeholder}
                     onChange={this.handleInputChange}
-                    onSubmit={this.handleSubmit} /><br />
-                <button onClick={this.handleSubmit} id="submitBtn">Send</button>
+                    onSubmit={this.handleSubmit} />
+                <button onClick={this.handleSubmit}><img src={searchLogo} alt=""/></button>
             </form>
+            </div>
         );
     }
 
