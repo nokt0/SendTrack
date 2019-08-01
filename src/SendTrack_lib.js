@@ -464,10 +464,18 @@ export function createArrayOfUrls(objectToCompare) {
             let returnedItem = searchInYoutubeObject(requestedObj, objectToCompare);
             if (!returnedItem.hasOwnProperty('notValid')) {
                 if (returnedItem.snippet.channelTitle.indexOf('- Topic') === -1) {
+                    var artist = '';
+                    var title = returnedItem.snippet.title;
+                    var str = returnedItem.snippet.title;
+                    var index = str.indexOf('-');
+                    if(str.indexOf('-') !== -1){
+                    artist = str.substring(0,index).trim();
+                    title = str.substring(index + 1, str.length).trim();
+                }
                     if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
-                        arrayOfUrls.youtubeMusic = writeProps('', returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
+                        arrayOfUrls.youtubeMusic = writeProps(artist, title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
                     if (objectToCompare.initialService !== ServicesUrl.youtube)
-                        arrayOfUrls.youtube = writeProps('', returnedItem.snippet.title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
+                        arrayOfUrls.youtube = writeProps(artist, title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
                 }
                 else {
                     if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
@@ -668,12 +676,6 @@ function getCookie(name) {
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-function deleteCookie(name) {
-    setCookie(name, "", {
-        expires: -1
-    })
 }
 
 function checkTokenInCookie() {

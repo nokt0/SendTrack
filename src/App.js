@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './scss/App.scss';
 import background from './img/image-from-rawpixel-id-558785-jpeg.jpg';
+import crystall from './img/image-from-rawpixel-id-558806-jpeg.jpg';
 import InputForm from './Components/InputForm';
 import { urlWorker } from '../src/SendTrack_lib.js';
 import { createArrayOfUrls } from '../src/SendTrack_lib.js';
@@ -66,6 +67,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+       {/*  <img className="crystall" src={crystall} alt=""/> */}
         <img className="bg" src={this.state.background} alt="" />
         <InputForm onSubmit={this.getLink} />
         <LinksBlock arrayOfUrls={this.state.arrayOfUrls} artist={this.state.artist} track={this.state.track} url={this.state.url} />
