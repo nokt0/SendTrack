@@ -4,6 +4,7 @@ import '../scss/LinksBlock.scss';
 import youtube_icon from '../SVG/youtube-icon.svg';
 import spotify_icon from '../SVG/spotify-icon.svg';
 import youtubeMusic_icon from '../SVG/youtube-music-icon.svg';
+import deezer_icon from '../SVG/deezer-icon.svg'
 
 export default class LinksBlock extends Component {
     constructor(props) {
@@ -43,6 +44,8 @@ export default class LinksBlock extends Component {
                 case 'youtubeMusic':
                     obj.service = youtubeMusic_icon;
                     break;
+                case 'deezer':
+                    obj.service = deezer_icon;
                 default:
                     break;
                 }
