@@ -32,7 +32,6 @@ export default class InputForm extends Component {
                 isUrl: urlValidator(content),
             };
         })
-        console.log("changed");
     }
 
     handleSubmit(e) {

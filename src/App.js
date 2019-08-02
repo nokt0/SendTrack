@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './scss/App.scss';
 import background from './img/image-from-rawpixel-id-558785-jpeg.jpg';
-import crystall from './img/image-from-rawpixel-id-558806-jpeg.jpg';
+//import crystall from './img/image-from-rawpixel-id-558806-jpeg.jpg';
 import InputForm from './Components/InputForm';
 import { urlWorker } from '../src/SendTrack_lib.js';
 import { createArrayOfUrls } from '../src/SendTrack_lib.js';

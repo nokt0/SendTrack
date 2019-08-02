@@ -34,7 +34,7 @@ export default class LinksBlock extends Component {
             if (this.props.arrayOfUrls[service] === 'Not Found')
                 continue;
             var obj = this.props.arrayOfUrls[service];
-            switch(service){
+            switch (service) {
                 case 'spotify':
                     obj.service = spotify_icon;
                     break;
@@ -46,9 +46,10 @@ export default class LinksBlock extends Component {
                     break;
                 case 'deezer':
                     obj.service = deezer_icon;
+                    break;
                 default:
                     break;
-                }
+            }
             arrayOfUrls.push(createLinkJSX(obj));
         }
 
@@ -63,7 +64,26 @@ export default class LinksBlock extends Component {
             <div className="links-block container">
                 <this.getInfo />
                 <this.getLinks />
-
+                {/* <Link service='spotify' artist='linkin park'
+                    track='numb'
+                    url=''
+                    albumArt='https://i.scdn.co/image/c03090e1f4b09d79fd41855023460c02e13993a8'
+                />
+                <Link service='youtube' artist='linkin park'
+                    track='numb offical video - numb offical video - numb offical video'
+                    url=''
+                    albumArt='https://i.ytimg.com/vi/kXYiU_JCYtU/hqdefault.jpg'
+                />
+                <Link service='youtubeMusic' artist='linkin park'
+                    track='numb offical video - numb offical video - numb offical video' 
+                    url=''
+                    albumArt='https://i.ytimg.com/vi/kXYiU_JCYtU/hqdefault.jpg'
+                />
+                <Link service='deezer' artist='linkin park'
+                    track='numb'
+                    url=''
+                    albumArt='https://e-cdns-images.dzcdn.net/images/cover/44df4f6fb2534768f4924365c103d0f7/1000x1000-000000-80-0-0.jpg'
+                /> */}
 
             </div>
         )

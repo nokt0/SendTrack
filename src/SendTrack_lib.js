@@ -1,5 +1,3 @@
-import { request } from "http";
-
 const ServicesUrl = {
     youtubeMusic: "music.youtube",
     youtube: "youtube",
@@ -8,8 +6,9 @@ const ServicesUrl = {
     deezer: "deezer"
 
 }
-
 const notValidObj = { notValid: '' };
+
+var logArray = [];
 
 export function searchByWord(str) {
     if (str === '')
@@ -19,7 +18,11 @@ export function searchByWord(str) {
         splitedString = str.split('-');
     if (str.indexOf('–') !== -1)
         splitedString = str.split('–');
-    console.log(splitedString);
+
+    //LOG
+    logArray.push('Entered into text form: [' + splitedString.toString() + ']\n')
+    console.log('Entered into text form:' +  splitedString);
+    //
 
     splitedString = splitedString.filter(word => word !== '');
     var objectToCompare = { notValid: 'not valid input' };
@@ -48,14 +51,17 @@ export function urlWorker(url) {
 
         if ('notValid' in requestObj)
             return {
-                notValid: 'Not found:(',
+                notValid: requestObj.notValid,
                 artist: '',
-                track: 'Not found:(',
+                track: requestObj.notValid,
                 url: '',
                 service: serviceObj.service
             };
 
-        console.log(requestObj);
+        //LOG
+        logArray.push('Youtube obj from input: [' + JSON.stringify(requestObj) + ']\n')
+        console.log(logArray[logArray.length-1]);
+        //
 
         let artist;
         let track;
@@ -69,7 +75,7 @@ export function urlWorker(url) {
             artist = requestObj.items[0].snippet.channelTitle;
             track = requestObj.items[0].snippet.title;
         }
-        //ERASE BRACKETS
+        //ERASE BRACKETS 
         track = eraseBrackets(track);
         artist = eraseBrackets(artist);
         track = eraseFeat(track);
@@ -83,17 +89,27 @@ export function urlWorker(url) {
                 resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
 
         objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
-        console.log(objectToCompare);
+
         index = objectToCompare.artist.indexOf(" - Topic");
         if (index !== -1)
             objectToCompare.artist = objectToCompare.artist.substring(0, index);
+
+        //LOG
+        logArray.push('Created youtube obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
+        console.log(logArray[logArray.length-1]);
+        //
+
         return objectToCompare;
     }
 
     if (serviceObj.service === ServicesUrl.spotify) {
         let requestObj = requestSpotifyObject(
             createSpotifyArguments(serviceObj), 'track');
-        console.log(requestObj);
+
+       //LOG
+       logArray.push('Spotify obj from input: [' + JSON.stringify(requestObj) + ']\n')
+       console.log(logArray[logArray.length-1]);
+       //
 
         if (requestObj.type === 'album') {
             return {
@@ -123,12 +139,22 @@ export function urlWorker(url) {
         artist = eraseFeat(artist);
 
         objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
+        
+        //LOG
+        logArray.push('Created spotify obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
+        console.log(logArray[logArray.length-1]);
+        //
 
         return objectToCompare;
     }
 
     if (serviceObj.service === ServicesUrl.deezer) {
         let requestObj = requestDeezerObject(createDeezerArguments(serviceObj), 'track');
+        
+        //LOG
+       logArray.push('Deezer obj from input: [' + JSON.stringify(requestObj) + ']\n')
+       console.log(logArray[logArray.length-1]);
+       //
 
         if (requestObj.type === 'album') {
             return {
@@ -157,6 +183,12 @@ export function urlWorker(url) {
         artist = eraseFeat(artist);
         
         objectToCompare = createObjectToCompare(artist, track, url, ServicesUrl.deezer);
+
+        //LOG
+        logArray.push('Created deezer obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
+        console.log(logArray[logArray.length-1]);
+        //
+
         return objectToCompare;
     }
 
@@ -224,8 +256,9 @@ function requestYoutubeObject(argumentsObj, requestType) {
     const YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/";
     const API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
     var resultRequest = YOUTUBE_API_SERVER;
-
     const maxResults = 25;
+
+    let videoInfoObj = notValidObj;
 
     if (objType === 'album') {
         resultRequest += 'playlistItems?';
@@ -242,8 +275,12 @@ function requestYoutubeObject(argumentsObj, requestType) {
             resultRequest += 'search?';
             break;
         default:
-            console.log("not valid request type");
-            return notValidObj;
+            videoInfoObj.notValid = "Not valid youtube request type";
+            //LOG
+            logArray.push('Not valid youtube request type\n');
+            console.log(logArray[logArray.length-1]);
+            //
+            return videoInfoObj;
 
     }
     resultRequest += 'part=snippet';
@@ -263,25 +300,31 @@ function requestYoutubeObject(argumentsObj, requestType) {
                 break;
 
             default:
-                console.log("bad argument = Not Found")
-                return notValidObj;
+                //LOG
+                logArray.push('Bad youtube argument\n');
+                console.log(logArray[logArray.length-1]);
+                //
+                break;
         }
     }
     resultRequest += "&key=" + API_KEY;
 
+    //LOG
+    logArray.push('Request youtube url: ' + resultRequest + '\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     xhr.open('GET', resultRequest, false);
     // 3. Отсылаем запрос
     xhr.send();
 
-    let videoInfoObj = {
-        notValid: ''
-    }
+    
 
     // 4. Если код ответа сервера не 200, то это ошибка
     if (xhr.status !== 200) {
         // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
+        videoInfoObj.notValid = xhr.status + ':' + xhr.statusText;
     } else {
         // вывести результат
         // responseText -- текст ответа.
@@ -292,6 +335,10 @@ function requestYoutubeObject(argumentsObj, requestType) {
     }
 
     console.log(videoInfoObj);
+    //LOG
+    logArray.push('Requested youtube obj: [' + JSON.stringify(videoInfoObj) + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     return videoInfoObj;
 }
@@ -321,7 +368,10 @@ function requestSpotifyObject(argumentsObj, requestType) {
             return notValidObj;
     }
 
-    console.log(url);
+    //LOG
+    logArray.push('Request spotify url: ' + url + '\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
@@ -335,7 +385,7 @@ function requestSpotifyObject(argumentsObj, requestType) {
     if (xhr.status !== 200) {
         // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
-        requestObj[notValidObj] = xhr.statusText;
+        requestObj.notValid = xhr.status + ':' + xhr.statusText;
     } else {
         // вывести результат
         // responseText -- текст ответа.
@@ -343,9 +393,10 @@ function requestSpotifyObject(argumentsObj, requestType) {
             requestObj = JSON.parse(xhr.responseText);
     }
 
-
-    console.log(xhr.responseText);
-
+    //LOG
+    logArray.push('Requested spotify obj: ' + xhr.responseText + '\n');
+    console.log(logArray[logArray.length-1]);
+    //
     return requestObj;
 
 }
@@ -366,7 +417,10 @@ function requestDeezerObject(argumentsObj, requestType) {
             return requestObj;
     }
 
-    console.log(url);
+    //LOG
+    logArray.push('Request deezer url: ' + url + '\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
@@ -375,7 +429,7 @@ function requestDeezerObject(argumentsObj, requestType) {
     if (xhr.status !== 200) {
         // обработать ошибку
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
-        requestObj[notValidObj] = xhr.statusText;
+        requestObj.notValid = xhr.statusText;
     } else {
         // вывести результат
         // responseText -- текст ответа.
@@ -383,7 +437,10 @@ function requestDeezerObject(argumentsObj, requestType) {
             requestObj = JSON.parse(xhr.responseText);
     }
 
-    console.log(requestObj);
+    //LOG
+    logArray.push('Requested deezer obj: ' + xhr.responseText + '\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     return requestObj;
 
@@ -431,7 +488,6 @@ function getSpotifyToken() {
         return myJson.token;
       }); */
 
-    console.log(result);
     return result;
 }
 
@@ -443,7 +499,10 @@ function createSpotifyArguments(serviceObj) {
     var arrayArguments = urlSubstring.split('/');
     argumentsObj[arrayArguments[0]] = arrayArguments[1];
 
-    console.log(argumentsObj);
+    //LOG
+    logArray.push('Spotify arguments obj: [' + argumentsObj.toString() + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     return argumentsObj;
 }
@@ -456,7 +515,10 @@ function createDeezerArguments(serviceObj) {
     if (arrayArguments[0] === 'artist' || arrayArguments[0] === 'track')
         argumentsObj[arrayArguments[0]] = arrayArguments[1];
 
-    console.log(argumentsObj);
+    //LOG
+    logArray.push('Deezer arguments obj: [' + argumentsObj.toString() + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     return argumentsObj;
 }
@@ -470,15 +532,15 @@ function eraseYoutubeWatchArg(urlSubstring) {
 function createYoutubeArguments(serviceObj) {
 
     var urlSubstring = serviceObj.cutUrl;
-    var result = {};
+    var argumentsObj = {};
 
     if (urlSubstring.indexOf('watch?') !== -1) {
-        result.type = 'track';
+        argumentsObj.type = 'track';
         eraseYoutubeWatchArg(urlSubstring)
     }
     else {
-        result.type = 'album';
-        return result;
+        argumentsObj.type = 'album';
+        return argumentsObj;
     }
 
     var arrayArguments = eraseYoutubeWatchArg(urlSubstring).split('&');
@@ -486,10 +548,13 @@ function createYoutubeArguments(serviceObj) {
         var index = arrayArguments[i].indexOf("=");
         var argument = arrayArguments[i].substring(0, index);
         var value = arrayArguments[i].substring(index + 1, arrayArguments[i].length);
-        result[argument] = value;
+        argumentsObj[argument] = value;
     }
-    console.log(result);
-    return result;
+    //LOG
+    logArray.push('Youtube arguments obj: [' + JSON.stringify(argumentsObj) + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
+    return argumentsObj;
 
 }
 
@@ -501,8 +566,16 @@ export function createArrayOfUrls(objectToCompare) {
         deezer: 'Not Found'
     }
 
+    //LOG
+    logArray.push('Initial Service: ' + objectToCompare.initialService);
+    console.log(logArray[logArray.length-1]);
+    //
+
     if (objectToCompare.hasOwnProperty('notValid')) {
-        console.log(objectToCompare.notValid);
+        //LOG
+        logArray.push('Not Valid: ' + objectToCompare.notValid + '\n');
+        console.log(logArray[logArray.length-1]);
+        //
         return arrayOfUrls;
     }
 
@@ -519,10 +592,17 @@ export function createArrayOfUrls(objectToCompare) {
         let spotifyRequest = {
             q: objectToCompare.artist + ' ' + objectToCompare.track
         }
-        console.log(objectToCompare);
+        //LOG
+        logArray.push('Spotify request: ' + JSON.stringify(spotifyRequest) + '\n');
+        console.log(logArray[logArray.length-1]);
+        //
 
         let requestedObj = requestSpotifyObject(spotifyRequest, 'search');
-        console.log(requestedObj);
+
+        //LOG
+        logArray.push('Requested spotify obj: ' + JSON.stringify(requestedObj) + '\n');
+        console.log(logArray[logArray.length-1]);
+        //
 
         if (!requestedObj.hasOwnProperty('type') && requestedObj.type !== 'album'
             && !requestedObj.hasOwnProperty('notValid')) {
@@ -547,9 +627,11 @@ export function createArrayOfUrls(objectToCompare) {
         let youtubeRequest = {
             q: objectToCompare.artist + ' ' + objectToCompare.track
         }
-        console.log(youtubeRequest.q);
+        //LOG
+        logArray.push('Youtube request: ' + JSON.stringify(youtubeRequest) + '\n');
+        console.log(logArray[logArray.length-1]);
+        //
 
-        console.log('Initial Service: ' + objectToCompare.initialService);
 
         let requestedObj = requestYoutubeObject(youtubeRequest, 'search');
         if (!requestedObj.hasOwnProperty('notValid')) {
@@ -584,25 +666,35 @@ export function createArrayOfUrls(objectToCompare) {
     }
 
     if (objectToCompare.initialService !== ServicesUrl.deezer) {
-        console.log("deezer array");
         let deezerRequest = {
             artist: objectToCompare.artist,
             track: objectToCompare.track
         }
 
+        //LOG
+        logArray.push('Deezer request: ' + JSON.stringify(deezerRequest) + '\n');
+        console.log(logArray[logArray.length-1]);
+        //
+
         let requestedObj = requestDeezerObject(deezerRequest, 'search');
         if (!requestedObj.hasOwnProperty('notValid')) {
-            let item = requestedObj.data[0];
+            let item = searchInDeezerObject(requestedObj, objectToCompare);
             arrayOfUrls.deezer = writeProps(item.artist.name, item.title_short, item.link, item.album.cover_xl);
         }
-        else
-            console.log("deezer not valid");
+        else{
+        //LOG
+        logArray.push('Deezer request not valid:[' + requestedObj.notValid + ']\n');
+        console.log(logArray[logArray.length-1]);
+        //
+    }
 
 
         
     }
-
-    console.log(arrayOfUrls);
+    //LOG
+    logArray.push('Array of Urls:[' + JSON.stringify(arrayOfUrls) + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
     return arrayOfUrls;
 }
 
@@ -651,8 +743,6 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
 
         if (item.type === 'track') {
 
-            console.log(item.name);
-
             if (!matchStringsWithoutSpecs(trackName, item.name) && !matchStringsWithoutSpecs(item.name, trackName))
                 continue;
 
@@ -676,6 +766,29 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
     return similarObject;
 }
 
+function searchInDeezerObject(deezerReturnedObject, objectToCompare){
+const artistName = objectToCompare.artist;
+    const trackName = objectToCompare.track;
+    const notFound = { notValid: 'Not Found2' };
+
+    var similarObject = notFound;
+    for (var item of deezerReturnedObject.data) {
+
+        if (item.type === 'track') {
+
+            if (!matchStringsWithoutSpecs(trackName, item.title) && !matchStringsWithoutSpecs(item.title, trackName))
+                continue;
+
+            if (matchStringsWithoutSpecs(artistName, item.artist.name) && matchStringsWithoutSpecs(item.artist.name, artistName)) {
+                    similarObject = item;
+                    break;
+                }
+            }
+
+        }
+        return similarObject;
+    }
+
 function matchStringsWithoutSpecs(firstString, secondString) {
     var reg = new RegExp("[\\s-\\]\\[\\)\\(\\/\\.&]", "i");
     var splitedFirstString = firstString.split(reg);
@@ -686,8 +799,13 @@ function matchStringsWithoutSpecs(firstString, secondString) {
     splitedSecondString = splitedSecondString.filter(function (el) {
         return el !== "";
     });
-    console.log(splitedFirstString);
-    console.log(splitedSecondString);
+
+    //LOG
+    logArray.push('Splitted first string:[' + splitedFirstString.toString() + ']\n');
+    console.log(logArray[logArray.length-1]);
+    logArray.push('Splitted second string:[' + splitedSecondString.toString() + ']\n');
+    console.log(logArray[logArray.length-1]);
+    //
 
     for (var substringFirst of splitedFirstString) {
         var indicator = false;
@@ -703,22 +821,32 @@ function matchStringsWithoutSpecs(firstString, secondString) {
                 indicator = false;
         }
         if (!indicator) {
-            console.log('not equal');
+            //LOG
+            logArray.push('Not equal\n');
+            console.log(logArray[logArray.length-1]);
+            //
             return false;
         }
 
     }
-    console.log('equal');
+    //LOG
+    logArray.push('Equal\n');
+    console.log(logArray[logArray.length-1]);
+    //
     return true;
 }
 
 function checkService(inputUrl) {
-    var index = -1;
-    var serviceName = "";
+    let index = -1;
+    let serviceName = "";
+    let url = inputUrl;
+    if(url.indexOf('youtu.be/') !== -1){
+        url = 'https://www.youtube.com/watch?v=' + url.substring(url.indexOf('youtu.be/') + 'youtu.be/'.length,url.length);
+    }
 
-    for (var Service in ServicesUrl) {
+    for (let Service in ServicesUrl) {
 
-        var found = checkServiceUrl(inputUrl, ServicesUrl[Service]);
+        let found = checkServiceUrl(url, ServicesUrl[Service]);
         if (found !== -1) {
             index = found;
             serviceName = ServicesUrl[Service];
@@ -726,9 +854,11 @@ function checkService(inputUrl) {
         }
     }
 
-    var cutUrl = inputUrl.substring(index);
+    let cutUrl = url.substring(index);
     cutUrl = eraseDomain(cutUrl);
-    console.log('Service Name: ' + serviceName);
+    //LOG
+    logArray.push('Service Name: ' + serviceName + '\n');
+    console.log(logArray[logArray.length-1]);
 
     return {
         service: serviceName,
