@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import '../scss/InputForm.scss';
 import searchLogo from '../SVG/search-solid.svg';
 import {urlValidator} from '../SendTrack_lib.js';
+import Menu from './Menu';
 
 export default class InputForm extends Component {
 
@@ -55,7 +56,7 @@ export default class InputForm extends Component {
 
     render() {
         return (
-            <div className='input-form container'>
+            <div className='input-form grid-container'>
             <form className='input-form__text-form'>
                 <input value={this.state.content}
                     placeholder={this.state.placeholder}
@@ -63,6 +64,7 @@ export default class InputForm extends Component {
                     onSubmit={this.handleSubmit} />
                 <button onClick={this.handleSubmit}><img src={searchLogo} alt=""/></button>
             </form>
+            <Menu/>
             </div>
         );
     }

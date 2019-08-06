@@ -1,6 +1,7 @@
 .App {
   min-width: 100vh;
   min-height: 100vh;
+  max-width: 100vh;
 }
 
 .bg {
@@ -29,4 +30,20 @@
 .container {
   display: -webkit-flex;
   display: flex;
+}
+
+.grid-container{
+  display: grid;
+  @media only screen and (min-width : 320px) and (max-width : 480px)  {
+    grid-template-columns: 90% 10%;
+    grid-template-areas: "textForm button";
+    justify-items: start;
+    }
+  @media (min-width: 800px) {
+    grid-template-columns: 50px 1fr 50px;
+    grid-template-areas: "textForm button";
+    justify-items: center;
+      }
+  
+  
 }

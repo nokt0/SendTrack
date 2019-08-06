@@ -60,7 +60,7 @@ export function urlWorker(url) {
 
         //LOG
         logArray.push('Youtube obj from input: [' + JSON.stringify(requestObj) + ']\n')
-        console.log(logArray[logArray.length-1]);
+        console.log(requestObj);
         //
 
         let artist;
@@ -96,7 +96,7 @@ export function urlWorker(url) {
 
         //LOG
         logArray.push('Created youtube obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
-        console.log(logArray[logArray.length-1]);
+        console.log(objectToCompare);
         //
 
         return objectToCompare;
@@ -108,7 +108,7 @@ export function urlWorker(url) {
 
        //LOG
        logArray.push('Spotify obj from input: [' + JSON.stringify(requestObj) + ']\n')
-       console.log(logArray[logArray.length-1]);
+       console.log(requestObj);
        //
 
         if (requestObj.type === 'album') {
@@ -142,7 +142,7 @@ export function urlWorker(url) {
         
         //LOG
         logArray.push('Created spotify obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
-        console.log(logArray[logArray.length-1]);
+        console.log(objectToCompare);
         //
 
         return objectToCompare;
@@ -153,7 +153,7 @@ export function urlWorker(url) {
         
         //LOG
        logArray.push('Deezer obj from input: [' + JSON.stringify(requestObj) + ']\n')
-       console.log(logArray[logArray.length-1]);
+       console.log(requestObj);
        //
 
         if (requestObj.type === 'album') {
@@ -186,7 +186,7 @@ export function urlWorker(url) {
 
         //LOG
         logArray.push('Created deezer obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
-        console.log(logArray[logArray.length-1]);
+        console.log(objectToCompare);
         //
 
         return objectToCompare;
@@ -337,7 +337,7 @@ function requestYoutubeObject(argumentsObj, requestType) {
     console.log(videoInfoObj);
     //LOG
     logArray.push('Requested youtube obj: [' + JSON.stringify(videoInfoObj) + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(videoInfoObj);
     //
 
     return videoInfoObj;
@@ -395,7 +395,7 @@ function requestSpotifyObject(argumentsObj, requestType) {
 
     //LOG
     logArray.push('Requested spotify obj: ' + xhr.responseText + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(requestObj);
     //
     return requestObj;
 
@@ -439,7 +439,7 @@ function requestDeezerObject(argumentsObj, requestType) {
 
     //LOG
     logArray.push('Requested deezer obj: ' + xhr.responseText + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(requestObj);
     //
 
     return requestObj;
@@ -552,7 +552,7 @@ function createYoutubeArguments(serviceObj) {
     }
     //LOG
     logArray.push('Youtube arguments obj: [' + JSON.stringify(argumentsObj) + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(argumentsObj);
     //
     return argumentsObj;
 
@@ -567,7 +567,7 @@ export function createArrayOfUrls(objectToCompare) {
     }
 
     //LOG
-    logArray.push('Initial Service: ' + objectToCompare.initialService);
+    logArray.push('Initial Service: ' + objectToCompare.initialService + '\n');
     console.log(logArray[logArray.length-1]);
     //
 
@@ -594,14 +594,14 @@ export function createArrayOfUrls(objectToCompare) {
         }
         //LOG
         logArray.push('Spotify request: ' + JSON.stringify(spotifyRequest) + '\n');
-        console.log(logArray[logArray.length-1]);
+        console.log(spotifyRequest);
         //
 
         let requestedObj = requestSpotifyObject(spotifyRequest, 'search');
 
         //LOG
         logArray.push('Requested spotify obj: ' + JSON.stringify(requestedObj) + '\n');
-        console.log(logArray[logArray.length-1]);
+        console.log(requestedObj);
         //
 
         if (!requestedObj.hasOwnProperty('type') && requestedObj.type !== 'album'
@@ -629,7 +629,7 @@ export function createArrayOfUrls(objectToCompare) {
         }
         //LOG
         logArray.push('Youtube request: ' + JSON.stringify(youtubeRequest) + '\n');
-        console.log(logArray[logArray.length-1]);
+        console.log(youtubeRequest);
         //
 
 
@@ -673,7 +673,7 @@ export function createArrayOfUrls(objectToCompare) {
 
         //LOG
         logArray.push('Deezer request: ' + JSON.stringify(deezerRequest) + '\n');
-        console.log(logArray[logArray.length-1]);
+        console.log(deezerRequest);
         //
 
         let requestedObj = requestDeezerObject(deezerRequest, 'search');
@@ -693,7 +693,7 @@ export function createArrayOfUrls(objectToCompare) {
     }
     //LOG
     logArray.push('Array of Urls:[' + JSON.stringify(arrayOfUrls) + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(arrayOfUrls);
     //
     return arrayOfUrls;
 }
@@ -926,4 +926,12 @@ function checkTokenInCookie() {
         return buffer;
     else
         return getSpotifyToken();
+}
+
+export function getLog(){
+    let log = '';
+    for(let elem of logArray){
+        log += elem;
+    }
+    return log;
 }
