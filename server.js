@@ -14,114 +14,192 @@
 'use strict';
 
 const express = require('express');
-var fs = require("fs");
+const fs = require("fs");
 const app = express();
-var req = require("request");
-var cors = require('cors');
+const req = require("request");
+const cors = require('cors');
+const freeze = require('deep-freeze-node');
+require('dotenv').config();
 const deezerRouter = express.Router();
-
+const spotifyRouter = express.Router();
+const youTubeRouter = express.Router();
 app.use(cors());
 
-const base64key =
-  "Yjc0MmYwNWIxM2JkNGIzZmFmYzQ1MWNhOTYzYTMwNTM6NDM1M2FiZjQxMThjNGZkZDg2ODdhZjk4ZDQ3ZTA1NmM=";
+const base64key = process.env.BASE64_KEY;
+const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 
-var token = {
-  key: "",
-  date: 0,
-  expires: 0
-};
-
-var spotifyOptions = {
-  url: "https://accounts.spotify.com/api/token",
-  method: "POST",
-  body: "grant_type=client_credentials",
-  headers: {
-    "Authorization": "Basic " + base64key,
-    'content-type': 'application/x-www-form-urlencoded'
-  }
-};
-
-var deezerOptions = {
-  url: "https://api.deezer.com/",
-  headers: {
-    'content-type': 'application/json'
-  }
-}
-
-app.get("/token", function (request, response, next) {
-  var content = fs.readFileSync("./private/token.json", "utf8");
-  var token = JSON.parse(content);
-  console.log(new Date(token.date).toString());
-  console.log(new Date(Date.now() + 3600000).toString());
-
-  if (token.key === "" || Date.now() > token.expires || token.date === 0) {
-
-    function callback(error, resp, body) {
-      if (!error && resp.statusCode == 200) {
-
-        var info = JSON.parse(body);
-        token.key = info.access_token;
-        token.date = Date.now();
-        token.expires = Date.now() + 3600000;
-        console.log(token.date.toString());
-        fs.writeFileSync("./private/token.json", JSON.stringify(token));
-        response.send(
-          {
-            token: token.key,
-            expires: token.expires
-          });
-      }
-      else
-        console.log(resp.statusCode);
-      console.log(body);
-
+const deezerOptions = freeze({
+    url: "https://api.deezer.com/",
+    headers: {
+        "content-type": "application/json"
     }
-
-    req(spotifyOptions, callback);
-  }
-  else
-    response.send({ token: token.key, expires: token.expires });
 });
 
+const spotifyOptions = freeze({
+    url: "https://api.spotify.com/v1",
+    headers: {
+        "Accept": "application/json",
+        "Authorization": "Basic ",
+        "content-type": "application/json"
+    }
+});
+
+
+function requestToken() {
+    const spotifyTokenOptions = {
+        url: "https://accounts.spotify.com/api/token",
+        method: "POST",
+        body: "grant_type=client_credentials",
+        headers: {
+            "Authorization": "Basic " + base64key,
+            'content-type': 'application/x-www-form-urlencoded'
+        }
+    };
+
+    let content = fs.readFileSync("./private/token.json", "utf8");
+    let token = JSON.parse(content);
+    console.log(new Date(token.date).toString());
+    console.log(new Date(Date.now() + 3600000).toString());
+
+    if (token.key === "" || Date.now() > token.expires || token.date === 0) {
+
+        function callback(error, resp, body) {
+            if (!error && resp.statusCode == 200) {
+
+                let info = JSON.parse(body);
+                token.key = info.access_token;
+                token.date = Date.now();
+                token.expires = Date.now() + 3600000;
+                console.log(token.date.toString());
+                fs.writeFileSync("./private/token.json", JSON.stringify(token));
+                return {
+                    token: token.key,
+                    expires: token.expires
+                };
+            } else
+                console.log(resp.statusCode);
+            console.log(body);
+        }
+
+        req(spotifyTokenOptions, callback);
+    } else
+        return {token: token.key, expires: token.expires};
+};
+
+function youtubeRequest(request, response, route) {
+    const youTubeOptions = {
+        url: "https://www.googleapis.com/youtube/v3",
+        headers: {
+            'content-type': 'application/json'
+        }
+    };
+
+    let requestUrl = route;
+    for (let q in request.query) {
+        requestUrl += q + "=" + request.query[q] + "&";
+    }
+
+    requestUrl += "key=" + YOUTUBE_API_KEY;
+    req({...youTubeOptions}.url + requestUrl, function (error, resp, body) {
+        if (error != null) {
+            response.send({error: error});
+            return;
+        }
+        response.send(JSON.parse(body));
+    });
+}
+
+app.use("/youtube", youTubeRouter);
+
+youTubeRouter.get("/search", (request, response) => youtubeRequest(request, response, "/search?"));
+youTubeRouter.get("/videos", (request, response) => youtubeRequest(request, response, "/videos?"));
 
 
 app.use('/deezer', deezerRouter);
 
 deezerRouter.get('/track', function (request, response) {
-  let trackId = request.query.id;
-  let requestOptions = deezerOptions;
-  requestOptions.url = 'https://api.deezer.com/track/' + trackId;
-  console.log(requestOptions.url);
-  req(requestOptions, function (error, resp, body) {
-    response.send(JSON.parse(body));
-  })
+    let trackId = request.query.id;
+    let requestOptions = deezerOptions;
+    requestOptions.url = 'https://api.deezer.com/track/' + trackId;
+    console.log(requestOptions.url);
+    req(requestOptions, function (error, resp, body) {
+        response.send(JSON.parse(body));
+    })
 
 });
 
 deezerRouter.get('/search', function (request, response) {
-  let track = request.query.track;
-  let artist = request.query.artist;
-  let requestOptions = deezerOptions;
-  requestOptions.url = 'https://api.deezer.com/search?q=';
-  if (track && artist)
-    requestOptions.url += 'track:"' + track + '" ' + 'artist:"' + artist + '"';
-  else
-    if (artist)
-      requestOptions.url += 'artist:"' + artist + '"';
-    else
-      if (track)
+    let track = request.query.track;
+    let artist = request.query.artist;
+    let requestOptions = {...deezerOptions};
+    requestOptions.url = 'https://api.deezer.com/search?q=';
+    if (track && artist)
+        requestOptions.url += 'track:"' + track + '" ' + 'artist:"' + artist + '"';
+    else if (artist)
+        requestOptions.url += 'artist:"' + artist + '"';
+    else if (track)
         requestOptions.url += track;
 
-  console.log(requestOptions.url);
-  requestOptions.url = encodeURI(requestOptions.url);
-  req(requestOptions, function (error, resp, body) {
-    response.send(JSON.parse(body));
-  })
+    console.log(requestOptions.url);
+    requestOptions.url = encodeURI(requestOptions.url);
+    req(requestOptions, function (error, resp, body) {
+        if (error != null) {
+            response.send({error: error});
+            return;
+        }
+        response.send(JSON.parse(body));
+    })
 });
 
 deezerRouter.get('/', function (request, response) {
-  response.send('deezer api');
-})
+    response.send('deezer api');
+});
+
+app.use("/spotify", spotifyRouter);
+
+spotifyRouter.get("/tracks/:trackName", function (request, response) {
+    let options = {
+        ...spotifyOptions, headers: {
+            "Authorization": "Bearer " + requestToken().token,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    };
+    options.url += "/tracks/" + request.query.trackName;
+    req(options, function (error, resp, body) {
+        if (error != null) {
+            response.send({error: error});
+            return;
+        }
+        response.send(JSON.parse(body));
+    });
+});
+
+spotifyRouter.get("/search", function (request,response){
+  let requestUrl = "/search?";
+  let options = {
+    ...spotifyOptions, headers: {
+      "Authorization": "Bearer " + requestToken().token,
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+    }
+  };
+
+  for (let q in request.query) {
+    requestUrl += q + "=" + request.query[q] + "&";
+  }
+
+  options.url += requestUrl;
+
+  req(options , function (error, resp, body) {
+    if (error != null) {
+      response.send({error: error});
+      return;
+    }
+    response.send(JSON.parse(body));
+  });
+
+});
 
 app.use('/SendTrack', express.static(__dirname + '/build'));
 app.use('/SendTrack/static', express.static(__dirname + '/build/static'));
@@ -130,18 +208,18 @@ app.use('/SendTrack/static', express.static(__dirname + '/build/static'));
 // [START hello_world]
 // Say hello!
 app.get('/', (req, res) => {
-  res.status(200).sendFile(__dirname + "/build/index.html");
+    res.status(200).sendFile(__dirname + "/build/index.html");
 });
 // [END hello_world]
 
 if (module === require.main) {
-  // [START server]
-  // Start the server
-  const server = app.listen(process.env.PORT || 8080, () => {
-    const port = server.address().port;
-    console.log(`App listening on port ${port}`);
-  });
-  // [END server]
+    // [START server]
+    // Start the server
+    const server = app.listen(process.env.PORT || 8080, () => {
+        const port = server.address().port;
+        console.log(`App listening on port ${port}`);
+    });
+    // [END server]
 }
 
 module.exports = app;

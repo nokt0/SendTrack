@@ -6,14 +6,14 @@ const ServicesUrl = {
     deezer: "deezer"
 
 }
-const notValidObj = { notValid: '' };
+const notValidObj = {notValid: ''};
 
-var logArray = [];
+const logArray = [];
 
 export function searchByWord(str) {
     if (str === '')
-        return { notValid: 'empty string' }
-    var splitedString;
+        return {notValid: 'empty string'};
+    let splitedString;
     if (str.indexOf('-') !== -1)
         splitedString = str.split('-');
     if (str.indexOf('–') !== -1)
@@ -21,11 +21,11 @@ export function searchByWord(str) {
 
     //LOG
     logArray.push('Entered into text form: [' + splitedString.toString() + ']\n')
-    console.log('Entered into text form:' +  splitedString);
+    console.log('Entered into text form:' + splitedString);
     //
 
     splitedString = splitedString.filter(word => word !== '');
-    var objectToCompare = { notValid: 'not valid input' };
+    let objectToCompare = {notValid: 'not valid input'};
     if (splitedString.length > 1)
         objectToCompare = createObjectToCompare(splitedString[0].trim(), splitedString[1].trim());
 
@@ -33,8 +33,8 @@ export function searchByWord(str) {
 }
 
 export function urlWorker(url) {
-    var serviceObj = checkService(url);
-    var objectToCompare;
+    const serviceObj = checkService(url);
+    let objectToCompare;
 
     if (serviceObj.service === ServicesUrl.youtube || serviceObj.service === ServicesUrl.youtubeMusic) {
         let requestObj = requestYoutubeObject(
@@ -70,8 +70,7 @@ export function urlWorker(url) {
         if (requestObj.items[0].snippet.title.indexOf('-') !== -1) {
             artist = requestObj.items[0].snippet.title.substring(0, index);
             track = requestObj.items[0].snippet.title.substring(index, requestObj.items[0].snippet.title.length);
-        }
-        else {
+        } else {
             artist = requestObj.items[0].snippet.channelTitle;
             track = requestObj.items[0].snippet.title;
         }
@@ -81,12 +80,11 @@ export function urlWorker(url) {
         track = eraseFeat(track);
         artist = eraseFeat(artist);
 
-        var resUrl;
+        let resUrl;
         if (serviceObj.service === 'youtube')
             resUrl = "https://www.youtube.com/watch?v=" + requestObj.items[0].id;
-        else
-            if (serviceObj.service === 'youtubeMusic')
-                resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
+        else if (serviceObj.service === 'youtubeMusic')
+            resUrl = "https://www.music.youtube.com/watch?v=" + requestObj.items[0].id;
 
         objectToCompare = createObjectToCompare(artist, track, resUrl, serviceObj.service);
 
@@ -106,10 +104,10 @@ export function urlWorker(url) {
         let requestObj = requestSpotifyObject(
             createSpotifyArguments(serviceObj), 'track');
 
-       //LOG
-       logArray.push('Spotify obj from input: [' + JSON.stringify(requestObj) + ']\n')
-       console.log(requestObj);
-       //
+        //LOG
+        logArray.push('Spotify obj from input: [' + JSON.stringify(requestObj) + ']\n')
+        console.log(requestObj);
+        //
 
         if (requestObj.type === 'album') {
             return {
@@ -139,7 +137,7 @@ export function urlWorker(url) {
         artist = eraseFeat(artist);
 
         objectToCompare = createObjectToCompare(artist, track, url, serviceObj.service);
-        
+
         //LOG
         logArray.push('Created spotify obj to compare: [' + JSON.stringify(objectToCompare) + ']\n')
         console.log(objectToCompare);
@@ -150,11 +148,11 @@ export function urlWorker(url) {
 
     if (serviceObj.service === ServicesUrl.deezer) {
         let requestObj = requestDeezerObject(createDeezerArguments(serviceObj), 'track');
-        
+
         //LOG
-       logArray.push('Deezer obj from input: [' + JSON.stringify(requestObj) + ']\n')
-       console.log(requestObj);
-       //
+        logArray.push('Deezer obj from input: [' + JSON.stringify(requestObj) + ']\n')
+        console.log(requestObj);
+        //
 
         if (requestObj.type === 'album') {
             return {
@@ -181,7 +179,7 @@ export function urlWorker(url) {
         artist = eraseBrackets(artist);
         track = eraseFeat(track);
         artist = eraseFeat(artist);
-        
+
         objectToCompare = createObjectToCompare(artist, track, url, ServicesUrl.deezer);
 
         //LOG
@@ -215,7 +213,7 @@ export function urlValidator(url) {
 }
 
 function eraseDomain(urlString) {
-    var index = urlString.indexOf('/');
+    const index = urlString.indexOf('/');
     return urlString.substring(index + 1);
 }
 
@@ -249,13 +247,12 @@ function eraseFeat(str) {
 
 function requestYoutubeObject(argumentsObj, requestType) {
 
-    var objType = argumentsObj.type;
+    const objType = argumentsObj.type;
     delete argumentsObj.type;
 
-    var xhr = new XMLHttpRequest();
-    const YOUTUBE_API_SERVER = "https://www.googleapis.com/youtube/v3/";
-    const API_KEY = "AIzaSyBEYdv5D-1VmQHgb5d3jR2qn2mo_mvlr9g";
-    var resultRequest = YOUTUBE_API_SERVER;
+    const xhr = new XMLHttpRequest();
+    const YOUTUBE_API_SERVER = "/youtube/";
+    let resultRequest = YOUTUBE_API_SERVER;
     const maxResults = 25;
 
     let videoInfoObj = notValidObj;
@@ -278,14 +275,14 @@ function requestYoutubeObject(argumentsObj, requestType) {
             videoInfoObj.notValid = "Not valid youtube request type";
             //LOG
             logArray.push('Not valid youtube request type\n');
-            console.log(logArray[logArray.length-1]);
+            console.log(logArray[logArray.length - 1]);
             //
             return videoInfoObj;
 
     }
     resultRequest += 'part=snippet';
 
-    for (var argument in argumentsObj) {
+    for (const argument in argumentsObj) {
         switch (argument) {
             case 'v':
                 resultRequest += "&id=" + argumentsObj[argument];
@@ -302,23 +299,21 @@ function requestYoutubeObject(argumentsObj, requestType) {
             default:
                 //LOG
                 logArray.push('Bad youtube argument\n');
-                console.log(logArray[logArray.length-1]);
+                console.log(logArray[logArray.length - 1]);
                 //
                 break;
         }
     }
-    resultRequest += "&key=" + API_KEY;
 
     //LOG
     logArray.push('Request youtube url: ' + resultRequest + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
     xhr.open('GET', resultRequest, false);
     // 3. Отсылаем запрос
     xhr.send();
 
-    
 
     // 4. Если код ответа сервера не 200, то это ошибка
     if (xhr.status !== 200) {
@@ -345,11 +340,10 @@ function requestYoutubeObject(argumentsObj, requestType) {
 
 function requestSpotifyObject(argumentsObj, requestType) {
 
-    const SPOTIFY_API_SERVER = "https://api.spotify.com/v1/";
-    var API_KEY = checkTokenInCookie();
+    const SPOTIFY_API_SERVER = "/spotify/";
     let requestObj = notValidObj;
     const maxResults = 10;
-    var url = SPOTIFY_API_SERVER;
+    let url = SPOTIFY_API_SERVER;
 
 
     if ('artists' in argumentsObj) {
@@ -370,15 +364,14 @@ function requestSpotifyObject(argumentsObj, requestType) {
 
     //LOG
     logArray.push('Request spotify url: ' + url + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
 
     xhr.setRequestHeader("Accept", "application/json");
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + API_KEY);
 
     xhr.send();
 
@@ -413,16 +406,16 @@ function requestDeezerObject(argumentsObj, requestType) {
             url += 'search?artist=' + argumentsObj.artist + "&track=" + argumentsObj.track;
             break;
         default:
-            requestObj.notValid = 'Bad Request Type'
+            requestObj.notValid = 'Bad Request Type';
             return requestObj;
     }
 
     //LOG
     logArray.push('Request deezer url: ' + url + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', url, false);
     xhr.send();
 
@@ -466,8 +459,8 @@ function getSpotifyToken() {
     }  */
 
 
-    var result;
-    var xhr = new XMLHttpRequest();
+    let result;
+    const xhr = new XMLHttpRequest();
     xhr.open("GET", '/token', false);
     xhr.send();
     if (xhr.status !== 200) {
@@ -475,7 +468,7 @@ function getSpotifyToken() {
     } else {
         var obj = JSON.parse(xhr.responseText);
         result = obj.token;
-        setCookie('spotifyKey', obj.token, { expires: (obj.expires - Date.now()) / 1000 });
+        setCookie('spotifyKey', obj.token, {expires: (obj.expires - Date.now()) / 1000});
 
     }
 
@@ -493,62 +486,60 @@ function getSpotifyToken() {
 
 function createSpotifyArguments(serviceObj) {
 
-    var urlSubstring = serviceObj.cutUrl;
-    var argumentsObj = {};
+    const cutUrl = serviceObj.cutUrl;
+    const argumentsObj = {};
 
-    var arrayArguments = urlSubstring.split('/');
+    const arrayArguments = cutUrl.split('/');
     argumentsObj[arrayArguments[0]] = arrayArguments[1];
 
     //LOG
     logArray.push('Spotify arguments obj: [' + argumentsObj.toString() + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
     return argumentsObj;
 }
 
 function createDeezerArguments(serviceObj) {
-    var urlSubstring = serviceObj.cutUrl;
-    var argumentsObj = {};
+    const cutUrl = serviceObj.cutUrl;
+    const argumentsObj = {};
 
-    var arrayArguments = urlSubstring.split('/');
+    const arrayArguments = cutUrl.split('/');
     if (arrayArguments[0] === 'artist' || arrayArguments[0] === 'track')
         argumentsObj[arrayArguments[0]] = arrayArguments[1];
 
     //LOG
     logArray.push('Deezer arguments obj: [' + argumentsObj.toString() + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
     return argumentsObj;
 }
 
 
-function eraseYoutubeWatchArg(urlSubstring) {
-    var index = urlSubstring.indexOf('watch?');
-    return urlSubstring.substring(index + 'watch?'.length);
+function eraseYoutubeWatchArg(cutUrl) {
+    const index = cutUrl.indexOf('watch?');
+    return cutUrl.substring(index + 'watch?'.length);
 }
 
 function createYoutubeArguments(serviceObj) {
 
-    var urlSubstring = serviceObj.cutUrl;
-    var argumentsObj = {};
+    const {cutUrl} = serviceObj;
+    const argumentsObj = {};
 
-    if (urlSubstring.indexOf('watch?') !== -1) {
+    if (cutUrl.indexOf('watch?') !== -1) {
         argumentsObj.type = 'track';
-        eraseYoutubeWatchArg(urlSubstring)
-    }
-    else {
+        eraseYoutubeWatchArg(cutUrl)
+    } else {
         argumentsObj.type = 'album';
         return argumentsObj;
     }
 
-    var arrayArguments = eraseYoutubeWatchArg(urlSubstring).split('&');
-    for (var i = 0; i < arrayArguments.length; i++) {
-        var index = arrayArguments[i].indexOf("=");
-        var argument = arrayArguments[i].substring(0, index);
-        var value = arrayArguments[i].substring(index + 1, arrayArguments[i].length);
-        argumentsObj[argument] = value;
+    const arrayArguments = eraseYoutubeWatchArg(cutUrl).split('&');
+    for (let i = 0; i < arrayArguments.length; i++) {
+        const index = arrayArguments[i].indexOf("=");
+        const argument = arrayArguments[i].substring(0, index);
+        argumentsObj[argument] = arrayArguments[i].substring(index + 1, arrayArguments[i].length);
     }
     //LOG
     logArray.push('Youtube arguments obj: [' + JSON.stringify(argumentsObj) + ']\n');
@@ -564,17 +555,17 @@ export function createArrayOfUrls(objectToCompare) {
         youtube: 'Not Found',
         youtubeMusic: 'Not Found',
         deezer: 'Not Found'
-    }
+    };
 
     //LOG
     logArray.push('Initial Service: ' + objectToCompare.initialService + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
     if (objectToCompare.hasOwnProperty('notValid')) {
         //LOG
         logArray.push('Not Valid: ' + objectToCompare.notValid + '\n');
-        console.log(logArray[logArray.length-1]);
+        console.log(logArray[logArray.length - 1]);
         //
         return arrayOfUrls;
     }
@@ -587,6 +578,7 @@ export function createArrayOfUrls(objectToCompare) {
             albumArt: albumArt
         }
     }
+
     if (objectToCompare.initialService !== ServicesUrl.spotify) {
 
         let spotifyRequest = {
@@ -638,10 +630,10 @@ export function createArrayOfUrls(objectToCompare) {
             let returnedItem = searchInYoutubeObject(requestedObj, objectToCompare);
             if (!returnedItem.hasOwnProperty('notValid')) {
                 if (returnedItem.snippet.channelTitle.indexOf('- Topic') === -1) {
-                    var artist = '';
-                    var title = returnedItem.snippet.title;
-                    var str = returnedItem.snippet.title;
-                    var index = str.indexOf('-');
+                    let artist = '';
+                    let title = returnedItem.snippet.title;
+                    const str = returnedItem.snippet.title;
+                    const index = str.indexOf('-');
                     if (str.indexOf('-') !== -1) {
                         artist = str.substring(0, index).trim();
                         title = str.substring(index + 1, str.length).trim();
@@ -650,8 +642,7 @@ export function createArrayOfUrls(objectToCompare) {
                         arrayOfUrls.youtubeMusic = writeProps(artist, title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
                     if (objectToCompare.initialService !== ServicesUrl.youtube)
                         arrayOfUrls.youtube = writeProps(artist, title, 'https://youtube.com/watch?v=' + returnedItem.id.videoId, returnedItem.snippet.thumbnails.high.url);
-                }
-                else {
+                } else {
                     if (objectToCompare.initialService !== ServicesUrl.youtubeMusic)
                         arrayOfUrls.youtubeMusic = writeProps(returnedItem.snippet.channelTitle.substring(0, returnedItem.snippet.channelTitle.indexOf('- Topic')),
                             returnedItem.snippet.title, 'https://music.youtube.com/watch?v=' + returnedItem.id.videoId,
@@ -680,16 +671,14 @@ export function createArrayOfUrls(objectToCompare) {
         if (!requestedObj.hasOwnProperty('notValid')) {
             let item = searchInDeezerObject(requestedObj, objectToCompare);
             arrayOfUrls.deezer = writeProps(item.artist.name, item.title_short, item.link, item.album.cover_xl);
+        } else {
+            //LOG
+            logArray.push('Deezer request not valid:[' + requestedObj.notValid + ']\n');
+            console.log(logArray[logArray.length - 1]);
+            //
         }
-        else{
-        //LOG
-        logArray.push('Deezer request not valid:[' + requestedObj.notValid + ']\n');
-        console.log(logArray[logArray.length-1]);
-        //
-    }
 
 
-        
     }
     //LOG
     logArray.push('Array of Urls:[' + JSON.stringify(arrayOfUrls) + ']\n');
@@ -701,8 +690,7 @@ export function createArrayOfUrls(objectToCompare) {
 function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
     const artistName = objectToCompare.artist;
     const trackName = objectToCompare.track;
-    const notFound = { notValid: 'Not Found2' };
-    var similarObject = notFound;
+    var similarObject = {notValid: 'Not Found2'};
     let foundFlag = false;
 
     for (let item of youtubeReturnedObject.items) {
@@ -734,10 +722,8 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
 function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
     const artistName = objectToCompare.artist;
     const trackName = objectToCompare.track;
-    const notFound = { notValid: 'Not Found2' };
-
-    var similarObject = notFound;
-    for (var item of spotifyReturnedObject.tracks.items) {
+    let similarObject = {notValid: 'Not Found2'};
+    for (const item of spotifyReturnedObject.tracks.items) {
 
         let validator = false;
 
@@ -746,12 +732,11 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
             if (!matchStringsWithoutSpecs(trackName, item.name) && !matchStringsWithoutSpecs(item.name, trackName))
                 continue;
 
-            for (var artist of item.artists) {
+            for (const artist of item.artists) {
                 if (matchStringsWithoutSpecs(artistName, artist.name) && matchStringsWithoutSpecs(artist.name, artistName)) {
                     validator = true;
                     break;
-                }
-                else
+                } else
                     validator = false
             }
             similarObject = item;
@@ -766,12 +751,10 @@ function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
     return similarObject;
 }
 
-function searchInDeezerObject(deezerReturnedObject, objectToCompare){
-const artistName = objectToCompare.artist;
+function searchInDeezerObject(deezerReturnedObject, objectToCompare) {
+    const artistName = objectToCompare.artist;
     const trackName = objectToCompare.track;
-    const notFound = { notValid: 'Not Found2' };
-
-    var similarObject = notFound;
+    var similarObject = {notValid: 'Not Found2'};
     for (var item of deezerReturnedObject.data) {
 
         if (item.type === 'track') {
@@ -780,19 +763,19 @@ const artistName = objectToCompare.artist;
                 continue;
 
             if (matchStringsWithoutSpecs(artistName, item.artist.name) && matchStringsWithoutSpecs(item.artist.name, artistName)) {
-                    similarObject = item;
-                    break;
-                }
+                similarObject = item;
+                break;
             }
-
         }
-        return similarObject;
+
     }
+    return similarObject;
+}
 
 function matchStringsWithoutSpecs(firstString, secondString) {
-    var reg = new RegExp("[\\s-\\]\\[\\)\\(\\/\\.&]", "i");
-    var splitedFirstString = firstString.split(reg);
-    var splitedSecondString = secondString.split(reg);
+    const reg = new RegExp("[\\s-\\]\\[\\)\\(\\/\\.&]", "i");
+    let splitedFirstString = firstString.split(reg);
+    let splitedSecondString = secondString.split(reg);
     splitedFirstString = splitedFirstString.filter(function (el) {
         return el !== "";
     });
@@ -802,28 +785,27 @@ function matchStringsWithoutSpecs(firstString, secondString) {
 
     //LOG
     logArray.push('Splitted first string:[' + splitedFirstString.toString() + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     logArray.push('Splitted second string:[' + splitedSecondString.toString() + ']\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
 
-    for (var substringFirst of splitedFirstString) {
-        var indicator = false;
-        for (var substringSecond of splitedSecondString) {
+    for (const substringFirst of splitedFirstString) {
+        let indicator = false;
+        for (const substringSecond of splitedSecondString) {
             let reg = new RegExp(substringSecond, "i");
 
             if (substringFirst.search(reg) !== -1) {
                 indicator = true;
                 console.log('Found');
                 break;
-            }
-            else
+            } else
                 indicator = false;
         }
         if (!indicator) {
             //LOG
             logArray.push('Not equal\n');
-            console.log(logArray[logArray.length-1]);
+            console.log(logArray[logArray.length - 1]);
             //
             return false;
         }
@@ -831,7 +813,7 @@ function matchStringsWithoutSpecs(firstString, secondString) {
     }
     //LOG
     logArray.push('Equal\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
     //
     return true;
 }
@@ -840,8 +822,8 @@ function checkService(inputUrl) {
     let index = -1;
     let serviceName = "";
     let url = inputUrl;
-    if(url.indexOf('youtu.be/') !== -1){
-        url = 'https://www.youtube.com/watch?v=' + url.substring(url.indexOf('youtu.be/') + 'youtu.be/'.length,url.length);
+    if (url.indexOf('youtu.be/') !== -1) {
+        url = 'https://www.youtube.com/watch?v=' + url.substring(url.indexOf('youtu.be/') + 'youtu.be/'.length, url.length);
     }
 
     for (let Service in ServicesUrl) {
@@ -858,7 +840,7 @@ function checkService(inputUrl) {
     cutUrl = eraseDomain(cutUrl);
     //LOG
     logArray.push('Service Name: ' + serviceName + '\n');
-    console.log(logArray[logArray.length-1]);
+    console.log(logArray[logArray.length - 1]);
 
     return {
         service: serviceName,
@@ -877,7 +859,7 @@ function createObjectToCompare(artist = '', track = '', url = '', service = '') 
 }
 
 function checkServiceUrl(urlString, serviceString) {
-    var index = urlString.indexOf(serviceString);
+    let index = urlString.indexOf(serviceString);
     if (index !== -1)
         index += serviceString.length;
 
@@ -887,7 +869,7 @@ function checkServiceUrl(urlString, serviceString) {
 function setCookie(name, value, options) {
     options = options || {};
 
-    var expires = options.expires;
+    let expires = options.expires;
 
     if (typeof expires == "number" && expires) {
         var d = new Date();
@@ -900,11 +882,11 @@ function setCookie(name, value, options) {
 
     value = encodeURIComponent(value);
 
-    var updatedCookie = name + "=" + value;
+    let updatedCookie = name + "=" + value;
 
-    for (var propName in options) {
+    for (const propName in options) {
         updatedCookie += "; " + propName;
-        var propValue = options[propName];
+        const propValue = options[propName];
         if (propValue !== true) {
             updatedCookie += "=" + propValue;
         }
@@ -914,23 +896,23 @@ function setCookie(name, value, options) {
 }
 
 function getCookie(name) {
-    var matches = document.cookie.match(new RegExp(
+    const matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
 function checkTokenInCookie() {
-    var buffer = getCookie('spotifyKey');
+    const buffer = getCookie('spotifyKey');
     if (buffer)
         return buffer;
     else
         return getSpotifyToken();
 }
 
-export function getLog(){
+export function getLog() {
     let log = '';
-    for(let elem of logArray){
+    for (let elem of logArray) {
         log += elem;
     }
     return log;

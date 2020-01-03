@@ -40,10 +40,10 @@
     justify-items: start;
     }
   @media (min-width: 800px) {
-    grid-template-columns: 50px 1fr 50px;
+    grid-template-columns: 1fr 1fr 0px;
     grid-template-areas: "textForm button";
     justify-items: center;
       }
-  
-  
+
+
 }
