@@ -1,10 +1,11 @@
 .button {
     position: absolute;
     right: 10px;
+    left: 100px ;
     color: #bdbdbd;
 }
 .button.Mui-focused {
-      display: none;
+      display: none !important;
       height: 200px;
      }
 

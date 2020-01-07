@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Link from './Link';
-import '../scss/LinksBlock.scss';
-import youtube_icon from '../SVG/youtube-icon.svg';
-import spotify_icon from '../SVG/spotify-icon.svg';
-import youtubeMusic_icon from '../SVG/youtube-music-icon.svg';
-import deezer_icon from '../SVG/deezer-icon.svg'
+import '../../scss/LinksBlock.scss';
+import youtube_icon from '../../svg/youtube-icon.svg';
+import spotify_icon from '../../svg/spotify-icon.svg';
+import youtubeMusic_icon from '../../svg/youtube-music-icon.svg';
+import deezer_icon from '../../svg/deezer-icon.svg'
 
 export default class LinksBlock extends Component {
     constructor(props) {

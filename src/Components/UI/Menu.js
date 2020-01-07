@@ -11,8 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
-import '../scss/Menu.scss';
-import { getLog } from '../SendTrack_lib.js';
+import '../../scss/Menu.scss';
+import { getLog } from '../../SendTrack_lib.js';
 
 import Mailito from './Mailito';
 
