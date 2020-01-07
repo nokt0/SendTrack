@@ -455,7 +455,7 @@ function getSpotifyToken() {
     if (xhr.status !== 200) {
         alert(xhr.status + ': ' + xhr.statusText); // пример вывода: 404: Not Found
     } else {
-        result = JSON.parse(xhr.responseText);
+        result = json.parse(xhr.responseText);
     }  */
 
 
@@ -549,6 +549,15 @@ function createYoutubeArguments(serviceObj) {
 
 }
 
+function writeProps(artist, track, url, albumArt) {
+    return {
+        artist: artist,
+        track: track,
+        url: url,
+        albumArt: albumArt
+    }
+}
+
 export function createArrayOfUrls(objectToCompare) {
     let arrayOfUrls = {
         spotify: 'Not Found',
@@ -568,16 +577,7 @@ export function createArrayOfUrls(objectToCompare) {
         console.log(logArray[logArray.length - 1]);
         //
         return arrayOfUrls;
-    }
-
-    function writeProps(artist, track, url, albumArt) {
-        return {
-            artist: artist,
-            track: track,
-            url: url,
-            albumArt: albumArt
-        }
-    }
+    }   
 
     if (objectToCompare.initialService !== ServicesUrl.spotify) {
 

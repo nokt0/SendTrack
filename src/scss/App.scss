@@ -1,7 +1,7 @@
 .App {
   min-width: 100vh;
   min-height: 100vh;
-  max-width: 100vh;
+
 }
 
 .bg {
@@ -40,7 +40,7 @@
     justify-items: start;
     }
   @media (min-width: 800px) {
-    grid-template-columns: 1fr 1fr 0px;
+    grid-template-columns: 1fr;
     grid-template-areas: "textForm button";
     justify-items: center;
       }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../scss/Link.scss'
+import '../../scss/Link.scss'
 
 export default class LinksBlock extends Component {
     /*     constructor(props){
