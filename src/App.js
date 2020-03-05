@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import 'babel-core/polyfill';
+import "@babel/polyfill";
 
 import './scss/App.scss';
 import background from './img/black-bkg.webp';
