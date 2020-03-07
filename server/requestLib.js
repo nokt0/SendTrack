@@ -111,16 +111,14 @@ async function spotify(request, type) {
         options.headers["Authorization"] = "Bearer " + token;
     }
 
-    await tokenSpotify().then(token => {
-        if (token && token.key)
-            setOptions(token.key)
-    })
-
-     if (options.headers.Authorization === 'Bearer ') {
+    for (let i = 0; i < 5; i++) {
         await tokenSpotify().then(token => {
             if (token && token.key)
                 setOptions(token.key)
         })
+        if (options.headers.Authorization !== 'Bearer ') {
+            break;
+        }
     }
 
     let requestUrl = "";

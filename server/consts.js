@@ -25,7 +25,7 @@ exports.YOUTUBE_OPTIONS = freeze({
     headers: {
         'Content-Type': 'application/json'
     },
-    method:'GET'
+    method: 'GET'
 });
 
 exports.DEEZER_OPTIONS = freeze({
