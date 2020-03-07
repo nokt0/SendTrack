@@ -25,7 +25,7 @@
     "typescript": "^3.7.4"
   },
   "scripts": {
-    "backend": "node server.js",
+    "backend": "node ./server/server.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
@@ -50,7 +50,8 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.13.0",
+    "node-fetch": "^2.6.0",
+    "node-sass": "^4.13.1",
     "react-app-rewired": "^2.1.5"
   },
   "homepage": "https://bernschrodr.github.io/SendTrack"

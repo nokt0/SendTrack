@@ -14,10 +14,13 @@
 'use strict';
 
 const express = require('express');
+const constants = require('./consts');
+const requestData = require('./requestLib');
 const fs = require("fs");
 const app = express();
 const req = require("request");
 const cors = require('cors');
+const fetch = require('node-fetch');
 const freeze = require('deep-freeze-node');
 require('dotenv').config();
 const deezerRouter = express.Router();
@@ -71,7 +74,7 @@ function requestToken() {
                 token.date = Date.now();
                 token.expires = Date.now() + 3600000;
                 console.log(token.date.toString());
-                fs.writeFileSync("./private/token.json", JSON.stringify(token));
+                fs.writeFileSync("../private/token.json", JSON.stringify(token));
                 return {
                     token: token.key,
                     expires: token.expires
@@ -83,7 +86,7 @@ function requestToken() {
 
         req(spotifyTokenOptions, callback);
     } else
-        return {token: token.key, expires: token.expires};
+        return { token: token.key, expires: token.expires };
 };
 
 function youtubeRequest(request, response, route) {
@@ -100,14 +103,44 @@ function youtubeRequest(request, response, route) {
     }
 
     requestUrl += "key=" + YOUTUBE_API_KEY;
-    req({...youTubeOptions}.url + requestUrl, function (error, resp, body) {
+    req({ ...youTubeOptions }.url + requestUrl, function (error, resp, body) {
         if (error != null) {
-            response.send({error: error});
+            response.send({ error: error });
             return;
         }
         response.send(JSON.parse(body));
     });
 }
+
+
+app.get("/search", async (request, response) => {
+    let responseJson = { ...constants.RESPONSE_JSON };
+    function setResponseJson(data) {
+        responseJson = { ...responseJson, ...data };
+    };
+
+    async function requestAll() {
+        return Promise.allSettled([
+            requestData.youtube(request, constants.SEARCH_REQUEST)
+                .then((json) => {
+                    setResponseJson(json);
+                    console.log(responseJson)
+                }),
+            requestData.spotify(request, constants.SEARCH_REQUEST)
+                .then((json) =>
+                    setResponseJson(json))]);
+
+    };
+
+    await requestAll();
+    response.json(responseJson);
+
+})
+
+app.get("/track", (request, response) => {
+    let responseJson = { ...constants.RESPONSE_JSON };
+
+})
 
 app.use("/youtube", youTubeRouter);
 
@@ -131,7 +164,7 @@ deezerRouter.get('/track', function (request, response) {
 deezerRouter.get('/search', function (request, response) {
     let track = request.query.track;
     let artist = request.query.artist;
-    let requestOptions = {...deezerOptions};
+    let requestOptions = { ...deezerOptions };
     requestOptions.url = 'https://api.deezer.com/search?q=';
     if (track && artist)
         requestOptions.url += 'track:"' + track + '" ' + 'artist:"' + artist + '"';
@@ -144,7 +177,7 @@ deezerRouter.get('/search', function (request, response) {
     requestOptions.url = encodeURI(requestOptions.url);
     req(requestOptions, function (error, resp, body) {
         if (error != null) {
-            response.send({error: error});
+            response.send({ error: error });
             return;
         }
         response.send(JSON.parse(body));
@@ -168,36 +201,36 @@ spotifyRouter.get("/tracks/:trackName", function (request, response) {
     options.url += "/tracks/" + request.query.trackName;
     req(options, function (error, resp, body) {
         if (error != null) {
-            response.send({error: error});
+            response.send({ error: error });
             return;
         }
         response.send(JSON.parse(body));
     });
 });
 
-spotifyRouter.get("/search", function (request,response){
-  let requestUrl = "/search?";
-  let options = {
-    ...spotifyOptions, headers: {
-      "Authorization": "Bearer " + requestToken().token,
-      "Accept": "application/json",
-      "Content-Type": "application/json"
+spotifyRouter.get("/search", function (request, response) {
+    let requestUrl = "/search?";
+    let options = {
+        ...spotifyOptions, headers: {
+            "Authorization": "Bearer " + requestToken().token,
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+    };
+
+    for (let q in request.query) {
+        requestUrl += q + "=" + request.query[q] + "&";
     }
-  };
 
-  for (let q in request.query) {
-    requestUrl += q + "=" + request.query[q] + "&";
-  }
+    options.url += requestUrl;
 
-  options.url += requestUrl;
-
-  req(options , function (error, resp, body) {
-    if (error != null) {
-      response.send({error: error});
-      return;
-    }
-    response.send(JSON.parse(body));
-  });
+    req(options, function (error, resp, body) {
+        if (error != null) {
+            response.send({ error: error });
+            return;
+        }
+        response.send(JSON.parse(body));
+    });
 
 });
 
