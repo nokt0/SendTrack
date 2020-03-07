@@ -43,11 +43,11 @@ async function youtube(request, type) {
 
 var spotifyToken;
 async function tokenSpotify() {
-    let content, token;
+    let token;
     if (spotifyToken) {
         token = spotifyToken
     }
-    else{
+    else {
         token = { key: "", date: 0 }
     }
 
@@ -72,10 +72,18 @@ async function tokenSpotify() {
             console.log(token);
         }
 
+        function error() {
+            token = undefined;
+        }
+
         await fetch(constants.SPOTIFY_TOKEN_OPTIONS.url
             , constants.SPOTIFY_TOKEN_OPTIONS)
             .then(res => res.json())
             .then(json => callback(json))
+            .catch(e => {
+                console.log(e);
+                error();
+            })
 
         spotifyToken = token;
         return spotifyToken;
@@ -102,7 +110,18 @@ async function spotify(request, type) {
     function setOptions(token) {
         options.headers["Authorization"] = "Bearer " + token;
     }
-    await tokenSpotify().then(token => setOptions(token.key));
+
+    await tokenSpotify().then(token => {
+        if (token && token.key)
+            setOptions(token.key)
+    })
+
+     if (options.headers.Authorization === 'Bearer ') {
+        await tokenSpotify().then(token => {
+            if (token && token.key)
+                setOptions(token.key)
+        })
+    }
 
     let requestUrl = "";
     switch (type) {
