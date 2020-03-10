@@ -11,8 +11,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-'use strict';
-
 const express = require('express');
 const constants = require('./consts');
 const requestData = require('./requestLib');
@@ -67,7 +65,7 @@ function requestToken() {
     if (token.key === "" || Date.now() > token.expires || token.date === 0) {
 
         function callback(error, resp, body) {
-            if (!error && resp.statusCode == 200) {
+            if (!error && resp.statusCode === 200) {
 
                 let info = JSON.parse(body);
                 token.key = info.access_token;
@@ -167,7 +165,7 @@ deezerRouter.get('/search', function (request, response) {
     let requestOptions = { ...deezerOptions };
     requestOptions.url = 'https://api.deezer.com/search?q=';
     if (track && artist)
-        requestOptions.url += 'track:"' + track + '" ' + 'artist:"' + artist + '"';
+        requestOptions.url += 'track:"' + track + '" artist:"' + artist + '"';
     else if (artist)
         requestOptions.url += 'artist:"' + artist + '"';
     else if (track)
