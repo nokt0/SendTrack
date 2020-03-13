@@ -147,6 +147,40 @@ async function spotify(request, type) {
     return answerObject;
 }
 
+async function deezer(request,type){
+    let answerObject = { spotify: "" };
+    if ((request.query.track && request.query.artist) || (request.query.id)) {
+    }
+    else {
+        return answerObject;
+    }
+
+    let options = {...constants.DEEZER_OPTIONS};
+    let requestUrl = options.url;
+    switch (type) {
+        case constants.SEARCH_REQUEST:
+            requestUrl += '/search?q=artist:"' + request.query.artist + '" track:"' + request.query.track + '"';
+            break;
+        case constants.TRACK_REQUEST:
+            requestUrl += "/track/" + request.query.id
+            break;
+        default:
+            return answerObject;
+    }
+
+    function setJson(json) {
+        answerObject.spotify = json;
+    }
+
+    await fetch(requestUrl, options)
+        .then(res => res.json())
+        .then(json => setJson(json))
+        .catch(e => console.log(e));
+
+    return answerObject;
+
+}
+
 exports.youtube = youtube;
 exports.spotify = spotify;
 exports.tokenSpotify = tokenSpotify;
