@@ -113,27 +113,21 @@ function youtubeRequest(request, response, route) {
 
 app.get("/search", async (request, response) => {
     let responseJson = { ...constants.RESPONSE_JSON };
-    function setResponseJson(data) {
-        responseJson = { ...responseJson, ...data };
-    };
 
-    async function requestAll() {
-        return Promise.allSettled([
-            requestData.youtube(request, constants.SEARCH_REQUEST)
-                .then((json) => {
-                    setResponseJson(json);
-                    console.log(responseJson)
-                }),
-            requestData.spotify(request, constants.SEARCH_REQUEST)
-                .then((json) =>
-                    setResponseJson(json))]);
+    let spotify = requestData.spotify(request.query, constants.SEARCH_REQUEST);
+    let youtube = requestData.youtube(request.query,constants.SEARCH_REQUEST);
+    let deezer = requestData.deezer(request.query, constants.SEARCH_REQUEST);
+    let promisesArr = [spotify,youtube,deezer];
 
-    };
+   responseJson = await Promise.allSettled(promisesArr)
+    .then(values=>
+        values.reduce((accumulator,currentValue)=>{
+            return {...accumulator,...currentValue.value};
+    },{}));
 
-    await requestAll();
     response.json(responseJson);
 
-})
+});
 
 app.get("/track", (request, response) => {
     let responseJson = { ...constants.RESPONSE_JSON };

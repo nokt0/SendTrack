@@ -29,7 +29,7 @@ exports.YOUTUBE_OPTIONS = freeze({
 });
 
 exports.DEEZER_OPTIONS = freeze({
-    url: "https://api.deezer.com/",
+    url: "https://api.deezer.com",
     headers: {
         "content-type": "application/json"
     }

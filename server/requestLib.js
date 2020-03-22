@@ -5,10 +5,10 @@ const fetch = require('node-fetch');
 async function youtube(request, type) {
 
     let answerObject = { youtube: "" };
+    let{track,artist,id} = request;
+    const isCorrect = (track && artist) || id;
 
-    if ((request.query.track && request.query.artist) || (request.query.id)) {
-    }
-    else {
+    if (!isCorrect) {
         return answerObject;
     }
 
@@ -16,10 +16,10 @@ async function youtube(request, type) {
     let requestUrl = "";
     switch (type) {
         case constants.SEARCH_REQUEST:
-            requestUrl = "/search?q=" + request.query.artist + " " + request.query.track;
+            requestUrl = "/search?q=" + artist + " " + track;
             break;
         case constants.TRACK_REQUEST:
-            requestUrl = "/videos?id=" + request.query.id
+            requestUrl = "/videos?id=" + id
             break;
         default:
             return answerObject;
@@ -93,12 +93,13 @@ async function tokenSpotify() {
 
 async function spotify(request, type) {
     let answerObject = { spotify: "" };
+    let {track,artist,id} = request;
+    const isCorrect = (track && artist) || id;
 
-    if ((request.query.track && request.query.artist) || (request.query.id)) {
-    }
-    else {
+    if (!isCorrect) {
         return answerObject;
     }
+    
     let options = {
         ...constants.SPOTIFY_OPTIONS, headers: {
             "Authorization": "Bearer ",
@@ -124,10 +125,10 @@ async function spotify(request, type) {
     let requestUrl = "";
     switch (type) {
         case constants.SEARCH_REQUEST:
-            requestUrl = "/search?q=" + request.query.artist + " " + request.query.track + "&type=track";
+            requestUrl = "/search?q=" + artist + " " + track + "&type=track";
             break;
         case constants.TRACK_REQUEST:
-            requestUrl = "/tracks/" + request.query.id
+            requestUrl = "/tracks/" + id;
             break;
         default:
             return answerObject;
@@ -148,10 +149,11 @@ async function spotify(request, type) {
 }
 
 async function deezer(request,type){
-    let answerObject = { spotify: "" };
-    if ((request.query.track && request.query.artist) || (request.query.id)) {
-    }
-    else {
+    let answerObject = { deezer: "" };
+    let {track,artist,id} = request;
+    const isCorrect = (track && artist) || id;
+
+    if (!isCorrect) {
         return answerObject;
     }
 
@@ -159,17 +161,18 @@ async function deezer(request,type){
     let requestUrl = options.url;
     switch (type) {
         case constants.SEARCH_REQUEST:
-            requestUrl += '/search?q=artist:"' + request.query.artist + '" track:"' + request.query.track + '"';
+            requestUrl += '/search?q=artist:"' + artist + '" track:"' + track + '"';
             break;
         case constants.TRACK_REQUEST:
-            requestUrl += "/track/" + request.query.id
+            requestUrl += "/track/" + id;
             break;
         default:
             return answerObject;
     }
 
     function setJson(json) {
-        answerObject.spotify = json;
+        answerObject.deezer = json;
+        return answerObject.spotify;
     }
 
     await fetch(requestUrl, options)
@@ -184,3 +187,4 @@ async function deezer(request,type){
 exports.youtube = youtube;
 exports.spotify = spotify;
 exports.tokenSpotify = tokenSpotify;
+exports.deezer  = deezer;
