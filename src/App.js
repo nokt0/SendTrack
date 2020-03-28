@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import "@babel/polyfill";
 
+
 import './scss/App.scss';
 import background from './img/black-bkg.webp';
 import InputForm from './Components/UI/InputForm';
