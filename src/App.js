@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import "@babel/polyfill";
 
 import './scss/App.scss';
 import background from './img/black-bkg.webp';
-//import crystall from './img/image-from-rawpixel-id-558806-jpeg.jpg';
-import InputForm from './Components/InputForm';
+import InputForm from './Components/UI/InputForm';
 import { urlWorker, createArrayOfUrls, searchByWord, getLog } from '../src/SendTrack_lib.js';
-import LinksBlock from './Components/LinksBlock';
+import LinksBlock from './Components/UI/LinksBlock';
+import storeFactory from './store/store.js';
 
-
+const store = storeFactory();
 
 class App extends Component {
 
@@ -29,8 +30,8 @@ class App extends Component {
         youtube: 'Not Found',
         youtubeMusic: 'Not Found'
       },
-    }
-    this.state = this.initialState
+    };
+    this.state = this.initialState;
     this.getLink = this.getLink.bind(this);
   }
 
@@ -67,7 +68,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-       {/*  <img className="crystall" src={crystall} alt=""/> */}
         <img className="bg" src={this.state.background} alt="" />
         <InputForm onSubmit={this.getLink}/>
         <LinksBlock arrayOfUrls={this.state.arrayOfUrls} artist={this.state.artist} track={this.state.track} url={this.state.url} />

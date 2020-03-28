@@ -3,7 +3,7 @@ import ListItem from '@material-ui/core/ListItem';
 import BugReport from '@material-ui/icons/BugReport';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import '../scss/Mailito.scss';
+import '../../scss/Mailito.scss';
 
 export default class Mailito extends Component{
 
