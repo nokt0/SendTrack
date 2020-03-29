@@ -5,8 +5,7 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "standard",
-        "plugin:security/recommended"
+        "google"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -20,8 +19,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "security"
+        "react"
     ],
-    "rules": {}
+    "rules": {
+    }
 }

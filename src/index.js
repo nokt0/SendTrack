@@ -4,14 +4,14 @@ import './Styles/index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
-import storeFactory from "./store/store";
+import storeFactory from './store/store';
 
 const store = storeFactory();
 window.store = store;
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+      <App/>
     </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
