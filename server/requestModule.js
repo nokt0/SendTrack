@@ -1,4 +1,4 @@
-const constants = require('./consts');
+const C = require('./consts');
 const fetch = require('node-fetch');
 let spotifyToken;
 /**
@@ -15,20 +15,20 @@ async function youtube(request, type) {
     return answerObject;
   }
 
-  const youtubeOptions = {...constants.YOUTUBE_OPTIONS};
+  const youtubeOptions = {...C.YOUTUBE_OPTIONS};
   let requestUrl = '';
   switch (type) {
-    case constants.SEARCH_REQUEST:
+    case C.SEARCH_REQUEST:
       requestUrl = '/search?q=' + artist + ' ' + track;
       break;
-    case constants.TRACK_REQUEST:
+    case C.TRACK_REQUEST:
       requestUrl = '/videos?id=' + id;
       break;
     default:
       return answerObject;
   }
 
-  requestUrl += '&part=snippet&key=' + constants.YOUTUBE_API_KEY;
+  requestUrl += '&part=snippet&key=' + C.YOUTUBE_API_KEY;
   youtubeOptions.path = encodeURI(requestUrl);
   /**
    *
@@ -86,8 +86,8 @@ async function tokenSpotify() {
       token = undefined;
     }
 
-    await fetch(constants.SPOTIFY_TOKEN_OPTIONS.url
-        , constants.SPOTIFY_TOKEN_OPTIONS)
+    await fetch(C.SPOTIFY_TOKEN_OPTIONS.url
+        , C.SPOTIFY_TOKEN_OPTIONS)
         .then((res) => res.json())
         .then((json) => callback(json))
         .catch((e) => {
@@ -116,7 +116,7 @@ async function spotify(request, type) {
   }
 
   const options = {
-    ...constants.SPOTIFY_OPTIONS,
+    ...C.SPOTIFY_OPTIONS,
     headers: {
       'Authorization': 'Bearer ',
       'Accept': 'application/json',
@@ -144,10 +144,10 @@ async function spotify(request, type) {
 
   let requestUrl = '';
   switch (type) {
-    case constants.SEARCH_REQUEST:
+    case C.SEARCH_REQUEST:
       requestUrl = '/search?q=' + artist + ' ' + track + '&type=track';
       break;
-    case constants.TRACK_REQUEST:
+    case C.TRACK_REQUEST:
       requestUrl = '/tracks/' + id;
       break;
     default:
@@ -184,13 +184,13 @@ async function deezer(request, type) {
     return answerObject;
   }
 
-  const options = {...constants.DEEZER_OPTIONS};
+  const options = {...C.DEEZER_OPTIONS};
   let requestUrl = options.url;
   switch (type) {
-    case constants.SEARCH_REQUEST:
+    case C.SEARCH_REQUEST:
       requestUrl += '/search?q=artist:"' + artist + '" track:"' + track + '"';
       break;
-    case constants.TRACK_REQUEST:
+    case C.TRACK_REQUEST:
       requestUrl += '/track/' + id;
       break;
     default:

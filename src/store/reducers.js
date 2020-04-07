@@ -1,26 +1,37 @@
-import {requestData, submitFormByUrl,submitFormByArtistTrack} from "./actions.js";
-import C from "../constants.js";
+import {
+  requestData,
+  submitFormByUrl,
+  submitFormByArtistTrack,
+} from './actions.js';
+import {creatByIdRequest, createArtistTrackRequestUrl} from './helpers/urlWorker';
+import C from '../constants.js';
 
 function doSubmitForm(state, action) {
-    if(action.type !== C.SUBMIT_FORM){
-        return state;
-    }
-    switch (action.submitBy) {
-        case "BY_URL":
-            return {
-                ...state,
-                url: action.url,
-                artist : undefined,
-                track : undefined
-            };
-        case "BY_ARTIST_TRACK":
-            return {
-                ...state,
-                url: undefined,
-                artist : action.artist,
-                track : action.track
-            };
-        default:
-            return state;
-    }
+  if (action.type !== C.SUBMIT_FORM) {
+    return state;
+  }
+  switch (action.submitBy) {
+    case 'BY_URL':
+
+      return {
+        ...state,
+        url: action.url,
+        artist: undefined,
+        track: undefined,
+      };
+    case 'BY_ARTIST_TRACK':
+      const {artist, track} = action;
+      if (artist && track) {
+        fetch(createArtistTrackRequestUrl(artist, track)).then;
+      }
+
+      return {
+        ...state,
+        url: undefined,
+        artist: action.artist,
+        track: action.track,
+      };
+    default:
+      return state;
+  }
 }

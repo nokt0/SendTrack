@@ -1,4 +1,4 @@
-const constants = require('./consts');
+const C = require('./consts');
 const req = require('./requestModule');
 /**
  *
@@ -151,28 +151,28 @@ function searchInDeezerObject(deezerReturnedObject, objectToCompare) {
  * @param {*} request
  */
 async function everywhere(request, withoutArr) {
-  let responseJson = {...constants.RESPONSE_JSON};
+  let responseJson = {...C.RESPONSE_JSON};
   let spotify;
   let youtube;
   let deezer;
   const promisesArr = [];
   let without;
   if (withoutArr === undefined) {
-    without = [constants.YOUTUBE, constants.DEEZER, constants.SPOTIFY];
+    without = [C.YOUTUBE, C.DEEZER, C.SPOTIFY];
   } else {
     without = withoutArr;
   }
 
-  if (without.indexOf(constants.SPOTIFY) === -1) {
-    spotify = req.spotify(request, constants.SEARCH_REQUEST);
+  if (without.indexOf(C.SPOTIFY) === -1) {
+    spotify = req.spotify(request, C.SEARCH_REQUEST);
     promisesArr.push(spotify);
   }
-  if (without.indexOf(constants.YOUTUBE) === -1) {
-    youtube = req.youtube(request, constants.SEARCH_REQUEST);
+  if (without.indexOf(C.YOUTUBE) === -1) {
+    youtube = req.youtube(request, C.SEARCH_REQUEST);
     promisesArr.push(youtube);
   }
-  if (without.indexOf(constants.DEEZER) === -1) {
-    deezer = req.deezer(request, constants.SEARCH_REQUEST);
+  if (without.indexOf(C.DEEZER) === -1) {
+    deezer = req.deezer(request, C.SEARCH_REQUEST);
     promisesArr.push(deezer);
   }
 
@@ -199,9 +199,9 @@ async function getArtistTrack(request) {
 
   if (service && id) {
     switch (service) {
-      case constants.YOUTUBE:
+      case C.YOUTUBE:
         requestedObj = await req.youtube(request,
-            constants.TRACK_REQUEST);
+            C.TRACK_REQUEST);
         const {snippet} = requestedObj.youtube.items[0];
         index = snippet.title.indexOf('-');
 
@@ -213,15 +213,15 @@ async function getArtistTrack(request) {
           track = snippet.title.trim();
         }
         break;
-      case constants.SPOTIFY:
+      case C.SPOTIFY:
         requestedObj = await req.spotify(request,
-            constants.TRACK_REQUEST);
+            C.TRACK_REQUEST);
         track = requestedObj.spotify.name;
         artist = requestedObj.artists[0].name;
         break;
-      case constants.DEEZER:
+      case C.DEEZER:
         requestedObj = await req.deezer(request,
-            constants.TRACK_REQUEST);
+            C.TRACK_REQUEST);
         track = requestedObj.deezer.title_short;
         artist = requestedObj.deezer.artist.name;
         break;

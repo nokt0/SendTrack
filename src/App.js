@@ -6,9 +6,9 @@ import "@babel/polyfill";
 import './scss/App.scss';
 import background from './img/black-bkg.webp';
 import InputForm from './Components/UI/InputForm';
-import { urlWorker, createArrayOfUrls, searchByWord, getLog } from '../src/SendTrack_lib.js';
+import { urlWorker, createArrayOfUrls, searchByWord, getLog } from './store/lib/SendTrack_lib.js';
 import LinksBlock from './Components/UI/LinksBlock';
-import storeFactory from './store/store.js';
+import storeFactory from './redux/store.js';
 
 const store = storeFactory();
 

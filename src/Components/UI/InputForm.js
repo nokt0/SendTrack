@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../../scss/InputForm.scss';
 import searchLogo from '../../svg/search-solid.svg';
-import {urlValidator} from '../../SendTrack_lib.js';
+import {urlValidator} from '../../store/lib/SendTrack_lib.js';
 import Menu from './Menu';
 
 export default class InputForm extends Component {
