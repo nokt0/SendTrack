@@ -1,5 +1,10 @@
 const constants = {
   REQUEST_DATA: 'REQUEST_DATA',
+  FETCH_ERROR: 'FETCH_ERROR',
+  IS_FETCHING: 'IS_FETCHING',
+  INPUT_ERROR: 'INPUT_ERROR',
+  FETCH_SUCCESS: 'FETCH_SUCCESS',
+  SUBMIT_TYPE:'SUBMIT_TYPE',
   requestService: {
     YOUTUBE: 'YOUTUBE',
     SPOTIFY: 'SPOTIFY',
@@ -12,13 +17,10 @@ const constants = {
     SEARCH: 'SEARCH',
   },
   SUBMIT_FORM: 'SUBMIT_FORM',
-  submitType: {
+  submitTypes: {
     BY_URL: 'BY_URL',
     BY_ARTIST_TRACK: 'BY_ARTIST_TRACK',
   },
-  FETCH_ERROR: 'FETCH_ERROR',
-  IS_FETCHING: 'IS_FETCHING',
-  INPUT_ERROR: 'INPUT_ERROR',
 };
 
 export default constants;

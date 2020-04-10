@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import '../../scss/Menu.scss';
-import {getLog} from '../../store/lib/SendTrack_lib.js';
+import {getLog} from '../../store/helpers/SendTrack_lib.js';
 
 import Mailito from './Mailito';
 

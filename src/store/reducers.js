@@ -3,35 +3,46 @@ import {
   submitFormByUrl,
   submitFormByArtistTrack,
 } from './actions.js';
-import {creatByIdRequest, createArtistTrackRequestUrl} from './helpers/urlWorker';
+import {
+  creatByIdRequest,
+  createArtistTrackRequestUrl,
+} from './helpers/urlWorker';
 import C from '../constants.js';
 
-function doSubmitForm(state, action) {
-  if (action.type !== C.SUBMIT_FORM) {
-    return state;
-  }
-  switch (action.submitBy) {
-    case 'BY_URL':
-
-      return {
-        ...state,
-        url: action.url,
-        artist: undefined,
-        track: undefined,
-      };
-    case 'BY_ARTIST_TRACK':
-      const {artist, track} = action;
-      if (artist && track) {
-        fetch(createArtistTrackRequestUrl(artist, track)).then;
-      }
-
-      return {
-        ...state,
-        url: undefined,
-        artist: action.artist,
-        track: action.track,
-      };
+export function fetchSuccess(state = {}, action) {
+  switch (action.type) {
+    case C.FETCH_SUCCESS:
+      return action.tracks;
     default:
       return state;
   }
 }
+
+export function tracksHasErrored(state = false, action) {
+  switch (action.type) {
+    case C.FETCH_ERROR:
+      return action.isTrackErrored;
+    default:
+      return state;
+  }
+}
+
+export function tracksIsFetching(state = false, action) {
+  switch (action.type) {
+    case C.IS_FETCHING:
+      return action.isFetching;
+
+    default:
+      return state;
+  }
+}
+
+export function submitType(state = '', action) {
+  switch (action.type) {
+    case C.SUBMIT_TYPE:
+      return action.submitType;
+    default:
+      return state;
+  }
+}
+

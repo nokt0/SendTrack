@@ -158,7 +158,7 @@ async function everywhere(request, withoutArr) {
   const promisesArr = [];
   let without;
   if (withoutArr === undefined) {
-    without = [C.YOUTUBE, C.DEEZER, C.SPOTIFY];
+    without = [];
   } else {
     without = withoutArr;
   }

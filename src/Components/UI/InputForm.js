@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../../scss/InputForm.scss';
 import searchLogo from '../../svg/search-solid.svg';
-import {urlValidator} from '../../store/lib/SendTrack_lib.js';
+import {urlValidator} from '../../store/helpers/SendTrack_lib.js';
 import Menu from './Menu';
 
 export default class InputForm extends Component {
@@ -11,7 +11,6 @@ export default class InputForm extends Component {
     static propTypes = {
         content: PropTypes.string,
         isUrl:  PropTypes.bool
-        
     };
 
     constructor(props) {
@@ -44,14 +43,13 @@ export default class InputForm extends Component {
                 isUrl: false,
             }));
         }
-        
-        this.props.onSubmit(input, this.state.isUrl);
+
+        this.props.submitForm(input);
+        //this.props.onSubmit(input, this.state.isUrl);
         this.setState(() => ({
             content: '',
             isUrl: false,
         }))
-        console.log("submit");
-
     }
 
     render() {

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import "@babel/polyfill";
-
 
 import './scss/App.scss';
 import background from './img/black-bkg.webp';
 import InputForm from './Components/UI/InputForm';
-import { urlWorker, createArrayOfUrls, searchByWord, getLog } from './store/lib/SendTrack_lib.js';
+import { urlWorker, createArrayOfUrls, searchByWord, getLog } from './store/helpers/SendTrack_lib.js';
 import LinksBlock from './Components/UI/LinksBlock';
-import storeFactory from './redux/store.js';
+import configureStore from './store/store.js';
+import InputFormContainer from './Components/Containers/InputFormContainer';
 
-const store = storeFactory();
+const store = configureStore();
 
 class App extends Component {
 
@@ -70,7 +69,7 @@ class App extends Component {
     return (
       <div className="App">
         <img className="bg" src={this.state.background} alt="" />
-        <InputForm onSubmit={this.getLink}/>
+        <InputFormContainer/>
         <LinksBlock arrayOfUrls={this.state.arrayOfUrls} artist={this.state.artist} track={this.state.track} url={this.state.url} />
         <div id="result"></div>
       </div>
