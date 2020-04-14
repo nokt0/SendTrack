@@ -1,11 +1,7 @@
 const C = require('./consts');
 const fetch = require('node-fetch');
-let spotifyToken;
-/**
- *
- * @param {*} request
- * @param {*} type
- */
+
+
 async function youtube(request, type) {
   const answerObject = {youtube: ''};
   const {track, artist, id} = request;
@@ -30,10 +26,7 @@ async function youtube(request, type) {
 
   requestUrl += '&part=snippet&key=' + C.YOUTUBE_API_KEY;
   youtubeOptions.path = encodeURI(requestUrl);
-  /**
-   *
-   * @param {*} json
-   */
+
   function setJson(json) {
     answerObject.youtube = json;
   }
@@ -46,9 +39,8 @@ async function youtube(request, type) {
 
   return answerObject;
 }
-/**
- *
- */
+
+let spotifyToken;
 async function tokenSpotify() {
   let token;
   if (spotifyToken) {
@@ -61,10 +53,7 @@ async function tokenSpotify() {
   console.log(new Date(Date.now() + 3600000).toString());
 
   if (token.key === '' || Date.now() > token.expires || token.date === 0) {
-    /**
-     *
-     * @param {*} json
-     */
+
     function callback(json) {
       if (json) {
         const info = json;
@@ -98,14 +87,10 @@ async function tokenSpotify() {
     spotifyToken = token;
     return spotifyToken;
   } else {
-    return {token: token.key, expires: token.expires};
+    return {key: token.key, expires: token.expires};
   }
 };
-/**
- *
- * @param {*} request
- * @param {*} type
- */
+
 async function spotify(request, type) {
   const answerObject = {spotify: ''};
   const {track, artist, id} = request;
@@ -123,10 +108,7 @@ async function spotify(request, type) {
       'Content-Type': 'application/json',
     },
   };
-  /**
-   *
-   * @param {*} token
-   */
+
   function setOptions(token) {
     options.headers.Authorization = 'Bearer ' + token;
   }
@@ -153,10 +135,7 @@ async function spotify(request, type) {
     default:
       return answerObject;
   }
-  /**
-   *
-   * @param {*} json
-   */
+
   function setJson(json) {
     answerObject.spotify = json;
   }
@@ -170,11 +149,7 @@ async function spotify(request, type) {
 
   return answerObject;
 }
-/**
- *
- * @param {*} request
- * @param {*} type
- */
+
 async function deezer(request, type) {
   const answerObject = {deezer: ''};
   const {track, artist, id} = request;
@@ -196,10 +171,7 @@ async function deezer(request, type) {
     default:
       return answerObject;
   }
-  /**
-   *
-   * @param {*} json
-   */
+
   function setJson(json) {
     answerObject.deezer = json;
     return answerObject.spotify;

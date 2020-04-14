@@ -1,10 +1,6 @@
 const C = require('./consts');
-const req = require('./requestModule');
-/**
- *
- * @param {*} firstString
- * @param {*} secondString
- */
+const req = require('./requestModules');
+
 function matchStringsWithoutSpecs(firstString, secondString) {
   const reg = new RegExp('[\\s-\\]\\[\\)\\(\\/\\.&]', 'i');
   let splitedFirstString = firstString.split(reg);
@@ -46,24 +42,20 @@ function matchStringsWithoutSpecs(firstString, secondString) {
   // */
   return true;
 }
-/**
- *
- * @param {*} youtubeReturnedObject
- * @param {*} objectToCompare
- */
+
 function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
-  const {spotifyArtist, track} = objectToCompare;
+  const {artist, track} = objectToCompare;
   let similarObject = {notValid: 'Not Found2'};
   let foundFlag = false;
 
   for (const item of youtubeReturnedObject.items) {
     if (item.snippet.channelTitle.indexOf('- Topic') !== -1) {
       const validTitle = item.snippet.channelTitle.substring(
-          0, item.snippet.channelTitle.indexOf(' - Topic'));
+        0, item.snippet.channelTitle.indexOf(' - Topic'));
       if (!matchStringsWithoutSpecs(track, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, track)) {
         continue;
       }
-      if (!matchStringsWithoutSpecs(spotifyArtist, validTitle) && !matchStringsWithoutSpecs(validTitle, spotifyArtist)) {
+      if (!matchStringsWithoutSpecs(artist, validTitle) && !matchStringsWithoutSpecs(validTitle, artist)) {
         continue;
       }
       similarObject = item;
@@ -73,8 +65,8 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
   }
   if (!foundFlag) {
     for (const item of youtubeReturnedObject.items) {
-      if (!matchStringsWithoutSpecs(spotifyArtist + ' ' + track, item.snippet.title) &&
-       !matchStringsWithoutSpecs(item.snippet.title, spotifyArtist + ' ' + track)) {
+      if (!matchStringsWithoutSpecs(artist + ' ' + track, item.snippet.title) &&
+        !matchStringsWithoutSpecs(item.snippet.title, artist + ' ' + track)) {
         continue;
       }
       similarObject = item;
@@ -84,60 +76,55 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
 
   return similarObject;
 }
-/**
- *
- * @param {*} spotifyReturnedObject
- * @param {*} objectToCompare
- */
+
 function searchInSpotifyObject(spotifyReturnedObject, objectToCompare) {
   const {artist, track} = objectToCompare;
+  const {tracks} = spotifyReturnedObject;
+  let similarObject;
+  if (artist && track && tracks) {
 
-  let similarObject = {notValid: 'Not Found2'};
-  for (const item of spotifyReturnedObject.tracks.items) {
-    let validator = false;
+    for (const item of tracks.items) {
+      let validator = false;
 
-    if (item.type === 'track') {
-      if (!matchStringsWithoutSpecs(artist, item.name) &&
-      !matchStringsWithoutSpecs(item.name, artist)) {
-        continue;
-      }
-
-      for (const spotifyArtist of item.artists) {
-        if (matchStringsWithoutSpecs(track, spotifyArtist.name) &&
-        matchStringsWithoutSpecs(spotifyArtist.name, track)) {
-          validator = true;
-          break;
-        } else {
-          validator = false;
+      if (item.type === 'track') {
+        if (!matchStringsWithoutSpecs(artist, item.name) &&
+          !matchStringsWithoutSpecs(item.name, artist)) {
+          continue;
         }
-      }
-      similarObject = item;
 
-      if (validator) {
-        return similarObject;
+        for (const spotifyArtist of item.artists) {
+          if (matchStringsWithoutSpecs(track, spotifyArtist.name) &&
+            matchStringsWithoutSpecs(spotifyArtist.name, track)) {
+            validator = true;
+            break;
+          } else {
+            validator = false;
+          }
+        }
+        similarObject = item;
+
+        if (validator) {
+          return similarObject;
+        }
       }
     }
   }
 
   return similarObject;
 }
-/**
- *
- * @param {*} deezerReturnedObject
- * @param {*} objectToCompare
- */
+
 function searchInDeezerObject(deezerReturnedObject, objectToCompare) {
   const {artist, track} = objectToCompare;
   let similarObject = {notValid: 'Not Found2'};
   for (const item of deezerReturnedObject.data) {
     if (item.type === 'track') {
       if (!matchStringsWithoutSpecs(track, item.title) &&
-      !matchStringsWithoutSpecs(item.title, track)) {
+        !matchStringsWithoutSpecs(item.title, track)) {
         continue;
       }
 
       if (matchStringsWithoutSpecs(artist, item.artist.name) &&
-      matchStringsWithoutSpecs(item.artist.name, artist)) {
+        matchStringsWithoutSpecs(item.artist.name, artist)) {
         similarObject = item;
         break;
       }
@@ -146,11 +133,7 @@ function searchInDeezerObject(deezerReturnedObject, objectToCompare) {
   return similarObject;
 }
 
-/**
- *
- * @param {*} request
- */
-async function everywhere(request, withoutArr) {
+async function everywhere(artistTrack, withoutArr) {
   let responseJson = {...C.RESPONSE_JSON};
   let spotify;
   let youtube;
@@ -164,45 +147,45 @@ async function everywhere(request, withoutArr) {
   }
 
   if (without.indexOf(C.SPOTIFY) === -1) {
-    spotify = req.spotify(request, C.SEARCH_REQUEST);
+    spotify = req.fetchSpotify(artistTrack, C.SEARCH_REQUEST);
     promisesArr.push(spotify);
   }
   if (without.indexOf(C.YOUTUBE) === -1) {
-    youtube = req.youtube(request, C.SEARCH_REQUEST);
+    youtube = req.fetchYoutube(artistTrack, C.SEARCH_REQUEST);
     promisesArr.push(youtube);
   }
   if (without.indexOf(C.DEEZER) === -1) {
-    deezer = req.deezer(request, C.SEARCH_REQUEST);
+    deezer = req.fetchDeezer(artistTrack, C.SEARCH_REQUEST);
     promisesArr.push(deezer);
   }
 
   responseJson = await Promise.allSettled(promisesArr)
-      .then((values) =>
-        values.reduce((accumulator, currentValue) => {
-          return {...accumulator, ...currentValue.value};
-        }, {}));
+    .then((values) =>
+      values.reduce((accumulator, currentValue) => {
+        return {...accumulator, ...currentValue.value};
+      }, {}));
 
   return responseJson;
 }
 
-/**
- *
- * @param {*} request
- */
 async function getArtistTrack(request) {
-  const {id, service} = request;
-  let artist;
-  let track;
+  const { id, service} = request;
+  let {artist,track,requestedObject} = request;
   let index;
-  let requestedObj;
   let resultJson;
+  let requestedObj;
 
-  if (service && id) {
     switch (service) {
       case C.YOUTUBE:
-        requestedObj = await req.youtube(request,
+        let snippet;
+        if(requestedObject){
+          requestedObj = requestedObject;
+          snippet = requestedObj.youtube.snippet;
+        }else{
+          snippet = requestedObject.youtube;
+          requestedObj = await req.fetchYoutube(request,
             C.TRACK_REQUEST);
-        const {snippet} = requestedObj.youtube.items[0];
+        }
         index = snippet.title.indexOf('-');
 
         if (index !== -1) {
@@ -214,20 +197,27 @@ async function getArtistTrack(request) {
         }
         break;
       case C.SPOTIFY:
-        requestedObj = await req.spotify(request,
+        if(requestedObject){
+        requestedObj = requestedObject;
+        }else{
+          requestedObj = await req.fetchSpotify(request,
             C.TRACK_REQUEST);
+        }
         track = requestedObj.spotify.name;
-        artist = requestedObj.artists[0].name;
+        artist = requestedObj.spotify.artists[0].name;
         break;
       case C.DEEZER:
-        requestedObj = await req.deezer(request,
+        if(requestedObject){
+          requestedObj = requestedObject;
+        }else{
+          requestedObj = await req.fetchDeezer(request,
             C.TRACK_REQUEST);
+        }
         track = requestedObj.deezer.title_short;
         artist = requestedObj.deezer.artist.name;
         break;
       default:
         break;
-    }
   }
 
   if (requestedObj) {
@@ -240,10 +230,6 @@ async function getArtistTrack(request) {
   return resultJson;
 }
 
-/**
- *
- * @param {*} request
- */
 async function byId(request) {
   const artistTrack = await getArtistTrack(request);
   const {service} = request;
@@ -253,6 +239,42 @@ async function byId(request) {
   return requestedObject;
 }
 
+function eraseBrackets(str) {
+  let result = str;
+  let index;
+  if (str.indexOf('(') !== -1 && str.indexOf(')') !== -1) {
+    index = str.indexOf('(');
+    result = str.substring(0, index) + str.substring(str.indexOf(')') + 1, str.length);
+  }
+
+  if (str.indexOf('[') !== -1 && str.indexOf(']') !== -1) {
+    index = str.indexOf('[');
+    result = str.substring(0, index) + str.substring(str.indexOf(']') + 1, str.length);
+  }
+
+  return result;
+}
+
+function eraseFeat(str) {
+  let result = str;
+  let index;
+  if (str.indexOf(/feat/i) !== -1) {
+    index = str.indexOf(/feat/i);
+    result = str.substring(0, index);
+  }
+
+  return result;
+}
+
+function eraseExcess(str){
+  return eraseBrackets(eraseFeat(str));
+}
+
+
 exports.everywhere = everywhere;
 exports.getArtistTrack = getArtistTrack;
 exports.byId = byId;
+exports.eraseExcess = eraseExcess;
+exports.searchInYoutubeObject = searchInYoutubeObject;
+exports.searchInSpotifyObject = searchInSpotifyObject;
+exports.searchInDeezerObject = searchInDeezerObject;

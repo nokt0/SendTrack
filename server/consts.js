@@ -1,6 +1,8 @@
 const freeze = require('deep-freeze-node');
 require('dotenv').config();
 
+
+
 const BASE64_KEY = process.env.BASE64_KEY;
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
 const API_DEEZER_URL = 'https://api.deezer.com/';

@@ -1,6 +1,6 @@
 const express = require('express');
 const trackRouter = express.Router();
-const app = require('../app');
+const app = require('../apps');
 const constants = require('../consts');
 
 trackRouter.get('/spotify', async (request, response) => {
