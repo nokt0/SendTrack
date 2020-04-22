@@ -1,4 +1,4 @@
-import {Services} from "../cnst";
+import {Services} from "../const";
 
 export default interface IToCompare {
     artist?: string,

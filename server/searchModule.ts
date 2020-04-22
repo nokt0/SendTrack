@@ -1,7 +1,7 @@
-import {RequestType, Services} from "./cnst";
+import {RequestType, Services} from "./const";
 import IToCompare from "./Interfaces/IToCompare";
 import IResponse from "./Interfaces/IResponse";
-import {fetchDeezer, fetchSpotify, fetchYoutube} from "./requestModules";
+import {fetchDeezer, fetchSpotify, fetchYoutube} from "./requestModule";
 import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
 import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
 import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";

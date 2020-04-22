@@ -1,92 +1,107 @@
-const req = require('./requestModules');
-const search = require('./searchModule');
-const C = require('./consts');
-
-async function createUrlCardForState(requestedObject, service) {
-  let artistTrack = await search.getArtistTrack({requestedObject:requestedObject, service:service});
-  let searchedItem;
-  let card = {...artistTrack};
-  let {youtube,spotify,deezer} = requestedObject;
-  switch (service) {
-    case C.YOUTUBE:
-      card.url = 'https://www.youtube.com/watch?v=' + youtube.id.videoId;
-      card.albumArt = youtube.snippet.thumbnails.medium.url;
-      break;
-    case C.SPOTIFY:
-      card.url = spotify.album.external_urls.spotify;
-      card.albumArt = spotify.album.images[1].url;
-      card.bigAlbumArt = spotify.album.images[0].url;
-      break;
-    case C.DEEZER:
-      card.url = deezer.link;
-      card.albumArt = deezer.album.cover_medium;
-      break;
-  }
-  return card;
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const const_1 = require("./const");
+const requestModule_1 = require("./requestModule");
+const searchModule_1 = require("./searchModule");
+function createUrlCardForState(foundItem, service) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const artistTrack = yield searchModule_1.getArtistTrackInItem(service, foundItem);
+        const card = Object.assign({}, artistTrack);
+        let item;
+        switch (service) {
+            case const_1.Services.YOUTUBE:
+                item = foundItem;
+                card.url = 'https://www.youtube.com/watch?v=' + item.id.videoId;
+                card.albumArt = item.snippet.thumbnails.medium.url;
+                card.bigAlbumArt = item.snippet.thumbnails.high.url;
+                break;
+            case const_1.Services.SPOTIFY:
+                item = foundItem;
+                card.url = item.album.external_urls.spotify;
+                card.albumArt = item.album.images[1].url;
+                card.bigAlbumArt = item.album.images[0].url;
+                break;
+            case const_1.Services.DEEZER:
+                item = foundItem;
+                card.url = item.link;
+                card.albumArt = item.album.cover_medium;
+                card.bigAlbumArt = item.album.cover_big;
+                break;
+        }
+        return card;
+    });
 }
-//ДОБАВИТЬ РАБОТУ С ID
-async function createObjectForState(artistTrack, requestedObject) {
-  let {youtube, spotify, deezer} = requestedObject;
-  let objectForState = {};
-  let forCreateCard;
-
-  if (requestedObject) {
-    if (requestedObject.youtube) {
-      objectForState.youtube = search.searchInYoutubeObject(youtube, artistTrack);
-      forCreateCard = {
-        requestedObject: {
-          youtube:youtube
-        },
-        service: C.YOUTUBE
-      };
-      objectForState.youtube = await createUrlCardForState(objectForState,C.YOUTUBE);
-    }
-    if (requestedObject.spotify) {
-      objectForState.spotify = search.searchInSpotifyObject(spotify, artistTrack);
-      forCreateCard = {
-        requestedObject: {
-          spotify:spotify
-        },
-        service:C.SPOTIFY
-      };
-      objectForState.spotify = await createUrlCardForState(objectForState,C.SPOTIFY);
-    }
-    if (requestedObject.deezer) {
-      objectForState.deezer = search.searchInDeezerObject(deezer, artistTrack);
-      forCreateCard = {
-        requestedObject: {
-          deezer:deezer
-        },
-        service: C.DEEZER
-      };
-      objectForState.deezer =  await createUrlCardForState(objectForState,C.DEEZER);
-    }
-    return objectForState;
-  }
+exports.createUrlCardForState = createUrlCardForState;
+// ДОБАВИТЬ РАБОТУ С ID
+function createObjectForState(artistTrack, requestedObject) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const objectForState = {};
+        let forCreateCard;
+        let response;
+        if (requestedObject) {
+            if (requestedObject.youtube) {
+                response = Object.assign({}, requestedObject.youtube);
+                forCreateCard = searchModule_1.searchInYoutubeObject(response, artistTrack);
+                objectForState.youtube = yield createUrlCardForState(forCreateCard, const_1.Services.YOUTUBE);
+            }
+            if (requestedObject.spotify) {
+                response = Object.assign({}, requestedObject.spotify);
+                forCreateCard = searchModule_1.searchInSpotifyObject(response, artistTrack);
+                objectForState.spotify = yield createUrlCardForState(forCreateCard, const_1.Services.SPOTIFY);
+            }
+            if (requestedObject.deezer) {
+                response = Object.assign({}, requestedObject.deezer);
+                forCreateCard = searchModule_1.searchInDeezerObject(response, artistTrack);
+                objectForState.deezer = yield createUrlCardForState(forCreateCard, const_1.Services.DEEZER);
+            }
+            return objectForState;
+        }
+    });
 }
-
-async function searchEverywhere(artistTrackId) {
-  let {artist, track} = artistTrackId;
-  try {
-    artist = search.eraseExcess(artist);
-    track = search.eraseExcess(track);
-    const searchResult = await search.everywhere(artistTrackId);
-    return await createObjectForState(artistTrackId, searchResult);
-  } catch (e) {
-    console.error(e);
-  }
+exports.createObjectForState = createObjectForState;
+function searchEverywhere(artistTrackId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { artist, track } = artistTrackId;
+        try {
+            artist = searchModule_1.eraseExcess(artist);
+            track = searchModule_1.eraseExcess(track);
+            const searchResult = yield searchModule_1.everywhere(artistTrackId);
+            return yield createObjectForState(artistTrackId, searchResult);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
 }
-
-async function searchById(request){
-  const {id,service} = request;
-  let artist;
-  let track;
-  const searchResult = await search.byId({id:id,service:service});
-  const artistTrack = await search.getArtistTrack({requestedObject:searchResult.spotify})
-  return await createObjectForState(artistTrack, searchResult);
-}
-
-exports.req = req;
-exports.search = search;
 exports.searchEverywhere = searchEverywhere;
-exports.searchById = searchById;
+/*export async function searchById(request: IToCompare) {
+    const {id, service} = request;
+    const searchResult = await byId(service,request);
+    const artistTrack = await getArtistTrackInResponse(service, )
+    return await createObjectForState(artistTrack, searchResult);
+}*/
+function fetchService(service, id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        switch (service) {
+            case const_1.Services.YOUTUBE:
+                return yield requestModule_1.fetchYoutube(id, const_1.RequestType.TRACK_REQUEST);
+            case const_1.Services.DEEZER:
+                return yield requestModule_1.fetchDeezer(id, const_1.RequestType.TRACK_REQUEST);
+            case const_1.Services.SPOTIFY:
+                return yield requestModule_1.fetchSpotify(id, const_1.RequestType.TRACK_REQUEST);
+            default:
+                throw new Error("Wrong service" + service);
+        }
+    });
+}
+exports.fetchService = fetchService;
+//# sourceMappingURL=app.js.map

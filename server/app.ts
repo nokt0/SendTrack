@@ -1,17 +1,17 @@
-import {Services} from './cnst'
+import {RequestType, Services} from './const'
 import IToCompare from './Interfaces/IToCompare';
-import {} from './requestModules'
+import {fetchDeezer, fetchSpotify, fetchYoutube} from './requestModule'
 import {
-    eraseExcess,
-    getArtistTrackInItem,
-    everywhere,
     byId,
+    eraseExcess,
+    everywhere,
+    getArtistTrackInItem,
+    getArtistTrackInResponse,
     searchInDeezerObject,
-    searchInYoutubeObject,
-    searchInSpotifyObject, getArtistTrackInResponse
-} from './searchModules'
+    searchInSpotifyObject,
+    searchInYoutubeObject
+} from './searchModule'
 import IResponse from "./Interfaces/IResponse";
-import IFoundItems from "./Interfaces/IFoundItems";
 import IUrlCard from "./Interfaces/IUrlCard";
 import IUrlCards from "./Interfaces/IUrlCards";
 import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";
@@ -21,6 +21,7 @@ import IArtistTrack from "./Interfaces/IArtistTrack";
 import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
 import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
 import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
+import IncorrectRequest from "./Errors/IncorrectRequest";
 
 export async function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | IDeezerItem, service: Services) {
     const artistTrack = await getArtistTrackInItem(service, foundItem);
@@ -87,11 +88,22 @@ export async function searchEverywhere(artistTrackId: IArtistTrack) {
     }
 }
 
-/*
-export async function searchById(request: IToCompare) {
+/*export async function searchById(request: IToCompare) {
     const {id, service} = request;
     const searchResult = await byId(service,request);
     const artistTrack = await getArtistTrackInResponse(service, )
     return await createObjectForState(artistTrack, searchResult);
+}*/
+
+export async function fetchService(service:Services,id: IToCompare) {
+    switch (service) {
+        case Services.YOUTUBE:
+            return await fetchYoutube(id,RequestType.TRACK_REQUEST);
+        case Services.DEEZER:
+            return await fetchDeezer(id,RequestType.TRACK_REQUEST);
+        case Services.SPOTIFY:
+            return  await fetchSpotify(id,RequestType.TRACK_REQUEST);
+        default:
+            throw new Error("Wrong service" + service)
+    }
 }
-*/

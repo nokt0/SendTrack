@@ -7,7 +7,7 @@ import {
     SPOTIFY_TOKEN_OPTIONS,
     YOUTUBE_API_KEY,
     YOUTUBE_OPTIONS
-} from "./cnst"
+} from "./const"
 import IncorrectRequest from "./Errors/IncorrectRequest";
 import ISpotifyToken from "./Interfaces/Spotify/ISpotifyToken";
 import BadResponse from "./Errors/BadResponse";
