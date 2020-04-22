@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const cnst_1 = require("./cnst");
 const requestModules_1 = require("./requestModules");
@@ -17,8 +26,8 @@ function matchStringsWithoutSpecs(firstString, secondString) {
     for (const substringFirst of splitedFirstString) {
         let indicator = false;
         for (const substringSecond of splitedSecondString) {
-            const reg = new RegExp(substringSecond, 'i');
-            if (substringFirst.search(reg) !== -1) {
+            const regExp = new RegExp(substringSecond, 'i');
+            if (substringFirst.search(regExp) !== -1) {
                 indicator = true;
                 console.log('Found');
                 break;
@@ -42,11 +51,12 @@ function matchStringsWithoutSpecs(firstString, secondString) {
     return true;
 }
 exports.matchStringsWithoutSpecs = matchStringsWithoutSpecs;
-function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
-    const { artist, track } = objectToCompare;
+function searchInYoutubeObject(youtubeResponse, artistTrack) {
+    const { artist, track } = Object.assign({}, artistTrack);
+    const items = youtubeResponse.items;
     let similarObject;
     let foundFlag = false;
-    for (const item of youtubeReturnedObject.items) {
+    for (const item of items) {
         if (item.snippet.channelTitle.indexOf('- Topic') !== -1) {
             const validTitle = item.snippet.channelTitle.substring(0, item.snippet.channelTitle.indexOf(' - Topic'));
             if (!matchStringsWithoutSpecs(track, item.snippet.title) && !matchStringsWithoutSpecs(item.snippet.title, track)) {
@@ -61,7 +71,7 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
         }
     }
     if (!foundFlag) {
-        for (const item of youtubeReturnedObject.items) {
+        for (const item of items) {
             if (!matchStringsWithoutSpecs(artist + ' ' + track, item.snippet.title) &&
                 !matchStringsWithoutSpecs(item.snippet.title, artist + ' ' + track)) {
                 continue;
@@ -75,7 +85,7 @@ function searchInYoutubeObject(youtubeReturnedObject, objectToCompare) {
 exports.searchInYoutubeObject = searchInYoutubeObject;
 function searchInSpotifyObject(spotifyResponse, objectToCompare) {
     const { artist, track } = objectToCompare;
-    const { tracks } = spotifyResponse;
+    const { tracks } = Object.assign({}, spotifyResponse);
     let similarObject;
     if (artist && track && tracks) {
         for (const item of tracks.items) {
@@ -108,7 +118,7 @@ exports.searchInSpotifyObject = searchInSpotifyObject;
 function searchInDeezerObject(deezerResponse, objectToCompare) {
     const { artist, track } = objectToCompare;
     let similarObject;
-    const { data } = deezerResponse;
+    const { data } = Object.assign({}, deezerResponse);
     for (const item of data) {
         if (item.type === 'track') {
             if (!matchStringsWithoutSpecs(track, item.title) &&
@@ -126,67 +136,107 @@ function searchInDeezerObject(deezerResponse, objectToCompare) {
 }
 exports.searchInDeezerObject = searchInDeezerObject;
 /** @returns Response from all services in one object */
-async function everywhere(artistTrack, withoutArr) {
-    let responseJson;
-    let spotify;
-    let youtube;
-    let deezer;
-    const promisesArr = [];
-    let without;
-    if (withoutArr) {
-        without = withoutArr;
-    }
-    else {
-        without = [];
-    }
-    if (without.includes(cnst_1.Services.SPOTIFY)) {
-        spotify = requestModules_1.fetchSpotify(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
-            .catch((e) => {
-            throw e;
-        });
-        promisesArr.push(spotify);
-    }
-    if (without.includes(cnst_1.Services.YOUTUBE)) {
-        youtube = requestModules_1.fetchYoutube(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
-            .catch((e) => {
-            throw e;
-        });
-        promisesArr.push(youtube);
-    }
-    if (without.includes(cnst_1.Services.DEEZER)) {
-        deezer = requestModules_1.fetchDeezer(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
-            .catch((e) => {
-            throw e;
-        });
-        promisesArr.push(deezer);
-    }
-    responseJson = await Promise.allSettled(promisesArr)
-        .then((values) => values.reduce((accumulator, currentValue) => {
-        // @ts-ignore
-        return { ...accumulator, ...currentValue.value };
-    }, {}));
-    return responseJson;
+function everywhere(artistTrack, withoutArr) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let responseJson;
+        let spotify;
+        let youtube;
+        let deezer;
+        const promisesArr = [];
+        let without;
+        if (withoutArr) {
+            without = withoutArr;
+        }
+        else {
+            without = [];
+        }
+        if (!without.includes(cnst_1.Services.SPOTIFY)) {
+            spotify = requestModules_1.fetchSpotify(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
+                .catch((e) => {
+                throw e;
+            });
+            promisesArr.push(spotify);
+        }
+        if (!without.includes(cnst_1.Services.YOUTUBE)) {
+            youtube = requestModules_1.fetchYoutube(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
+                .catch((e) => {
+                throw e;
+            });
+            promisesArr.push(youtube);
+        }
+        if (!without.includes(cnst_1.Services.DEEZER)) {
+            deezer = requestModules_1.fetchDeezer(artistTrack, cnst_1.RequestType.SEARCH_REQUEST)
+                .catch((e) => {
+                throw e;
+            });
+            promisesArr.push(deezer);
+        }
+        responseJson = yield Promise.allSettled(promisesArr)
+            .then((values) => values.reduce((accumulator, currentValue) => {
+            // @ts-ignore
+            return Object.assign(Object.assign({}, accumulator), currentValue.value);
+        }, {}));
+        return responseJson;
+    });
 }
 exports.everywhere = everywhere;
-async function getArtistTrack(toCompare, response) {
-    const { id, service } = toCompare;
-    let { artist, track } = toCompare;
+function fetchByArtistTrack(service, artistTrack) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { artist, track } = artistTrack;
+        let index;
+        let responseObj;
+        switch (service) {
+            case cnst_1.Services.YOUTUBE:
+                let snippet;
+                responseObj = yield requestModules_1.fetchYoutube(artistTrack, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
+                    throw e;
+                });
+                const youtubeResponse = Object.assign({}, responseObj.youtube);
+                const youtube = searchInYoutubeObject(youtubeResponse, artistTrack);
+                snippet = youtube.snippet;
+                index = snippet.title.indexOf('-');
+                if (index !== -1) {
+                    artist = snippet.title.substring(0, index).trim();
+                    track = snippet.title.substring(index + 1, snippet.title.length).trim();
+                }
+                else {
+                    artist = snippet.channelTitle.trim();
+                    track = snippet.title.trim();
+                }
+                break;
+            case cnst_1.Services.SPOTIFY:
+                responseObj = yield requestModules_1.fetchSpotify(artistTrack, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
+                    throw e;
+                });
+                const spotifyResponse = Object.assign({}, responseObj.spotify);
+                const spotify = searchInSpotifyObject(spotifyResponse, artistTrack);
+                track = spotify.name;
+                artist = spotify.artists[0].name;
+                break;
+            case cnst_1.Services.DEEZER:
+                responseObj = yield requestModules_1.fetchDeezer(artistTrack, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
+                    throw e;
+                });
+                const deezerResponse = Object.assign({}, responseObj.deezer);
+                const deezer = searchInDeezerObject(deezerResponse, artistTrack);
+                track = deezer.title_short;
+                artist = deezer.artist.name;
+                break;
+        }
+        return { artist, track };
+    });
+}
+exports.fetchByArtistTrack = fetchByArtistTrack;
+function getArtistTrackInResponse(service, artistTrack, response) {
+    let { artist, track } = Object.assign({}, artistTrack);
     let index;
-    let resultJson;
     let responseObj;
     switch (service) {
         case cnst_1.Services.YOUTUBE:
             let snippet;
-            if (response) {
-                responseObj = response;
-                snippet = responseObj.youtube.snippet;
-            }
-            else {
-                snippet = response.youtube;
-                responseObj = await requestModules_1.fetchYoutube(toCompare, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
-                    throw e;
-                });
-            }
+            responseObj = Object.assign({}, response.youtube);
+            const youtube = searchInYoutubeObject(responseObj, artistTrack);
+            snippet = youtube.snippet;
             index = snippet.title.indexOf('-');
             if (index !== -1) {
                 artist = snippet.title.substring(0, index).trim();
@@ -198,46 +248,63 @@ async function getArtistTrack(toCompare, response) {
             }
             break;
         case cnst_1.Services.SPOTIFY:
-            if (response) {
-                responseObj = response;
-            }
-            else {
-                responseObj = await requestModules_1.fetchSpotify(toCompare, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
-                    throw e;
-                });
-            }
-            track = responseObj.spotify.name;
-            artist = responseObj.spotify.artists[0].name;
+            responseObj = Object.assign({}, response.spotify);
+            const spotify = searchInSpotifyObject(responseObj, artistTrack);
+            track = spotify.name;
+            artist = spotify.artists[0].name;
             break;
         case cnst_1.Services.DEEZER:
-            if (response) {
-                responseObj = response;
+            responseObj = Object.assign({}, response.deezer);
+            const deezer = searchInDeezerObject(responseObj, artistTrack);
+            track = deezer.title_short;
+            artist = deezer.artist.name;
+            break;
+    }
+    return { artist, track };
+}
+exports.getArtistTrackInResponse = getArtistTrackInResponse;
+function getArtistTrackInItem(service, item) {
+    let artist;
+    let track;
+    let index;
+    let responseObj;
+    switch (service) {
+        case cnst_1.Services.YOUTUBE:
+            let snippet;
+            responseObj = item;
+            snippet = responseObj.snippet;
+            index = snippet.title.indexOf('-');
+            if (index !== -1) {
+                artist = snippet.title.substring(0, index).trim();
+                track = snippet.title.substring(index + 1, snippet.title.length).trim();
             }
             else {
-                responseObj = await requestModules_1.fetchDeezer(toCompare, cnst_1.RequestType.TRACK_REQUEST).catch((e) => {
-                    throw e;
-                });
+                artist = snippet.channelTitle.trim();
+                track = snippet.title.trim();
             }
-            track = responseObj.deezer.title_short;
-            artist = responseObj.deezer.artist.name;
+            break;
+        case cnst_1.Services.SPOTIFY:
+            responseObj = item;
+            track = responseObj.name;
+            artist = responseObj.artists[0].name;
+            break;
+        case cnst_1.Services.DEEZER:
+            responseObj = item;
+            track = responseObj.title_short;
+            artist = responseObj.artist.name;
             break;
         default:
             break;
     }
-    if (responseObj) {
-        resultJson = {
-            artist,
-            track,
-        };
-        return resultJson;
-    }
+    return { artist, track };
 }
-exports.getArtistTrack = getArtistTrack;
-async function byId(request) {
-    const { service } = request;
-    const artistTrack = await getArtistTrack(request);
-    const without = [service];
-    return await everywhere(artistTrack, without);
+exports.getArtistTrackInItem = getArtistTrackInItem;
+function byId(service, request) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const artistTrack = yield fetchByArtistTrack(service, request);
+        const without = [service];
+        return yield everywhere(artistTrack, without);
+    });
 }
 exports.byId = byId;
 function eraseBrackets(name) {
@@ -267,11 +334,4 @@ function eraseExcess(trackName) {
     return eraseBrackets(eraseFeat(trackName));
 }
 exports.eraseExcess = eraseExcess;
-exports.everywhere = everywhere;
-exports.getArtistTrack = getArtistTrack;
-exports.byId = byId;
-exports.eraseExcess = eraseExcess;
-exports.searchInYoutubeObject = searchInYoutubeObject;
-exports.searchInSpotifyObject = searchInSpotifyObject;
-exports.searchInDeezerObject = searchInDeezerObject;
 //# sourceMappingURL=searchModules.js.map

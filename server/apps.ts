@@ -1,81 +1,81 @@
 import {Services} from './cnst'
-import {eraseExcess} from './searchModules';
 import IToCompare from './Interfaces/IToCompare';
 import {} from './requestModules'
 import {
-    getArtistTrack,
+    eraseExcess,
+    getArtistTrackInItem,
     everywhere,
     byId,
     searchInDeezerObject,
     searchInYoutubeObject,
-    searchInSpotifyObject
+    searchInSpotifyObject, getArtistTrackInResponse
 } from './searchModules'
 import IResponse from "./Interfaces/IResponse";
+import IFoundItems from "./Interfaces/IFoundItems";
+import IUrlCard from "./Interfaces/IUrlCard";
+import IUrlCards from "./Interfaces/IUrlCards";
+import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";
+import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
+import ISpotifyItem from "./Interfaces/Spotify/ISpotifyItem";
+import IArtistTrack from "./Interfaces/IArtistTrack";
+import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
+import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
+import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
 
-export async function createUrlCardForState(requestedObject: IResponse, service: Services) {
-    const artistTrack = await getArtistTrack({"service": service}, requestedObject);
-    const card = {...artistTrack};
-    const {youtube, spotify, deezer} = requestedObject;
+export async function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | IDeezerItem, service: Services) {
+    const artistTrack = await getArtistTrackInItem(service, foundItem);
+    const card = {...artistTrack} as IUrlCard;
+    let item : ISpotifyItem | IYoutubeItem | IDeezerItem;
     switch (service) {
         case Services.YOUTUBE:
-            card.url = 'https://www.youtube.com/watch?v=' + youtube.id.videoId;
-            card.albumArt = youtube.snippet.thumbnails.medium.url;
+            item = foundItem as IYoutubeItem;
+            card.url = 'https://www.youtube.com/watch?v=' + item.id.videoId;
+            card.albumArt = item.snippet.thumbnails.medium.url;
+            card.bigAlbumArt = item.snippet.thumbnails.high.url
             break;
         case Services.SPOTIFY:
-            card.url = spotify.album.external_urls.spotify;
-            card.albumArt = spotify.album.images[1].url;
-            card.bigAlbumArt = spotify.album.images[0].url;
+            item = foundItem as ISpotifyItem;
+            card.url = item.album.external_urls.spotify;
+            card.albumArt = item.album.images[1].url;
+            card.bigAlbumArt = item.album.images[0].url;
             break;
         case Services.DEEZER:
-            card.url = deezer.link;
-            card.albumArt = deezer.album.cover_medium;
+            item = foundItem as IDeezerItem;
+            card.url = item.link;
+            card.albumArt = item.album.cover_medium;
+            card.bigAlbumArt = item.album.cover_big;
             break;
     }
     return card;
 }
 
 // ДОБАВИТЬ РАБОТУ С ID
-export async function createObjectForState(artistTrack: IToCompare, requestedObject: IResponse) {
-    const {youtube, spotify, deezer} = requestedObject;
-    const objectForState: IResponse = {};
-    let forCreateCard;
+export async function createObjectForState(artistTrack: IArtistTrack, requestedObject: IResponse) {
+    const objectForState: IUrlCards = {} as IUrlCards;
+    let forCreateCard: IYoutubeItem | IDeezerItem | ISpotifyItem;
+    let response : IYoutubeResponse | ISpotifyResponse | IDeezerResponse;
 
     if (requestedObject) {
         if (requestedObject.youtube) {
-            objectForState.youtube = searchInYoutubeObject(youtube, artistTrack);
-            forCreateCard = {
-                requestedObject: {
-                    "youtube": youtube
-                },
-                service: Services.YOUTUBE
-            };
-            objectForState.youtube = await createUrlCardForState(objectForState, Services.YOUTUBE);
+            response = {...requestedObject.youtube};
+            forCreateCard = searchInYoutubeObject(response, artistTrack);
+            objectForState.youtube = await createUrlCardForState(forCreateCard, Services.YOUTUBE);
         }
         if (requestedObject.spotify) {
-            objectForState.spotify = searchInSpotifyObject(spotify, artistTrack);
-            forCreateCard = {
-                requestedObject: {
-                    "spotify": spotify
-                },
-                service: Services.SPOTIFY
-            };
-            objectForState.spotify = await createUrlCardForState(objectForState, Services.SPOTIFY);
+            response = {...requestedObject.spotify};
+            forCreateCard = searchInSpotifyObject(response, artistTrack);
+            objectForState.spotify = await createUrlCardForState(forCreateCard, Services.SPOTIFY);
         }
         if (requestedObject.deezer) {
-            objectForState.deezer = searchInDeezerObject(deezer, artistTrack);
-            forCreateCard = {
-                requestedObject: {
-                    "deezer": deezer
-                },
-                service: Services.DEEZER
-            };
-            objectForState.deezer = await createUrlCardForState(objectForState, Services.DEEZER);
+            response = {...requestedObject.deezer};
+            forCreateCard = searchInDeezerObject(response, artistTrack);
+            objectForState.deezer = await createUrlCardForState(forCreateCard, Services.DEEZER);
         }
         return objectForState;
     }
 }
 
-export async function searchEverywhere(artistTrackId: IToCompare) {
+export async function searchEverywhere(artistTrackId: IArtistTrack) {
     let {artist, track} = artistTrackId;
     try {
         artist = eraseExcess(artist);
@@ -87,11 +87,11 @@ export async function searchEverywhere(artistTrackId: IToCompare) {
     }
 }
 
+/*
 export async function searchById(request: IToCompare) {
     const {id, service} = request;
-    let artist;
-    let track;
-    const searchResult = await byId({"id": id, "service": service});
-    const artistTrack = await getArtistTrack({"requestedObject": searchResult.spotify})
+    const searchResult = await byId(service,request);
+    const artistTrack = await getArtistTrackInResponse(service, )
     return await createObjectForState(artistTrack, searchResult);
 }
+*/

@@ -9,13 +9,21 @@ import {
     YOUTUBE_OPTIONS
 } from "./cnst"
 import IncorrectRequest from "./Errors/IncorrectRequest";
-import ISpotifyToken from "./Interfaces/ISpotifyToken";
+import ISpotifyToken from "./Interfaces/Spotify/ISpotifyToken";
 import BadResponse from "./Errors/BadResponse";
 // @ts-ignore
 import fetch from 'node-fetch';
+import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
+import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
+import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
+import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
+import ISpotifyItem from "./Interfaces/Spotify/ISpotifyItem";
+import IResponse from "./Interfaces/IResponse";
 
-export async function fetchYoutube(request: IToCompare, type: RequestType) {
-    const answerObject = {youtube: ''};
+let spotifyToken: ISpotifyToken;
+
+export async function fetchYoutube(request: IToCompare, type: RequestType): Promise<IResponse> {
+    const answerObject = {} as IResponse;
     const {track, artist, id} = request;
     const isCorrect = (track && artist) || id;
 
@@ -33,7 +41,7 @@ export async function fetchYoutube(request: IToCompare, type: RequestType) {
             requestUrl = '/videos?id=' + id;
             break;
         default:
-            return answerObject;
+            throw new IncorrectRequest("Incorrect request type", request);
     }
 
     requestUrl += '&part=snippet&key=' + YOUTUBE_API_KEY;
@@ -41,6 +49,7 @@ export async function fetchYoutube(request: IToCompare, type: RequestType) {
 
     function setJson(json) {
         answerObject.youtube = json;
+        return answerObject;
     }
 
     await fetch(youtubeOptions.url + requestUrl, youtubeOptions)
@@ -58,9 +67,7 @@ export async function fetchYoutube(request: IToCompare, type: RequestType) {
     return answerObject;
 }
 
-let spotifyToken: ISpotifyToken;
-
-export async function tokenSpotify() {
+export async function fetchTokenSpotify() {
     let token: ISpotifyToken;
 
     if (spotifyToken) {
@@ -97,9 +104,9 @@ export async function tokenSpotify() {
             .then((res) => res.json())
             .then((json) => callback(json))
             .catch((e) => {
-                let error = e as BadResponse;
-                error.service = Services.SPOTIFY;
-                throw error;
+                const errr = e as BadResponse;
+                errr.service = Services.SPOTIFY;
+                throw errr;
             });
 
         spotifyToken = token;
@@ -109,13 +116,13 @@ export async function tokenSpotify() {
     }
 }
 
-export async function fetchSpotify(request: IToCompare, type: RequestType) {
-    const answerObject = {spotify: ''};
+export async function fetchSpotify(request: IToCompare, type: RequestType): Promise<IResponse> {
+    const answerObject = {} as IResponse;
     const {track, artist, id} = request;
     const isCorrect = (track && artist) || id;
 
     if (!isCorrect) {
-        return answerObject;
+        throw new IncorrectRequest("Not Correct", request);
     }
 
     const options = {
@@ -129,10 +136,11 @@ export async function fetchSpotify(request: IToCompare, type: RequestType) {
 
     function setOptions(token) {
         options.headers.Authorization = 'Bearer ' + token;
+        return true;
     }
 
     for (let i = 0; i < 5; i++) {
-        await tokenSpotify().then((token) => {
+        await fetchTokenSpotify().then((token) => {
             if (token && token.key) {
                 setOptions(token.key);
             }
@@ -151,11 +159,12 @@ export async function fetchSpotify(request: IToCompare, type: RequestType) {
             requestUrl = '/tracks/' + id;
             break;
         default:
-            return answerObject;
+            throw new IncorrectRequest("Incorrect request type", request);
     }
 
     function setJson(json) {
         answerObject.spotify = json;
+        return answerObject;
     }
 
     options.url += requestUrl;
@@ -172,13 +181,13 @@ export async function fetchSpotify(request: IToCompare, type: RequestType) {
     return answerObject;
 }
 
-export async function fetchDeezer(request: IToCompare, type: RequestType) {
-    const answerObject = {deezer: ''};
+export async function fetchDeezer(request: IToCompare, type: RequestType): Promise<IResponse> {
+    const answerObject = {} as IResponse;
     const {track, artist, id} = request;
     const isCorrect = (track && artist) || id;
 
     if (!isCorrect) {
-        return answerObject;
+        throw new IncorrectRequest("Not correct", request);
     }
 
     const options = {...DEEZER_OPTIONS};
@@ -191,12 +200,12 @@ export async function fetchDeezer(request: IToCompare, type: RequestType) {
             requestUrl += '/track/' + id;
             break;
         default:
-            return answerObject;
+            throw new IncorrectRequest("Incorrect request type", request);
     }
 
     function setJson(json) {
         answerObject.deezer = json;
-        return answerObject.deezer;
+        return answerObject;
     }
 
     await fetch(requestUrl, options)

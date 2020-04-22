@@ -3,11 +3,10 @@ export default interface IYoutubeItem {
     snippet: {
         thumbnails:
             {
-                medium: {
-                    url: string
-                }
+                high: { url: string },
+                medium: { url: string }
             },
-        channelTitle:string,
-        title:string,
+        channelTitle: string,
+        title: string,
     }
 }
