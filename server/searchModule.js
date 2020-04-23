@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const const_1 = require("./const");
 const requestModule_1 = require("./requestModule");
+const NotFoundMatch_1 = require("./Errors/NotFoundMatch");
 function matchStringsWithoutSpecs(firstString, secondString) {
     const reg = new RegExp('[\\s-\\]\\[)(\\/.&]', 'i');
     let splitedFirstString = firstString.split(reg);
@@ -83,21 +84,22 @@ function searchInYoutubeObject(youtubeResponse, artistTrack) {
     return similarObject;
 }
 exports.searchInYoutubeObject = searchInYoutubeObject;
-function searchInSpotifyObject(spotifyResponse, objectToCompare) {
-    const { artist, track } = objectToCompare;
+//Не срабатывает
+function searchInSpotifyObject(spotifyResponse, artistTrack) {
+    const { artist, track } = artistTrack;
     const { tracks } = Object.assign({}, spotifyResponse);
     let similarObject;
     if (artist && track && tracks) {
         for (const item of tracks.items) {
             let validator = false;
             if (item.type === 'track') {
-                if (!matchStringsWithoutSpecs(artist, item.name) &&
-                    !matchStringsWithoutSpecs(item.name, artist)) {
+                if (!matchStringsWithoutSpecs(track, item.name) &&
+                    !matchStringsWithoutSpecs(item.name, track)) {
                     continue;
                 }
                 for (const spotifyArtist of item.artists) {
-                    if (matchStringsWithoutSpecs(track, spotifyArtist.name) &&
-                        matchStringsWithoutSpecs(spotifyArtist.name, track)) {
+                    if (matchStringsWithoutSpecs(artist, spotifyArtist.name) &&
+                        matchStringsWithoutSpecs(spotifyArtist.name, artist)) {
                         validator = true;
                         break;
                     }
@@ -111,6 +113,9 @@ function searchInSpotifyObject(spotifyResponse, objectToCompare) {
                 }
             }
         }
+    }
+    if (typeof similarObject === "undefined") {
+        throw new NotFoundMatch_1.default("Not found match in Spotify items", artistTrack, spotifyResponse);
     }
     return similarObject;
 }
@@ -228,7 +233,8 @@ function fetchByArtistTrack(service, artistTrack) {
 }
 exports.fetchByArtistTrack = fetchByArtistTrack;
 function getArtistTrackInResponse(service, artistTrack, response) {
-    let { artist, track } = Object.assign({}, artistTrack);
+    let artist;
+    let track;
     let index;
     let responseObj;
     switch (service) {

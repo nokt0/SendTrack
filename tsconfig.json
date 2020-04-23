@@ -5,5 +5,5 @@
     "sourceMap": true,
     "lib": ["ES2020"]
   },
- "include": ["./server/*"]
+  "include": ["./server/*"]
 }

@@ -1,5 +1,5 @@
 import IYoutubeItem from "./IYoutubeItem";
 
-export default interface IYoutubeResponse {
+export default interface IYoutubeSearch {
      items: IYoutubeItem[]
 }

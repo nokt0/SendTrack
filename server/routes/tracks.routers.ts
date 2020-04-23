@@ -3,7 +3,7 @@
 const express = require('express');
 const tracksRouter = express.Router();
 import {Services} from '../const';
-import {searchEverywhere} from '../app';
+import {searchById, searchEverywhere} from '../app';
 
 tracksRouter.get('/byId/youtube', async (request, response) => {
 });
@@ -12,7 +12,7 @@ tracksRouter.get('/byId/spotify', async (request, response) => {
 });
 
 tracksRouter.get('/byId/deezer', async (request, response) => {
-    const responseJson = await searchEverywhere(request.query);
+    const responseJson = await searchById(Services.DEEZER, request.query);
     response.json(responseJson);
 });
 

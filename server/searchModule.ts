@@ -2,13 +2,14 @@ import {RequestType, Services} from "./const";
 import IToCompare from "./Interfaces/IToCompare";
 import IResponse from "./Interfaces/IResponse";
 import {fetchDeezer, fetchSpotify, fetchYoutube} from "./requestModule";
-import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
-import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
+import ISpotifySearch from "./Interfaces/Spotify/ISpotifySearch";
+import IYoutubeSearch from "./Interfaces/Youtube/IYoutubeSearch";
 import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";
 import ISpotifyItem from "./Interfaces/Spotify/ISpotifyItem";
-import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
+import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
 import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
 import IArtistTrack from "./Interfaces/IArtistTrack";
+import NotFoundMatch from "./Errors/NotFoundMatch";
 
 export function matchStringsWithoutSpecs(firstString: string, secondString: string): boolean {
     const reg = new RegExp('[\\s-\\]\\[)(\\/.&]', 'i');
@@ -52,7 +53,7 @@ export function matchStringsWithoutSpecs(firstString: string, secondString: stri
     return true;
 }
 
-export function searchInYoutubeObject(youtubeResponse: IYoutubeResponse, artistTrack: IArtistTrack): IYoutubeItem {
+export function searchInYoutubeObject(youtubeResponse: IYoutubeSearch, artistTrack: IArtistTrack): IYoutubeItem {
     const {artist, track} = {...artistTrack};
     const items = youtubeResponse.items;
     let similarObject: IYoutubeItem;
@@ -86,9 +87,9 @@ export function searchInYoutubeObject(youtubeResponse: IYoutubeResponse, artistT
 
     return similarObject;
 }
-
-export function searchInSpotifyObject(spotifyResponse: ISpotifyResponse, objectToCompare: IToCompare): ISpotifyItem {
-    const {artist, track} = objectToCompare;
+//Не срабатывает
+export function searchInSpotifyObject(spotifyResponse: ISpotifySearch, artistTrack: IArtistTrack): ISpotifyItem {
+    const {artist, track} = artistTrack;
     const {tracks} = {...spotifyResponse};
     let similarObject: ISpotifyItem;
     if (artist && track && tracks) {
@@ -97,21 +98,21 @@ export function searchInSpotifyObject(spotifyResponse: ISpotifyResponse, objectT
             let validator = false;
 
             if (item.type === 'track') {
-                if (!matchStringsWithoutSpecs(artist, item.name) &&
-                    !matchStringsWithoutSpecs(item.name, artist)) {
+                if (!matchStringsWithoutSpecs(track, item.name) &&
+                    !matchStringsWithoutSpecs(item.name, track)) {
                     continue;
                 }
 
                 for (const spotifyArtist of item.artists) {
-                    if (matchStringsWithoutSpecs(track, spotifyArtist.name) &&
-                        matchStringsWithoutSpecs(spotifyArtist.name, track)) {
+                    if (matchStringsWithoutSpecs(artist, spotifyArtist.name) &&
+                        matchStringsWithoutSpecs(spotifyArtist.name, artist)) {
                         validator = true;
                         break;
                     } else {
                         validator = false;
                     }
                 }
-                similarObject = item;
+                similarObject = item as ISpotifyItem;
 
                 if (validator) {
                     return similarObject;
@@ -119,11 +120,14 @@ export function searchInSpotifyObject(spotifyResponse: ISpotifyResponse, objectT
             }
         }
     }
+    if(typeof similarObject === "undefined"){
+        throw new NotFoundMatch("Not found match in Spotify items",artistTrack,spotifyResponse);
+    }
 
     return similarObject;
 }
 
-export function searchInDeezerObject(deezerResponse: IDeezerResponse, objectToCompare: IToCompare): IDeezerItem {
+export function searchInDeezerObject(deezerResponse: IDeezerSearch, objectToCompare: IToCompare): IDeezerItem {
     const {artist, track} = objectToCompare;
     let similarObject: IDeezerItem;
     const {data} = {...deezerResponse};
@@ -202,7 +206,7 @@ export async function fetchByArtistTrack(service: Services, artistTrack: IArtist
                 RequestType.TRACK_REQUEST).catch((e) => {
                 throw e;
             })
-            const youtubeResponse = {...responseObj.youtube}
+            const youtubeResponse = {...responseObj.youtube} as IYoutubeSearch
             const youtube = searchInYoutubeObject(youtubeResponse, artistTrack);
             snippet = youtube.snippet;
             index = snippet.title.indexOf('-');
@@ -220,7 +224,7 @@ export async function fetchByArtistTrack(service: Services, artistTrack: IArtist
                 RequestType.TRACK_REQUEST).catch((e) => {
                 throw e;
             });
-            const spotifyResponse = {...responseObj.spotify}
+            const spotifyResponse = {...responseObj.spotify} as ISpotifySearch;
             const spotify = searchInSpotifyObject(spotifyResponse, artistTrack);
             track = spotify.name;
             artist = spotify.artists[0].name;
@@ -230,7 +234,7 @@ export async function fetchByArtistTrack(service: Services, artistTrack: IArtist
                 RequestType.TRACK_REQUEST).catch((e) => {
                 throw e;
             });
-            const deezerResponse = {...responseObj.deezer}
+            const deezerResponse = {...responseObj.deezer} as IDeezerSearch;
             const deezer = searchInDeezerObject(deezerResponse, artistTrack);
             track = deezer.title_short;
             artist = deezer.artist.name;
@@ -241,7 +245,8 @@ export async function fetchByArtistTrack(service: Services, artistTrack: IArtist
 }
 
 export function getArtistTrackInResponse(service: Services, artistTrack: IArtistTrack, response: IResponse): IArtistTrack {
-    let {artist, track} = {...artistTrack};
+    let artist;
+    let track
     let index: number;
     let responseObj;
 

@@ -1,6 +1,6 @@
 import ISpotifyItem from "./ISpotifyItem";
 
-export default interface ISpotifyResponse {
+export default interface ISpotifySearch {
         tracks: {
             items: ISpotifyItem[]
     }

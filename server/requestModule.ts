@@ -13,12 +13,13 @@ import ISpotifyToken from "./Interfaces/Spotify/ISpotifyToken";
 import BadResponse from "./Errors/BadResponse";
 // @ts-ignore
 import fetch from 'node-fetch';
-import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
-import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
+import IYoutubeSearch from "./Interfaces/Youtube/IYoutubeSearch";
+import ISpotifySearch from "./Interfaces/Spotify/ISpotifySearch";
 import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
-import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
+import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
 import ISpotifyItem from "./Interfaces/Spotify/ISpotifyItem";
 import IResponse from "./Interfaces/IResponse";
+import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";
 
 let spotifyToken: ISpotifyToken;
 

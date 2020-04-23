@@ -1,12 +1,11 @@
+'use strict';
 import {RequestType, Services} from './const'
 import IToCompare from './Interfaces/IToCompare';
 import {fetchDeezer, fetchSpotify, fetchYoutube} from './requestModule'
 import {
-    byId,
     eraseExcess,
     everywhere,
     getArtistTrackInItem,
-    getArtistTrackInResponse,
     searchInDeezerObject,
     searchInSpotifyObject,
     searchInYoutubeObject
@@ -18,15 +17,15 @@ import IYoutubeItem from "./Interfaces/Youtube/IYoutubeItem";
 import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
 import ISpotifyItem from "./Interfaces/Spotify/ISpotifyItem";
 import IArtistTrack from "./Interfaces/IArtistTrack";
-import IYoutubeResponse from "./Interfaces/Youtube/IYoutubeResponse";
-import IDeezerResponse from "./Interfaces/Deezer/IDeezerResponse";
-import ISpotifyResponse from "./Interfaces/Spotify/ISpotifyResponse";
+import IYoutubeSearch from "./Interfaces/Youtube/IYoutubeSearch";
+import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
+import ISpotifySearch from "./Interfaces/Spotify/ISpotifySearch";
 import IncorrectRequest from "./Errors/IncorrectRequest";
 
-export async function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | IDeezerItem, service: Services) {
-    const artistTrack = await getArtistTrackInItem(service, foundItem);
+export function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | IDeezerItem, service: Services) {
+    const artistTrack = getArtistTrackInItem(service, foundItem);
     const card = {...artistTrack} as IUrlCard;
-    let item : ISpotifyItem | IYoutubeItem | IDeezerItem;
+    let item: ISpotifyItem | IYoutubeItem | IDeezerItem;
     switch (service) {
         case Services.YOUTUBE:
             item = foundItem as IYoutubeItem;
@@ -54,25 +53,38 @@ export async function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeIt
 export async function createObjectForState(artistTrack: IArtistTrack, requestedObject: IResponse) {
     const objectForState: IUrlCards = {} as IUrlCards;
     let forCreateCard: IYoutubeItem | IDeezerItem | ISpotifyItem;
-    let response : IYoutubeResponse | ISpotifyResponse | IDeezerResponse;
+    let response: IYoutubeSearch | ISpotifySearch | IDeezerSearch;
 
     if (requestedObject) {
         if (requestedObject.youtube) {
-            response = {...requestedObject.youtube};
+            response = {...requestedObject.youtube} as IYoutubeSearch;
             forCreateCard = searchInYoutubeObject(response, artistTrack);
-            objectForState.youtube = await createUrlCardForState(forCreateCard, Services.YOUTUBE);
+            objectForState.youtube = createUrlCardForState(forCreateCard, Services.YOUTUBE);
         }
         if (requestedObject.spotify) {
-            response = {...requestedObject.spotify};
+            response = {...requestedObject.spotify} as ISpotifySearch;
             forCreateCard = searchInSpotifyObject(response, artistTrack);
-            objectForState.spotify = await createUrlCardForState(forCreateCard, Services.SPOTIFY);
+            objectForState.spotify = createUrlCardForState(forCreateCard, Services.SPOTIFY);
         }
         if (requestedObject.deezer) {
-            response = {...requestedObject.deezer};
+            response = {...requestedObject.deezer} as IDeezerSearch;
             forCreateCard = searchInDeezerObject(response, artistTrack);
-            objectForState.deezer = await createUrlCardForState(forCreateCard, Services.DEEZER);
+            objectForState.deezer = createUrlCardForState(forCreateCard, Services.DEEZER);
         }
         return objectForState;
+    }
+}
+
+export async function fetchService(service: Services, id: IToCompare) {
+    switch (service) {
+        case Services.YOUTUBE:
+            return await fetchYoutube(id, RequestType.TRACK_REQUEST);
+        case Services.DEEZER:
+            return await fetchDeezer(id, RequestType.TRACK_REQUEST);
+        case Services.SPOTIFY:
+            return await fetchSpotify(id, RequestType.TRACK_REQUEST);
+        default:
+            throw new Error("Wrong service" + service)
     }
 }
 
@@ -88,22 +100,22 @@ export async function searchEverywhere(artistTrackId: IArtistTrack) {
     }
 }
 
-/*export async function searchById(request: IToCompare) {
-    const {id, service} = request;
-    const searchResult = await byId(service,request);
-    const artistTrack = await getArtistTrackInResponse(service, )
-    return await createObjectForState(artistTrack, searchResult);
-}*/
-
-export async function fetchService(service:Services,id: IToCompare) {
+export async function searchById(service: Services, id: IToCompare) {
+    const searchResult = await fetchService(service, id);
+    let item: ISpotifyItem|IDeezerItem|IYoutubeItem ;
     switch (service) {
-        case Services.YOUTUBE:
-            return await fetchYoutube(id,RequestType.TRACK_REQUEST);
-        case Services.DEEZER:
-            return await fetchDeezer(id,RequestType.TRACK_REQUEST);
         case Services.SPOTIFY:
-            return  await fetchSpotify(id,RequestType.TRACK_REQUEST);
-        default:
-            throw new Error("Wrong service" + service)
+            item = {...searchResult.spotify} as ISpotifyItem;
+            break;
+        case Services.DEEZER:
+            item = {...searchResult.deezer} as IDeezerItem;
+            break;
+        case Services.YOUTUBE:
+            item = {...searchResult.youtube} as IYoutubeItem;
+            break;
     }
+    const artistTrack = getArtistTrackInItem(service,item);
+    return searchEverywhere(artistTrack);
 }
+
+

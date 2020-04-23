@@ -1,5 +1,5 @@
 import IDeezerItem from "./IDeezerItem";
 
-export default interface IDeezerResponse {
+export default interface IDeezerSearch {
     data: IDeezerItem[]
 }
