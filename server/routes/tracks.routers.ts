@@ -6,9 +6,13 @@ import {Services} from '../const';
 import {searchById, searchEverywhere} from '../app';
 
 tracksRouter.get('/byId/youtube', async (request, response) => {
+    const responseJson = await searchById(Services.YOUTUBE, request.query);
+    response.json(responseJson);
 });
 
 tracksRouter.get('/byId/spotify', async (request, response) => {
+    const responseJson = await searchById(Services.SPOTIFY, request.query);
+    response.json(responseJson);
 });
 
 tracksRouter.get('/byId/deezer', async (request, response) => {

@@ -15,8 +15,12 @@ const tracksRouter = express.Router();
 const const_1 = require("../const");
 const app_1 = require("../app");
 tracksRouter.get('/byId/youtube', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const responseJson = yield app_1.searchById(const_1.Services.YOUTUBE, request.query);
+    response.json(responseJson);
 }));
 tracksRouter.get('/byId/spotify', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const responseJson = yield app_1.searchById(const_1.Services.SPOTIFY, request.query);
+    response.json(responseJson);
 }));
 tracksRouter.get('/byId/deezer', (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     const responseJson = yield app_1.searchById(const_1.Services.DEEZER, request.query);

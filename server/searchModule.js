@@ -84,7 +84,6 @@ function searchInYoutubeObject(youtubeResponse, artistTrack) {
     return similarObject;
 }
 exports.searchInYoutubeObject = searchInYoutubeObject;
-//Не срабатывает
 function searchInSpotifyObject(spotifyResponse, artistTrack) {
     const { artist, track } = artistTrack;
     const { tracks } = Object.assign({}, spotifyResponse);

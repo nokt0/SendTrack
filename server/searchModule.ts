@@ -10,6 +10,7 @@ import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
 import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
 import IArtistTrack from "./Interfaces/IArtistTrack";
 import NotFoundMatch from "./Errors/NotFoundMatch";
+import {instanceOf} from "prop-types";
 
 export function matchStringsWithoutSpecs(firstString: string, secondString: string): boolean {
     const reg = new RegExp('[\\s-\\]\\[)(\\/.&]', 'i');
@@ -87,7 +88,7 @@ export function searchInYoutubeObject(youtubeResponse: IYoutubeSearch, artistTra
 
     return similarObject;
 }
-//Не срабатывает
+
 export function searchInSpotifyObject(spotifyResponse: ISpotifySearch, artistTrack: IArtistTrack): ISpotifyItem {
     const {artist, track} = artistTrack;
     const {tracks} = {...spotifyResponse};

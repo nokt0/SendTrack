@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const const_1 = require("./const");
 const requestModule_1 = require("./requestModule");
 const searchModule_1 = require("./searchModule");
+const BadResponse_1 = require("./Errors/BadResponse");
 function createUrlCardForState(foundItem, service) {
     const artistTrack = searchModule_1.getArtistTrackInItem(service, foundItem);
     const card = Object.assign({}, artistTrack);
@@ -99,6 +100,10 @@ exports.searchEverywhere = searchEverywhere;
 function searchById(service, id) {
     return __awaiter(this, void 0, void 0, function* () {
         const searchResult = yield fetchService(service, id);
+        const isError = searchResult === null || searchResult === void 0 ? void 0 : searchResult.spotify;
+        if (isError === null || isError === void 0 ? void 0 : isError.error) {
+            throw new BadResponse_1.default(isError.error.message, service);
+        }
         let item;
         switch (service) {
             case const_1.Services.SPOTIFY:
@@ -108,7 +113,8 @@ function searchById(service, id) {
                 item = Object.assign({}, searchResult.deezer);
                 break;
             case const_1.Services.YOUTUBE:
-                item = Object.assign({}, searchResult.youtube);
+                const cast = Object.assign({}, searchResult.youtube);
+                item = cast.items[0];
                 break;
         }
         const artistTrack = searchModule_1.getArtistTrackInItem(service, item);

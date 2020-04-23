@@ -1,4 +1,3 @@
-'use strict';
 import {RequestType, Services} from './const'
 import IToCompare from './Interfaces/IToCompare';
 import {fetchDeezer, fetchSpotify, fetchYoutube} from './requestModule'
@@ -21,6 +20,8 @@ import IYoutubeSearch from "./Interfaces/Youtube/IYoutubeSearch";
 import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
 import ISpotifySearch from "./Interfaces/Spotify/ISpotifySearch";
 import IncorrectRequest from "./Errors/IncorrectRequest";
+import ISpotifyErrorResponse from "./Interfaces/Spotify/ISpotifyErrorResponse";
+import BadResponse from "./Errors/BadResponse";
 
 export function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | IDeezerItem, service: Services) {
     const artistTrack = getArtistTrackInItem(service, foundItem);
@@ -102,6 +103,10 @@ export async function searchEverywhere(artistTrackId: IArtistTrack) {
 
 export async function searchById(service: Services, id: IToCompare) {
     const searchResult = await fetchService(service, id);
+    const isError = searchResult?.spotify as unknown as ISpotifyErrorResponse;
+    if(isError?.error){
+        throw new BadResponse(isError.error.message,service);
+    }
     let item: ISpotifyItem|IDeezerItem|IYoutubeItem ;
     switch (service) {
         case Services.SPOTIFY:
@@ -111,7 +116,8 @@ export async function searchById(service: Services, id: IToCompare) {
             item = {...searchResult.deezer} as IDeezerItem;
             break;
         case Services.YOUTUBE:
-            item = {...searchResult.youtube} as IYoutubeItem;
+            const cast = {...searchResult.youtube} as IYoutubeSearch;
+            item = cast.items[0] as IYoutubeItem
             break;
     }
     const artistTrack = getArtistTrackInItem(service,item);
