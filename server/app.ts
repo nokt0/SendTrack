@@ -36,7 +36,7 @@ export function createUrlCardForState(foundItem: ISpotifyItem | IYoutubeItem | I
             break;
         case Services.SPOTIFY:
             item = foundItem as ISpotifyItem;
-            card.url = item.album.external_urls.spotify;
+            card.url = item.external_urls.spotify;
             card.albumArt = item.album.images[1].url;
             card.bigAlbumArt = item.album.images[0].url;
             break;

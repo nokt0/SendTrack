@@ -1,5 +1,6 @@
 export default interface ISpotifyItem {
     name: string,
+    external_urls: { spotify: string }
     album: {
         external_urls: {
             spotify: string
