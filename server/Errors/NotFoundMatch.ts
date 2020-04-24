@@ -9,6 +9,7 @@ export default class NotFoundMatch extends Error {
     constructor(message: string, toCompare: IArtistTrack, response: ISpotifySearch | IDeezerSearch | IYoutubeSearch) {
         super(message);
         this.name = "NotFoundMatch";
+        this.response = response;
         this.toCompare = toCompare;
     }
 

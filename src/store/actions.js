@@ -23,7 +23,7 @@ export function inputHasErrored(bool) {
   };
 }
 
-export function tracksHasErrored(bool,e) {
+export function tracksHasErrored(bool, e) {
   return {
     type: C.FETCH_ERROR,
     isTrackErrored: bool,
@@ -41,6 +41,23 @@ export function tracksFetchSuccess(tracks) {
   return {
     type: C.FETCH_SUCCESS,
     tracks,
+  };
+}
+
+export function setBackground(fetchResponse) {
+  let background;
+  console.log(fetchResponse);
+  for (let [service, data] of Object.entries(fetchResponse).reverse()) {
+    if (data?.bigAlbumArt) {
+      background = data.bigAlbumArt;
+      if (service !== 'youtube' && service !== 'youtubeMusic') {
+        break;
+      }
+    }
+  }
+  return {
+    type: C.SET_BACKGROUND,
+    background,
   };
 }
 
@@ -62,9 +79,12 @@ export function fetchTracksByUrl(url) {
         return response;
       })
       .then((response) => response.json())
-      .then((tracks) =>{
+      .then((tracks) => {
         console.log(tracks);
-        dispatch(tracksFetchSuccess(tracks))})
+        dispatch(tracksFetchSuccess(tracks));
+        return tracks;
+      })
+      .then((tracks) => dispatch(setBackground(tracks)))
       .catch(() => dispatch(tracksHasErrored(true)));
   };
 }
@@ -84,9 +104,18 @@ export function fetchTracksByArtistTrack(artist, track) {
         dispatch(tracksIsFetching(false));
         return response;
       })
-      .then((response) => { return response.json();})
-      .then((tracks) => {dispatch(tracksFetchSuccess(tracks));  })
-      .catch((e) => {dispatch(tracksHasErrored(true)); console.log(e);});
+      .then((response) => {
+        return response.json();
+      })
+      .then((tracks) => {
+        dispatch(tracksFetchSuccess(tracks));
+        return tracks;
+      })
+      .then((tracks) => dispatch(setBackground(tracks)))
+      .catch((e) => {
+        dispatch(tracksHasErrored(true));
+        console.log(e);
+      });
   };
 }
 
@@ -101,4 +130,5 @@ export function submitForm(input) {
   }
 
   return inputHasErrored(true);
+
 }

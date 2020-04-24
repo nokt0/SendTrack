@@ -15,45 +15,39 @@ export default class LinksBlock extends Component {
 
   getInfo() {
     return (<div className='links-block__input-object'>
-      {this.props.artist}<br />
-      {this.props.track}<br />
-      {this.props.url}<br />
+      {this.props.artist}<br/>
+      {this.props.track}<br/>
+      {this.props.url}<br/>
     </div>);
   }
 
   getLinks() {
-    const arrayOfUrls = [];
     function createLinkJSX(item) {
       return (
         <Link service={item.service} artist={item.artist} track={item.track}
-          url={item.url} albumArt={item.albumArt} />
+              url={item.url} albumArt={item.albumArt}/>
       );
     }
-    for (const service in this.props.arrayOfUrls) {
-      if (this.props.arrayOfUrls[service] === 'Not Found') {
-        continue;
-      }
-      const obj = this.props.arrayOfUrls[service];
-      switch (service) {
-        case 'spotify':
-          obj.service = spotifyIcon;
-          break;
-        case 'youtube':
-          obj.service = youtubeIcon;
-          break;
-        case 'youtubeMusic':
-          obj.service = youtubeMusicIcon;
-          break;
-        case 'deezer':
-          obj.service = deezerIcon;
-          break;
-        default:
-          break;
-      }
-      arrayOfUrls.push(createLinkJSX(obj));
-    }
 
-    console.log(arrayOfUrls);
+    const linkCards = {...this.props.arrayOfUrls}
+    const arrayOfUrls = [];
+    if(linkCards?.spotify){
+      linkCards.spotify.service = spotifyIcon;
+      arrayOfUrls.push(createLinkJSX(linkCards.spotify));
+    }
+    if(linkCards?.deezer){
+      linkCards.deezer.service = deezerIcon;
+      arrayOfUrls.push(createLinkJSX(linkCards.deezer));
+    }
+    if(linkCards?.youtube){
+      linkCards.youtube.service = youtubeIcon;
+      const youtubeMusic = linkCards.youtube;
+      youtubeMusic.service = youtubeMusicIcon;
+      const index = youtubeMusic.url.indexOf('/watch?v=');
+      youtubeMusic.url = 'https://music.youtube.com' + youtubeMusic.url.substring(index, youtubeMusic.url.length);
+      arrayOfUrls.push(createLinkJSX(linkCards.youtube));
+      arrayOfUrls.push(createLinkJSX(youtubeMusic));
+    }
     return arrayOfUrls;
   }
 
@@ -61,8 +55,8 @@ export default class LinksBlock extends Component {
   render() {
     return (
       <div className="links-block container">
-        <this.getInfo />
-        <this.getLinks />
+        <this.getInfo/>
+        <this.getLinks/>
         {/* <Link service='spotify' artist='linkin park'
                     track='numb'
                     url=''

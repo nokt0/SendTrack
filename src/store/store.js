@@ -7,6 +7,7 @@ import {
   submitType,
   tracksHasErrored,
   tracksIsFetching,
+  background,
 } from './reducers';
 
 const saver = (store) => (next) => (action) => {
@@ -29,6 +30,7 @@ const reducers = combineReducers({
   tracksHasErrored,
   tracksIsFetching,
   submitType,
+  background
 });
 
 const middleware = [saver, logger, thunk];

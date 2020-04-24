@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './scss/App.scss';
-import background from './img/black-bkg.webp';
-import InputForm from './Components/UI/InputForm';
 import { urlWorker, createArrayOfUrls, searchByWord, getLog } from './store/helpers/SendTrack_lib.js';
-import LinksBlock from './Components/UI/LinksBlock';
-import configureStore from './store/store.js';
 import InputFormContainer from './Components/Containers/InputFormContainer';
-
-const store = configureStore();
+import LinkBlockContainer from './Components/Containers/LinkBlockContainer';
 
 class App extends Component {
 
   static propTypes = {
     url: PropTypes.string,
-
   };
 
   constructor(props) {
@@ -24,53 +18,22 @@ class App extends Component {
       artist: '',
       track: '',
       url: '',
-      background: background,
       arrayOfUrls: {
         spotify: 'Not Found',
+        deezer: 'Not Found',
         youtube: 'Not Found',
         youtubeMusic: 'Not Found'
       },
     };
     this.state = this.initialState;
-    this.getLink = this.getLink.bind(this);
-  }
-
-
-  getLink(input, isUrl) {
-    var objToCompare;
-    var albumArt = background;
-    if (isUrl)
-      objToCompare = urlWorker(input);
-    else
-      objToCompare = searchByWord(input);
-
-    var arrayOfUrls = createArrayOfUrls(objToCompare);
-    if (arrayOfUrls.spotify !== "Not Found")
-        albumArt = arrayOfUrls.spotify.albumArt;
-    else
-      if(arrayOfUrls.youtubeMusic !== "Not Found")
-        albumArt = arrayOfUrls.youtubeMusic.albumArt;
-
-      this.setState(() => ({
-        artist: objToCompare.artist,
-        track: objToCompare.track,
-        url: objToCompare.url,
-        arrayOfUrls: arrayOfUrls,
-        background: albumArt,
-        log: getLog(),
-      }));
-
-
-
-
   }
 
   render() {
     return (
       <div className="App">
-        <img className="bg" src={this.state.background} alt="" />
+        <img className="bg" src={this.props.background} alt="" />
         <InputFormContainer/>
-        <LinksBlock arrayOfUrls={this.state.arrayOfUrls} artist={this.state.artist} track={this.state.track} url={this.state.url} />
+        <LinkBlockContainer artist={this.state.artist} track={this.state.track} url={this.state.url} />
         <div id="result"></div>
       </div>
     );

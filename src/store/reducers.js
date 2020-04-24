@@ -1,12 +1,4 @@
-import {
-  requestData,
-  submitFormByUrl,
-  submitFormByArtistTrack,
-} from './actions.js';
-import {
-  creatByIdRequest,
-  createArtistTrackRequestUrl,
-} from './helpers/urlWorker';
+import bckg from '../img/black-bkg.webp';
 import C from '../constants.js';
 
 export function fetchSuccess(state = {}, action) {
@@ -41,6 +33,15 @@ export function submitType(state = '', action) {
   switch (action.type) {
     case C.SUBMIT_TYPE:
       return action.submitType;
+    default:
+      return state;
+  }
+}
+
+export function background(state = bckg,action) {
+  switch (action.type) {
+    case C.SET_BACKGROUND:
+      return action.background;
     default:
       return state;
   }

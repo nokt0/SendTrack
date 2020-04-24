@@ -192,6 +192,7 @@ export async function everywhere(artistTrack: IToCompare, withoutArr?: Services[
                 // @ts-ignore
                 return {...accumulator, ...currentValue.value};
             }, {}));
+
     return responseJson;
 }
 
