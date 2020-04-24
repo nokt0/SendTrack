@@ -2,16 +2,6 @@ import React, {Component} from 'react';
 import '../../scss/Link.scss';
 
 export default class LinksBlock extends Component {
-  /*     constructor(props){
-            super(props);
-            this.state = {
-                albumArt: '',
-                artist:'',
-                track:'',
-                url:'',
-                service: ''
-            }
-        } */
 
   render() {
     return (

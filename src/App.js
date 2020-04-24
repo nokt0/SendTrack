@@ -12,29 +12,12 @@ class App extends Component {
     url: PropTypes.string,
   };
 
-  constructor(props) {
-    super(props);
-    this.initialState = {
-      artist: '',
-      track: '',
-      url: '',
-      arrayOfUrls: {
-        spotify: 'Not Found',
-        deezer: 'Not Found',
-        youtube: 'Not Found',
-        youtubeMusic: 'Not Found'
-      },
-    };
-    this.state = this.initialState;
-  }
-
   render() {
     return (
       <div className="App">
         <img className="bg" src={this.props.background} alt="" />
         <InputFormContainer/>
-        <LinkBlockContainer artist={this.state.artist} track={this.state.track} url={this.state.url} />
-        <div id="result"></div>
+        <LinkBlockContainer artist={this.props.inputInfo.artist} track={this.props.inputInfo.track} url={this.props.inputInfo.error} />
       </div>
     );
   }

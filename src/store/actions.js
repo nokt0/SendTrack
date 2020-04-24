@@ -44,9 +44,18 @@ export function tracksFetchSuccess(tracks) {
   };
 }
 
+export function setInputInfo(artist, track, err) {
+
+  return {
+    type: C.SET_ARTIST_TRACK_INFO,
+    artist: artist?.trim() ?? '',
+    track: track?.trim() ?? '',
+    err: err?.trim() ?? '',
+  };
+}
+
 export function setBackground(fetchResponse) {
   let background;
-  console.log(fetchResponse);
   for (let [service, data] of Object.entries(fetchResponse).reverse()) {
     if (data?.bigAlbumArt) {
       background = data.bigAlbumArt;
@@ -75,16 +84,15 @@ export function fetchTracksByUrl(url) {
           throw new Error(response.statusText);
         }
         dispatch(tracksIsFetching(false));
-        console.log(response);
         return response;
       })
       .then((response) => response.json())
       .then((tracks) => {
-        console.log(tracks);
         dispatch(tracksFetchSuccess(tracks));
         return tracks;
       })
       .then((tracks) => dispatch(setBackground(tracks)))
+      .then(()=>dispatch(setInputInfo(url)))
       .catch(() => dispatch(tracksHasErrored(true)));
   };
 }
@@ -112,9 +120,9 @@ export function fetchTracksByArtistTrack(artist, track) {
         return tracks;
       })
       .then((tracks) => dispatch(setBackground(tracks)))
+      .then(() => dispatch(setInputInfo(artist,track)))
       .catch((e) => {
         dispatch(tracksHasErrored(true));
-        console.log(e);
       });
   };
 }
@@ -132,3 +140,5 @@ export function submitForm(input) {
   return inputHasErrored(true);
 
 }
+
+

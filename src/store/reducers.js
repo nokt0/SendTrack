@@ -38,10 +38,23 @@ export function submitType(state = '', action) {
   }
 }
 
-export function background(state = bckg,action) {
+export function background(state = bckg, action) {
   switch (action.type) {
     case C.SET_BACKGROUND:
       return action.background;
+    default:
+      return state;
+  }
+}
+
+export function inputInfo(state = {}, action) {
+  switch (action.type) {
+    case C.SET_ARTIST_TRACK_INFO:
+      return {
+        artist: action.artist,
+        track: action.track,
+        error: action.error,
+      };
     default:
       return state;
   }

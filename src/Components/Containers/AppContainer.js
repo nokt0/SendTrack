@@ -4,6 +4,7 @@ import App from '../../App';
 const mapStateToProps = (state) => {
   return {
     background: state.background,
+    inputInfo : state.inputInfo
   };
 };
 
