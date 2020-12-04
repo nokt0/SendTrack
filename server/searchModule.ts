@@ -10,7 +10,6 @@ import IDeezerSearch from "./Interfaces/Deezer/IDeezerSearch";
 import IDeezerItem from "./Interfaces/Deezer/IDeezerItem";
 import IArtistTrack from "./Interfaces/IArtistTrack";
 import NotFoundMatch from "./Errors/NotFoundMatch";
-import {instanceOf} from "prop-types";
 
 export function matchStringsWithoutSpecs(firstString: string, secondString: string): boolean {
     const reg = new RegExp('[\\s-\\]\\[)(\\/.&]', 'i');
@@ -238,8 +237,8 @@ export async function fetchByArtistTrack(service: Services, artistTrack: IArtist
             });
             const deezerResponse = {...responseObj.deezer} as IDeezerSearch;
             const deezer = searchInDeezerObject(deezerResponse, artistTrack);
-            track = deezer.title_short;
-            artist = deezer.artist.name;
+            track = deezer?.title_short;
+            artist = deezer?.artist.name;
             break;
     }
 
@@ -311,8 +310,8 @@ export function getArtistTrackInItem(service: Services, item: IDeezerItem | IYou
             break;
         case Services.DEEZER:
             responseObj = item as IDeezerItem;
-            track = responseObj.title_short;
-            artist = responseObj.artist.name;
+            track = responseObj?.title_short;
+            artist = responseObj?.artist.name;
             break;
         default:
             break;

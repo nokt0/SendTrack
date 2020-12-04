@@ -168,7 +168,7 @@ export async function fetchSpotify(request: IToCompare, type: RequestType): Prom
         return answerObject;
     }
 
-    options.url += requestUrl;
+    options.url += encodeURI(requestUrl);
 
     await fetch(options.url, options)
         .then((res) => res.json())

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ESNext",
     "target": "ES2017",
     "sourceMap": true,
     "lib": [
@@ -14,10 +14,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react"
   },
   "include": [
-    "./*.ts"
+    "./**/*.ts"
   ]
 }
