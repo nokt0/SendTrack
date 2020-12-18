@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { withStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Settings from '@material-ui/icons/Settings';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
 import InfoIcon from '@material-ui/icons/Info';
 import '../../scss/Menu.scss';
-import { getLog } from '../../SendTrack_lib.js';
+import {getLog} from '../../store/helpers/SendTrack_lib.js';
 
 import Mailito from './Mailito';
 
@@ -24,7 +24,7 @@ const GlobalCss = withStyles({
     '.MuiPaper-root': {
       backgroundColor: '#f5f5f5bd',
     },
-    
+
   },
 })(() => null);
 
@@ -39,9 +39,9 @@ const useStyles = makeStyles({
     color: '#bdbdbd',
   },
   text: {
-    padding: "10px",
-    textAlign: "center"
-  }
+    padding: '10px',
+    textAlign: 'center',
+  },
 
 });
 
@@ -54,15 +54,15 @@ export default function SwipeableTemporaryDrawer() {
     right: false,
   });
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = (side, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
 
-    setState({ ...state, [side]: open });
+    setState({...state, [side]: open});
   };
 
-  const sideList = side => (
+  const sideList = (side) => (
     <div
       className={classes.list}
       role="presentation"
@@ -70,11 +70,11 @@ export default function SwipeableTemporaryDrawer() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List class={classes.text}>
-        {"If you find error please report!"}
+        {'If you find error please report!'}
       </List>
       <Divider />
       <List>
-      <ListItem button key='About App'>
+        <ListItem button key='About App'>
           <ListItemIcon><InfoIcon /></ListItemIcon>
           <ListItemText primary='About App' />
         </ListItem>
@@ -89,7 +89,7 @@ export default function SwipeableTemporaryDrawer() {
 
   return (
     <div className="input-form__menu__button">
-    <GlobalCss />
+      <GlobalCss />
       <IconButton
         color="disabled"
         aria-label="open drawer"
@@ -107,7 +107,7 @@ export default function SwipeableTemporaryDrawer() {
         onOpen={toggleDrawer('right', true)}
       >
         {sideList('right')}
-        </SwipeableDrawer>
+      </SwipeableDrawer>
     </div>
   );
 }
